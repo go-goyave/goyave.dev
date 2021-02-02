@@ -27,13 +27,12 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+    needs: spellcheck
     steps:
       - uses: actions/checkout@v2
       - name: Build
         uses: jenkey2011/vuepress-deploy@master
         env:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_REPO: go-goyave/goyave.dev
-          TARGET_BRANCH: "master"
+          ACCESS_TOKEN: "x-access-token:${{ secrets.GITHUB_TOKEN }}"
           BUILD_SCRIPT: npm install && npm run build
           BUILD_DIR: docs
