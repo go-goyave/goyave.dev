@@ -1,5 +1,5 @@
 const title = 'Goyave'
-const description = 'Goyave is a Golang web API framework aiming at cleanliness, fast development and power.'
+const description = 'Goyave is a Golang REST API framework aiming at cleanliness, fast development and power.'
 
 module.exports = {
     theme: "goyave",
