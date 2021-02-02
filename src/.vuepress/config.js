@@ -16,19 +16,20 @@ module.exports = {
         // Handled in each page
         // ['meta', { property: 'twitter:title', content: title }],
         ['meta', { property: 'twitter:description', content: description }],
-        ['meta', { property: 'twitter:image:src', content: `https://system-glitch.github.io/goyave/goyave_banner.png` }],
+        ['meta', { property: 'twitter:image:src', content: `https://goyave.dev/goyave_banner.png` }],
         ['meta', { property: 'twitter:card', content: 'summary_large_image' }],
         // Handled in each page
         // ['meta', { property: 'og:title', content: title }],
         ['meta', { property: 'og:type', content: 'website' }],
         ['meta', { property: 'og:description', content: description }],
-        ['meta', { property: 'og:image', content: `https://system-glitch.github.io/goyave/goyave_banner.png` }],
+        ['meta', { property: 'og:image', content: `https://goyave.dev/goyave_banner.png` }],
         ['meta', { property: 'og:site_name', content: "Goyave" }],
     ],
     themeConfig: {
         repo: 'System-Glitch/goyave',
         editLinks: true,
-        docsDir: 'docs_src/src',
+        docsRepo: 'go-goyave/goyave.dev',
+        docsDir: 'src',
         smoothScroll: true,
         activeHeaderLinks: false,
         logo: '/goyave_64.png',
