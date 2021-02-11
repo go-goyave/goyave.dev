@@ -96,7 +96,7 @@ import "github.com/System-Glitch/goyave/v3"
 
 // Register all the routes
 func Register(router *goyave.Router) {
-	router.Get("GET", "/hello", hello)
+	router.Get("/hello", hello)
 }
 
 // Handler function for the "/hello" route
