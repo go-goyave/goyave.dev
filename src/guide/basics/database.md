@@ -71,7 +71,7 @@ Find more information about the PostgreSQL options [here](https://www.postgresql
 "options": "cache=shared&mode=memory"
 ```
 
-Find more information about the SQLite options [here](https://github.com/mattn/go-sqlite3).
+Find more information about the SQLite options [here](https://github.com/mattn/go-sqlite3#connection-string).
 
 #### MSSQL
 
