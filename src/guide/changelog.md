@@ -12,6 +12,11 @@ meta:
 
 [[toc]]
 
+## v3.7.0
+
+- Added `Optional` flag to `BasicAuthenticator` and `JWTAuthenticator`.
+- Added support for `database.options` for the SQLite driver.
+
 ## v3.6.0
 
 - Set content type to `application/json; charset=utf-8` instead of `application/json` when using `response.JSON()`.
