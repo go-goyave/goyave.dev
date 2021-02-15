@@ -223,7 +223,7 @@ func Register(router *goyave.Router) {
 
 #### auth.NewJWTController
 
-If you want or need ot register the routes yourself, you can instantiate a new JWTController using `auth.NewJWTController()`.
+If you want or need to register the routes yourself, you can instantiate a new JWTController using `auth.NewJWTController()`.
 
 This function creates a new `JWTController` that will be using the given model for login and token generation.
 
@@ -260,7 +260,7 @@ The token is set to expire in the amount of seconds defined by the `auth.jwt.exp
 The generated token will contain the following claims:
 - `userid`: has the value of the `id` parameter
 - `nbf`: "Not before", the current timestamp is used
-- `exp`: "Expriy", the current timestamp plus the `auth.jwt.expiry` config entry.
+- `exp`: "Expiry", the current timestamp plus the `auth.jwt.expiry` config entry.
 
 | Parameters       | Return   |
 |------------------|----------|
