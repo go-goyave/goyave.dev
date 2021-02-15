@@ -110,6 +110,13 @@ $ curl -u username:password http://localhost:8080/hello
 Hello Jérémy
 ```
 
+This provider supports the `Optional` flag, which defines if the authenticator allows requests that don't provide credentials. Handlers should therefore check if `request.User` is not `nil` before accessing it.
+
+``` go
+authenticator := auth.Middleware(&model.User{}, &auth.BasicAuthenticator{Optional: true})
+router.Middleware(authenticator)
+```
+
 #### Config provider
 
 This Authenticator fetches the user information from the config. This method is good for quick proof-of-concepts, as it requires minimum setup, but shouldn't be used in real-world applications.
@@ -191,6 +198,13 @@ router.Middleware(authenticator)
 To request a protected route, you will need to add the following header:
 ```
 Authorization: Bearer <YOUR_TOKEN>
+```
+
+This provider supports the `Optional` flag, which defines if the authenticator allows requests that don't provide credentials. Handlers should therefore check if `request.User` is not `nil` before accessing it.
+
+``` go
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{Optional: true})
+router.Middleware(authenticator)
 ```
 
 ---
