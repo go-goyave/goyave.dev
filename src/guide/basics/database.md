@@ -45,6 +45,42 @@ Very few code is required to get started with databases. There are some [configu
 `database.options` represents the additional connection options. For example, when using MySQL, you should use the `parseTime=true` option so `time.Time` can be handled correctly. Available options differ from one driver to another and can be found in their respective documentation.
 :::
 
+### Options
+
+This section gives an example of the value for the `database.options` configuration entry for each supported driver.
+
+#### MySQL
+
+```json
+"options": "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local"
+```
+
+Find more information about the MySQL options [here](https://github.com/go-sql-driver/mysql#parameters).
+
+#### PostgreSQL
+
+```json
+"options": "sslmode=disable application_name=goyave"
+```
+
+Find more information about the PostgreSQL options [here](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
+
+#### SQLite
+
+```json
+"options": "cache=shared&mode=memory"
+```
+
+Find more information about the SQLite options [here](https://github.com/mattn/go-sqlite3#connection-string).
+
+#### MSSQL
+
+```json
+"options": "encrypt=disable"
+```
+
+Find more information about the MSSQL options [here](https://github.com/denisenkom/go-mssqldb#connection-parameters-and-dsn).
+
 ### Drivers
 
 The framework supports the following sql drivers out-of-the-box:
