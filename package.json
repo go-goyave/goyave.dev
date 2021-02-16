@@ -13,6 +13,6 @@
     "@vuepress/plugin-back-to-top": "^1.8.1",
     "vuepress": "^1.8.1",
     "vuepress-plugin-container": "^2.1.5",
-    "vuepress-theme-goyave": "^1.0.1"
+    "vuepress-theme-goyave": "^1.1.0"
   }
 }

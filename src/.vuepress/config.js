@@ -44,7 +44,9 @@ module.exports = {
                     '/guide/': getGuideSidebar(),
                 }
             }
-        }
+        },
+        becomeSponsorLink: "https://github.com/sponsors/System-Glitch/",
+        sponsors: []
     },
     extraWatchFiles: [
         '.vuepress/nav/en.js',
@@ -94,6 +96,7 @@ function getGuideSidebar () {
                 'advanced/status-handlers',
                 'advanced/logging',
                 'advanced/rate-limiting',
+                'advanced/websocket',
             ]
         }
     ]
