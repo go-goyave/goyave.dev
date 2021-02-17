@@ -457,4 +457,28 @@ This can be used to chain writers, for example to enable gzip compression, or fo
 
 ## Hijack
 
-TODO
+Goyave responses implement [`http.Hijacker`](https://golang.org/pkg/net/http/#Hijacker).
+
+#### Response.Hijack
+
+Hijack lets the caller take over the connection.
+
+Returns `goyave.ErrNotHijackable` if the underlying `http.ResponseWriter` doesn't implement `http.Hijacker`. This can happen with HTTP/2 connections.
+
+Middleware executed after controller handlers, as well as status handlers, keep working as usual after a connection has been hijacked. Callers should properly set the response status to ensure middleware and status handler execute correctly. Usually, callers of the `Hijack` method set the HTTP status to `http.StatusSwitchingProtocols`.
+
+If no status is set, the regular behavior will be kept and `204 No Content` will be set as the response status.
+
+| Parameters | Return              |
+|------------|---------------------|
+|            | `net.Conn`          |
+|            | `*bufio.ReadWriter` |
+|            | `error`             |
+
+#### Response.Hijacked
+
+Returns `true` if the underlying connection has been successfully hijacked via the `Hijack` method.
+
+| Parameters | Return |
+|------------|--------|
+|            | `bool` |
