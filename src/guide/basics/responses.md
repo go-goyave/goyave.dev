@@ -454,3 +454,7 @@ This can be used to chain writers, for example to enable gzip compression, or fo
 | Parameters         | Return |
 |--------------------|--------|
 | `writer io.Writer` |        |
+
+## Hijack
+
+TODO

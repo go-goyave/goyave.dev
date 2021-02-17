@@ -16,6 +16,8 @@ meta:
 
 - Added `Optional` flag to `BasicAuthenticator` and `JWTAuthenticator`.
 - Added support for `database.options` for the SQLite driver.
+- Added `response.Hijack()`.
+- Added [websocket](./advanced/websocket.html) support.
 
 ## v3.6.0
 
