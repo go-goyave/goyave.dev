@@ -124,7 +124,7 @@ This Authenticator fetches the user information from the config. This method is 
 - The `auth.basic.username` config entry defines the username that must be matched.
 - The `auth.basic.password` config entry defines the password that must be matched.
 
-To apply this protection to your routes, start by adding the following content to your configuration:
+To apply this protection to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.basic` sub-category:
 
 ```json
 {
@@ -174,7 +174,7 @@ JWT Authentication comes with two configuration entries:
 - `auth.jwt.expiry`: the number of seconds a token is valid for. Defaults to `300` (5 minutes).
 - `auth.jwt.secret`: the secret used for the HMAC signature. This entry **doesn't have a default value**, you need to define it yourself. Use a key that is **at least 256 bits long**.
 
-To apply JWT protection to your routes, start by adding the following content to your configuration:
+To apply this protection to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.jwt` sub-category:
 
 ```json
 {
