@@ -18,6 +18,7 @@ meta:
 - Added support for `database.options` for the SQLite driver.
 - Added [`response.Hijack()`](./basics/responses.html#hijack).
 - Added [websocket](./advanced/websocket.html) support.
+- Added [shutdown hooks](./advanced/multi-services.html#shutdown-hooks).
 
 ## v3.6.0
 
