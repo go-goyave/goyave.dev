@@ -49,6 +49,67 @@ router.Get("/websocket", upgrader.Handler(myWebsocketHandler))
 Upgraded connections are [**hijacked**](https://golang.org/pkg/net/http/#Hijacker). It is advised to read about the implications of hijacking in Goyave [here](../basics/responses.html#hijack).
 :::
 
+### Upgrade options
+
+#### UpgradeErrorHandler
+
+UpgradeErrorHandler specifies the function for generating HTTP error responses.
+
+The default UpgradeErrorHandler returns a JSON response containing the status text corresponding to the status code returned. If debugging is enabled, the reason error message is returned instead.
+
+```json
+{"error": "message"}
+```
+
+`websocket.UpgradeErrorHandler` is an alias for `func(response *goyave.Response, request *goyave.Request, status int, reason error)`.
+
+**Example:**
+```go
+upgrader := websocket.Upgrader{
+    UpgradeErrorHandler: func(response *goyave.Response, request *goyave.Request, status int, reason error) {
+        text := http.StatusText(status)
+        if config.GetBool("app.debug") && reason != nil {
+            text = reason.Error()
+        }
+        message := map[string]string{
+            "error": text,
+        }
+        response.JSON(status, message)
+    },
+}
+```
+
+#### ErrorHandler
+
+ErrorHandler specifies the function handling errors returned by websocket Handler. If nil, the error is written to "goyave.ErrLogger". If the error is caused by a panic and debugging is enabled, the default ErrorHandler also writes the stacktrace. See the [error handling](#error-handling) section for more details.
+
+#### CheckOrigin
+
+CheckOrigin (`func(r *goyave.Request) bool`) returns true if the request Origin header is acceptable. If CheckOrigin is `nil`, then a safe default is used: return false if the Origin request header is present and the origin host is not equal to request `Host` header.
+
+A CheckOrigin function should carefully validate the request origin to prevent cross-site request forgery.
+
+#### Headers
+
+Headers is a function (`func(request *goyave.Request) http.Header`) generating headers to be sent with the protocol switching response.
+
+**Example:**
+```go
+upgrader := websocket.Upgrader{
+    Headers: func(request *goyave.Request) http.Header {
+        h := http.Header{}
+        h.Set("X-Custom-Header", "value")
+        return h
+    },
+}
+```
+
+#### Settings
+
+Settings the parameters of the underlying `gorilla/websocket` `Upgrader` for upgrading the connection. Check their [documentation](https://pkg.go.dev/github.com/gorilla/websocket#Upgrader) for more details.
+
+"Error" and "CheckOrigin" are ignored: use the Goyave upgrader's "UpgradeErrorHandler" and "CheckOrigin".
+
 ## Websocket handlers
 
 Websocket connections use a different type of handler: `websocket.Handler`, which is an alias for `func(*websocket.Conn, *goyave.Request) error`. The `request` parameter contains the original upgraded HTTP request.
