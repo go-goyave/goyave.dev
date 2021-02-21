@@ -19,6 +19,7 @@ meta:
 - Added [`response.Hijack()`](./basics/responses.html#hijack).
 - Added [websocket](./advanced/websocket.html) support.
 - Added [shutdown hooks](./advanced/multi-services.html#shutdown-hooks).
+- Added `goyave.BaseURL()`.
 
 ## v3.6.0
 

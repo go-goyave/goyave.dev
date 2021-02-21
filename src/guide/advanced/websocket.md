@@ -167,3 +167,49 @@ upgrader := websocket.Upgrader{
 ### Return an error or panic?
 
 The websocket `Handler` should only panic in case of unexpected error, such as "invalid memory address or nil pointer dereference" and other **programming** errors. Return an error for everything else (database access error, read/write errors, failed calls to other backend services and APIs, etc.).
+
+## Testing
+
+To test websockets, you have to open a client connection from your test, write to it, then send a close frame. The following piece of code is a test for the "echo" handler seen in a previous example:
+
+```go
+import (
+	"testing"
+
+	"github.com/System-Glitch/goyave/v3"
+	"github.com/System-Glitch/goyave/v3/config"
+	ws "github.com/gorilla/websocket"
+
+    "github.com/username/myproject/route"
+)
+
+type WebsocketTestSuite struct {
+	goyave.TestSuite
+}
+
+func (suite *WebsocketTestSuite) TestUpgrade() {
+	suite.RunServer(route.Register, func() {
+		conn, _, err := ws.DefaultDialer.Dial(goyave.BaseURL()+"/websocket", nil)
+		if err != nil {
+			suite.Error(err)
+			return
+		}
+		defer conn.Close()
+
+		message := []byte("hello world")
+		suite.Nil(conn.WriteMessage(ws.TextMessage, message))
+
+		messageType, data, err := conn.ReadMessage()
+		suite.Nil(err)
+		suite.Equal(ws.TextMessage, messageType)
+		suite.Equal(message, data)
+
+		m := ws.FormatCloseMessage(ws.CloseNormalClosure, "Connection closed by client")
+		suite.Nil(conn.WriteControl(ws.CloseMessage, m, time.Now().Add(time.Second)))
+	})
+}
+
+func TestWebsocketSuite(t *testing.T) {
+	goyave.RunTest(t, new(WebsocketTestSuite))
+}
+```
