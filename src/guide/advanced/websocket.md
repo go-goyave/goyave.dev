@@ -127,12 +127,12 @@ func(c *websocket.Conn, request *goyave.Request) error {
             if websocket.IsCloseError(err) {
                 return nil
             }
-            return fmt.Errorf("read: %v", err)
+            return fmt.Errorf("read: %w", err)
         }
         goyave.Logger.Printf("recv: %s", message)
         err = c.WriteMessage(mt, message)
         if err != nil {
-            return fmt.Errorf("write: %v", err)
+            return fmt.Errorf("write: %w", err)
         }
     }
 }
