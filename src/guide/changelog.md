@@ -20,6 +20,7 @@ meta:
 - Added [websocket](./advanced/websocket.html) support.
 - Added [shutdown hooks](./advanced/multi-services.html#shutdown-hooks).
 - Added `goyave.BaseURL()`.
+- Added [config.LoadJSON()](./configuration.html#config-loadjson). This can be used to load configuration from an embedded configuration file using Go's 1.16 embed directive.
 
 ## v3.6.0
 
