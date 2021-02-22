@@ -62,7 +62,7 @@ $ go mod init github.com/username/projectname
 $ go get -u github.com/System-Glitch/goyave/v3
 ```
 
-Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `kernel.go`:
+Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `main.go`:
 ``` go
 package main
 

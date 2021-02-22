@@ -92,7 +92,7 @@ The framework supports the following sql drivers out-of-the-box:
 
 Change the `database.connection` config entry to the desired driver.
 
-In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `kernel.go`:
+In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 ``` go
 import _ "github.com/System-Glitch/goyave/v3/database/dialect/mysql"
 // import _ "github.com/System-Glitch/goyave/v3/database/dialect/postgres"
@@ -258,7 +258,7 @@ type User struct {
 ```
 
 ::: tip
-All models should be **registered** in an `init()` function inside their model file. To ensure the `init()` functions are executed before the server starts, import the `models` package in your `kernel.go`.
+All models should be **registered** in an `init()` function inside their model file. To ensure the `init()` functions are executed before the server starts, import the `models` package in your `main.go`.
 
 ``` go
 import _ "database/model"
@@ -412,7 +412,7 @@ Find requests page information (total records and max page) and executes the tra
 
 If you want to make your database connection use a TLS configuration, create `database/tls.go`. In this file, create an `init()` function which will load your certificates and keys.
 
-Don't forget to blank import the database package in your `kernel.go`: `import _ "myproject/database"`. Finally, for a configuration named "custom", add `&tls=custom` at the end of the `database.options` configuration entry.
+Don't forget to blank import the database package in your `main.go`: `import _ "myproject/database"`. Finally, for a configuration named "custom", add `&tls=custom` at the end of the `database.options` configuration entry.
 
 ```go
 package database
