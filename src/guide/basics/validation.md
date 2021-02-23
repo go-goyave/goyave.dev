@@ -41,7 +41,7 @@ Rule sets are defined in the same package as the controller, typically in a sepa
 **Example:** (`http/controller/product/request.go`)
 ``` go
 var (
-    StoreRequest validation.RuleSet = validation.RuleSet{
+    StoreRequest = validation.RuleSet{
         "name":  {"required", "string", "between:3,50"},
         "price": {"required", "numeric", "min:0.01"},
         "image": {"nullable", "file", "image", "max:2048", "count:1"},
@@ -501,7 +501,7 @@ You would use the following rule set:
 
 ```go
 var (
-    StoreRequest validation.RuleSet = validation.RuleSet{
+    StoreRequest = validation.RuleSet{
         "user":       {"required", "object"},
         "user.name":  {"required", "string", "between:3,50"},
         "user.email": {"required", "email"},
