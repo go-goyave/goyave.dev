@@ -136,7 +136,8 @@ func Echo(c *websocket.Conn, request *goyave.Request) error {
 ```
 
 ::: tip
-Learn more about the available functions on the [`gorilla/websocket` documentation](https://pkg.go.dev/github.com/gorilla/websocket#Conn).
+- Learn more about the available functions on the [`gorilla/websocket` documentation](https://pkg.go.dev/github.com/gorilla/websocket#Conn).
+- For a more complex example, check out the [chat application example](https://github.com/go-goyave/websocket-example).
 :::
 
 When using the built-in `Upgrader` and its `Upgrader.Handler()` function, the connection is closed automatically after the websocket `Handler` returns, using the closing handshake defined by RFC 6455 Section 1.4 if possible. If the websocket `Handler` returns an error that is not a `CloseError`, the `Upgrader`'s error handler will be executed and the close frame sent to the client will have status code 1011 (internal server error) and "Internal server error" as message. If debug is enabled, the message will be set to the one of the error returned by the websocket `Handler`. Otherwise the close frame will have status code 1000 (normal closure) and "Server closed connection" as a message.
