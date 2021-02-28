@@ -199,7 +199,7 @@ database.Close()
 
 ### Connection initializers
 
-You can modify the global instance of `*gorm.DB` when it's created (and re-created, after a `Close()` for example) using `Initializer` functions. This is useful if you want to set global settings such as `gorm:table_options` and make them effective for you whole application. It is recommended to register initializers **before** starting the application.
+You can modify the global instance of `*gorm.DB` when it's created (and re-created, after a `Close()` for example) using `Initializer` functions. This is useful if you want to set global settings such as `gorm:table_options` and make them effective for your whole application. It is recommended to register initializers **before** starting the application.
 
 Initializer functions are called in order, meaning that functions added last can override settings defined by previous ones.
 
