@@ -26,7 +26,7 @@ module.exports = {
         ['meta', { property: 'og:site_name', content: "Goyave" }],
     ],
     themeConfig: {
-        repo: 'System-Glitch/goyave',
+        repo: 'go-goyave/goyave',
         editLinks: true,
         docsRepo: 'go-goyave/goyave.dev',
         docsDir: 'src',

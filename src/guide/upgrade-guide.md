@@ -14,9 +14,13 @@ Although Goyave is developed with backwards compatibility, breaking changes can 
 
 [[toc]]
 
+## v3.6.0 to v3.7.0+
+
+The framework was moved to the [go_goyave](https://github.com/go-goyave/) organization and its import path has changed. To upgrade, you just have to replace `github.com/System-Glitch/goyave/v3` with `goyave.dev/goyave/v3`.
+
 ## v2.x.x to v3.0.0
 
-First, replace `github.com/System-Glitch/goyave/v2` with `github.com/System-Glitch/goyave/v3`.
+First, replace `github.com/System-Glitch/goyave/v2` with `goyave.dev/goyave/v3`.
 
 ### Routing changes
 
@@ -139,7 +143,7 @@ Finally, `config.Register()` function has changed signature. See the [configurat
 
 - Goyave has moved to [GORM v2](https://gorm.io/). Read the [release note](https://gorm.io/docs/v2_release_note.html) to learn more about what changed.
   - In your imports, replace all occurrences of `github.com/jinzhu/gorm` with `gorm.io/gorm`.
-  - In your imports, replace all occurrences of `github.com/jinzhu/gorm/dialects/(.*?)` with `github.com/System-Glitch/goyave/v3/database/dialect/$1`.
+  - In your imports, replace all occurrences of `github.com/jinzhu/gorm/dialects/(.*?)` with `goyave.dev/goyave/v3/database/dialect/$1`.
   - Run `go mod tidy` to remove the old version of gorm.
 - Factories now return `interface{}` instead of `[]interface{}`. The actual type of the returned value is a slice of the the type of what is returned by your generator, so you can type-assert safely.
 
