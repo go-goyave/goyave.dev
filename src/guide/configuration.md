@@ -29,39 +29,39 @@ The following JSON file is an example of default configuration:
 
 ```json
 {
-  "app": {
-    "name": "goyave_template",
-    "environment": "localhost",
-    "debug": true,
-    "defaultLanguage": "en-US"
-  },
-  "server": {
-    "host": "127.0.0.1",
-    "maintenance": false,
-    "protocol": "http",
-    "domain": "",
-    "port": 8080,
-    "httpsPort": 8081,
-    "timeout": 10,
-    "maxUploadSize": 10,
-    "tls": {
-      "cert": "/path/to/cert",
-      "key": "/path/to/key"
+    "app": {
+        "name": "goyave_template",
+        "environment": "localhost",
+        "debug": true,
+        "defaultLanguage": "en-US"
+    },
+    "server": {
+        "host": "127.0.0.1",
+        "maintenance": false,
+        "protocol": "http",
+        "domain": "",
+        "port": 8080,
+        "httpsPort": 8081,
+        "timeout": 10,
+        "maxUploadSize": 10,
+        "tls": {
+        "cert": "/path/to/cert",
+        "key": "/path/to/key"
+        }
+    },
+    "database": {
+        "connection": "mysql",
+        "host": "127.0.0.1",
+        "port": 3306,
+        "name": "goyave",
+        "username": "root",
+        "password": "root",
+        "options": "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local",
+        "maxOpenConnections": 20,
+        "maxIdleConnections": 20,
+        "maxLifetime": 300,
+        "autoMigrate": false
     }
-  },
-  "database": {
-    "connection": "mysql",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "name": "goyave",
-    "username": "root",
-    "password": "root",
-    "options": "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local",
-    "maxOpenConnections": 20,
-    "maxIdleConnections": 20,
-    "maxLifetime": 300,
-    "autoMigrate": false
-  }
 }
 ```
 
@@ -90,7 +90,7 @@ Since `v2.0.0`, you can use custom environments.
 
 Before being able to use the config, import the config package:
 ``` go
-import "github.com/System-Glitch/goyave/v3/config"
+import "goyave.dev/goyave/v3/config"
 ```
 
 The configuration is loaded automatically when the server starts, but you can reload it manually if needed.
@@ -123,41 +123,80 @@ You may need to load a configuration file from a custom path instead of using th
 **Example:** load the config from the path given through a flag
 ``` go
 import (
-  "flag"
-  "os"
+    "flag"
+    "os"
 
-  "github.com/System-Glitch/goyave/v3"
-  "github.com/System-Glitch/goyave/v3/config"
-  
-  //...
+    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v3/config"
+
+    //...
 )
 
 func handleFlags() {
-	flag.Usage = func() {
-		goyave.ErrLogger.Println("usage: " + os.Args[0] + " -config=[config]")
-		flag.PrintDefaults()
-		os.Exit(1)
-	}
+    flag.Usage = func() {
+        goyave.ErrLogger.Println("usage: " + os.Args[0] + " -config=[config]")
+        flag.PrintDefaults()
+        os.Exit(1)
+    }
 
-	flag.String("config", "", "JSON config file")
-	flag.Parse()
+    flag.String("config", "", "JSON config file")
+    flag.Parse()
 
-	configDir := flag.Lookup("config")
-	path := configDir.Value.String()
-	if path != configDir.DefValue {
-		if err := config.LoadFrom(path); err != nil {
-			goyave.ErrLogger.Println(err)
-			os.Exit(goyave.ExitInvalidConfig)
-		}
-	}
+    configDir := flag.Lookup("config")
+    path := configDir.Value.String()
+    if path != configDir.DefValue {
+        if err := config.LoadFrom(path); err != nil {
+            goyave.ErrLogger.Println(err)
+            os.Exit(goyave.ExitInvalidConfig)
+        }
+    }
 }
 
 func main() {
-	handleFlags()
+    handleFlags()
 
-	if err := goyave.Start(route.Register); err != nil {
-		os.Exit(err.(*goyave.Error).ExitCode)
-	}
+    if err := goyave.Start(route.Register); err != nil {
+        os.Exit(err.(*goyave.Error).ExitCode)
+    }
+}
+```
+
+#### config.LoadJSON
+
+Load a configuration file from raw JSON. Can be used in combination with Go's 1.16 [embed](https://golang.org/pkg/embed/) directive.
+
+| Parameters   | Return  |
+|--------------|---------|
+| `cfg string` | `error` |
+
+**Example:** load the config from an embedded configuration file
+```go
+import (
+    "os"
+
+    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v3/config"
+
+    //...
+
+    _ "embed"
+)
+
+var (
+    //go:embed config.json
+    cfg string
+)
+
+func main() {
+    if err := config.LoadJSON(cfg); err != nil {
+        goyave.ErrLogger.Println(err)
+        os.Exit(goyave.ExitInvalidConfig)
+    }
+
+    // This is the entry point of your application.
+    if err := goyave.Start(route.Register); err != nil {
+        os.Exit(err.(*goyave.Error).ExitCode)
+    }
 }
 ```
 
@@ -169,9 +208,9 @@ You can use environment variables in your configuration file. Environment variab
 
 ```json
 {
-  "database": {
-    "host": "${DB_HOST}"
-  }
+    "database": {
+        "host": "${DB_HOST}"
+    }
 }
 ```
 
@@ -395,28 +434,28 @@ Panics if an entry already exists for this key and is not identical to the one p
 **Example:**
 ``` go
 func init() {
-  config.Register("my-plugin.name", config.Entry{
-    Value:            "default value",
-    Type:             reflect.String,
-    IsSlice:          false,
-    AuthorizedValues: []interface{}{},
-  })
-  
-  // Without a default value (only validation)
-  config.Register("my-plugin.protocol", config.Entry{
-    Value:            nil,
-    Type:             reflect.String,
-    IsSlice:          false,
-    AuthorizedValues: []interface{}{"ftp", "sftp", "scp"},
-  })
+    config.Register("my-plugin.name", config.Entry{
+        Value:            "default value",
+        Type:             reflect.String,
+        IsSlice:          false,
+        AuthorizedValues: []interface{}{},
+    })
+    
+    // Without a default value (only validation)
+    config.Register("my-plugin.protocol", config.Entry{
+        Value:            nil,
+        Type:             reflect.String,
+        IsSlice:          false,
+        AuthorizedValues: []interface{}{"ftp", "sftp", "scp"},
+    })
 
-  // Slice
-  config.Register("my-plugin.remoteHosts", config.Entry{
-    Value:            []string{"first host", "second host"},
-    Type:             reflect.String,
-    IsSlice:          true,
-    AuthorizedValues: []interface{}{},
-  })
+    // Slice
+    config.Register("my-plugin.remoteHosts", config.Entry{
+        Value:            []string{"first host", "second host"},
+        Type:             reflect.String,
+        IsSlice:          true,
+        AuthorizedValues: []interface{}{},
+    })
 }
 ```
 
@@ -477,11 +516,11 @@ Setting up HTTPS on your Goyave application is easy. First, turn `server.protoco
 {
     ...
     "server": {
-      "protocol": "https",
-      "tls": {
-        "cert": "/etc/letsencrypt/live/mydomain.com/cert.pem",
-        "key": "/etc/letsencrypt/live/mydomain.com/privkey.pem"
-      }
+        "protocol": "https",
+        "tls": {
+            "cert": "/etc/letsencrypt/live/mydomain.com/cert.pem",
+            "key": "/etc/letsencrypt/live/mydomain.com/privkey.pem"
+        }
     },
     ...
 }

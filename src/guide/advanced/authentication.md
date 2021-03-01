@@ -17,7 +17,7 @@ meta:
 Goyave provides a convenient and expandable way of handling authentication in your application. Authentication can be enabled when registering your routes:
 
 ``` go
-import "github.com/System-Glitch/goyave/v3/auth"
+import "goyave.dev/goyave/v3/auth"
 
 //...
 
@@ -110,6 +110,13 @@ $ curl -u username:password http://localhost:8080/hello
 Hello Jérémy
 ```
 
+This provider supports the `Optional` flag, which defines if the authenticator allows requests that don't provide credentials. Handlers should therefore check if `request.User` is not `nil` before accessing it.
+
+``` go
+authenticator := auth.Middleware(&model.User{}, &auth.BasicAuthenticator{Optional: true})
+router.Middleware(authenticator)
+```
+
 #### Config provider
 
 This Authenticator fetches the user information from the config. This method is good for quick proof-of-concepts, as it requires minimum setup, but shouldn't be used in real-world applications.
@@ -117,7 +124,7 @@ This Authenticator fetches the user information from the config. This method is 
 - The `auth.basic.username` config entry defines the username that must be matched.
 - The `auth.basic.password` config entry defines the password that must be matched.
 
-To apply this protection to your routes, start by adding the following content to your configuration:
+To apply this protection to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.basic` sub-category:
 
 ```json
 {
@@ -167,7 +174,7 @@ JWT Authentication comes with two configuration entries:
 - `auth.jwt.expiry`: the number of seconds a token is valid for. Defaults to `300` (5 minutes).
 - `auth.jwt.secret`: the secret used for the HMAC signature. This entry **doesn't have a default value**, you need to define it yourself. Use a key that is **at least 256 bits long**.
 
-To apply JWT protection to your routes, start by adding the following content to your configuration:
+To apply this protection to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.jwt` sub-category:
 
 ```json
 {
@@ -191,6 +198,13 @@ router.Middleware(authenticator)
 To request a protected route, you will need to add the following header:
 ```
 Authorization: Bearer <YOUR_TOKEN>
+```
+
+This provider supports the `Optional` flag, which defines if the authenticator allows requests that don't provide credentials. Handlers should therefore check if `request.User` is not `nil` before accessing it.
+
+``` go
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{Optional: true})
+router.Middleware(authenticator)
 ```
 
 ---
@@ -371,5 +385,5 @@ type Column struct {
 ::: warning
 This feature is not implemented yet and is coming in a future release.
 
-[Watch](https://github.com/System-Glitch/goyave) the github repository to stay updated.
+[Watch](https://github.com/go-goyave/goyave) the github repository to stay updated.
 :::

@@ -17,7 +17,7 @@ This documentation is both a guide and a reference for Goyave application buildi
 Goyave is an **opinionated** Golang REST API framework aiming at **cleanliness**, **fast development** and **power**. Goyave applications stay clean and concise thanks to minimalist function calls and route handlers. The framework gives you all the tools to create an easily readable and maintainable web applications, which let you concentrate on the business logic. Although Goyave is a full package requiring very few setup and that handles many things for you, such as headers or marshaling, this characteristic doesn't compromise on your freedom of code.
 
 ::: tip Note
-Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/System-Glitch/goyave/issues/new/choose) with the proposal template.
+Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/go-goyave/goyave/issues/new/choose) with the proposal template.
 :::
 
 ## Example Project

@@ -19,18 +19,18 @@ This guide will walk you through the installation process. The rest of the guide
 
 ## Template project
 
-You can bootstrap your project using the **[Goyave template project](https://github.com/System-Glitch/goyave-template)**. This project has a complete directory structure already set up for you.
+You can bootstrap your project using the **[Goyave template project](https://github.com/go-goyave/goyave-template)**. This project has a complete directory structure already set up for you.
 
 #### Linux / MacOS
 
 ```
-$ curl https://raw.githubusercontent.com/System-Glitch/goyave/master/install.sh | bash -s github.com/username/projectname
+$ curl https://goyave.dev/install.sh | bash -s github.com/username/projectname
 ```
 
 #### Windows (Powershell)
 
 ```
-> & ([scriptblock]::Create((curl "https://raw.githubusercontent.com/System-Glitch/goyave/master/install.ps1").Content)) -moduleName github.com/username/projectname
+> & ([scriptblock]::Create((curl "https://goyave.dev/install.ps1").Content)) -moduleName github.com/username/projectname
 ```
 
 ---
@@ -59,16 +59,16 @@ In a terminal, run:
 ```
 $ mkdir myproject && cd myproject
 $ go mod init github.com/username/projectname
-$ go get -u github.com/System-Glitch/goyave/v3
+$ go get -u goyave.dev/goyave/v3
 ```
 
-Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `kernel.go`:
+Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `main.go`:
 ``` go
 package main
 
 import (
     "github.com/username/projectname/http/route"
-    "github.com/System-Glitch/goyave/v3"
+    "goyave.dev/goyave/v3"
 )
 
 func main() {
@@ -92,7 +92,7 @@ Create `http/route/route.go`:
 ``` go
 package routes
 
-import "github.com/System-Glitch/goyave/v3"
+import "goyave.dev/goyave/v3"
 
 // Register all the routes
 func Register(router *goyave.Router) {

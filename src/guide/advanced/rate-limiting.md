@@ -32,7 +32,7 @@ This implementation is based on this [IETF **draft**](https://tools.ietf.org/id/
 The rate middleware initializer takes a function as parameter. This function will be executed **for each** request and returns a limiter configuration.
 
 ```go
-import "github.com/System-Glitch/goyave/v3/middleware/ratelimiter"
+import "goyave.dev/goyave/v3/middleware/ratelimiter"
 
 ratelimiterMiddleware := ratelimiter.New(func(request *goyave.Request) ratelimiter.Config {
     return ratelimiter.Config {

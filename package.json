@@ -1,6 +1,6 @@
 {
   "name": "goyave_docs",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "An All-in-one elegant web framework written in Go",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,9 @@
   "author": "Jérémy LAMBERT (System-Glitch)",
   "license": "MIT",
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.8.0",
-    "vuepress": "^1.8.0",
+    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "vuepress": "^1.8.2",
     "vuepress-plugin-container": "^2.1.5",
-    "vuepress-theme-goyave": "^1.0.1"
+    "vuepress-theme-goyave": "^1.1.0"
   }
 }

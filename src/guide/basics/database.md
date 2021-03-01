@@ -22,7 +22,7 @@ All functions below require the `database` and the `gorm` packages to be importe
 
 ``` go
 import (
-  "github.com/System-Glitch/goyave/v3/database"
+  "goyave.dev/goyave/v3/database"
   "gorm.io/gorm"
 )
 ```
@@ -45,6 +45,42 @@ Very few code is required to get started with databases. There are some [configu
 `database.options` represents the additional connection options. For example, when using MySQL, you should use the `parseTime=true` option so `time.Time` can be handled correctly. Available options differ from one driver to another and can be found in their respective documentation.
 :::
 
+### Options
+
+This section gives an example of the value for the `database.options` configuration entry for each supported driver.
+
+#### MySQL
+
+```json
+"options": "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local"
+```
+
+Find more information about the MySQL options [here](https://github.com/go-sql-driver/mysql#parameters).
+
+#### PostgreSQL
+
+```json
+"options": "sslmode=disable application_name=goyave"
+```
+
+Find more information about the PostgreSQL options [here](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS).
+
+#### SQLite
+
+```json
+"options": "cache=shared&mode=memory"
+```
+
+Find more information about the SQLite options [here](https://github.com/mattn/go-sqlite3#connection-string).
+
+#### MSSQL
+
+```json
+"options": "encrypt=disable"
+```
+
+Find more information about the MSSQL options [here](https://github.com/denisenkom/go-mssqldb#connection-parameters-and-dsn).
+
 ### Drivers
 
 The framework supports the following sql drivers out-of-the-box:
@@ -56,12 +92,12 @@ The framework supports the following sql drivers out-of-the-box:
 
 Change the `database.connection` config entry to the desired driver.
 
-In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `kernel.go`:
+In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 ``` go
-import _ "github.com/System-Glitch/goyave/v3/database/dialect/mysql"
-// import _ "github.com/System-Glitch/goyave/v3/database/dialect/postgres"
-// import _ "github.com/System-Glitch/goyave/v3/database/dialect/sqlite"
-// import _ "github.com/System-Glitch/goyave/v3/database/dialect/mssql"
+import _ "goyave.dev/goyave/v3/database/dialect/mysql"
+// import _ "goyave.dev/goyave/v3/database/dialect/postgres"
+// import _ "goyave.dev/goyave/v3/database/dialect/sqlite"
+// import _ "goyave.dev/goyave/v3/database/dialect/mssql"
 ```
 
 ::: tip
@@ -74,7 +110,7 @@ You can **register more dialects** for GORM. Start by implementing or importing 
 
 ```go
 import (
-  "github.com/System-Glitch/goyave/v3/database"
+  "goyave.dev/goyave/v3/database"
   "example.com/user/mydriver"
 )
 
@@ -163,7 +199,7 @@ database.Close()
 
 ### Connection initializers
 
-You can modify the global instance of `*gorm.DB` when it's created (and re-created, after a `Close()` for example) using `Initializer` functions. This is useful if you want to set global settings such as `gorm:table_options` and make them effective for you whole application. It is recommended to register initializers **before** starting the application.
+You can modify the global instance of `*gorm.DB` when it's created (and re-created, after a `Close()` for example) using `Initializer` functions. This is useful if you want to set global settings such as `gorm:table_options` and make them effective for your whole application. It is recommended to register initializers **before** starting the application.
 
 Initializer functions are called in order, meaning that functions added last can override settings defined by previous ones.
 
@@ -222,7 +258,7 @@ type User struct {
 ```
 
 ::: tip
-All models should be **registered** in an `init()` function inside their model file. To ensure the `init()` functions are executed before the server starts, import the `models` package in your `kernel.go`.
+All models should be **registered** in an `init()` function inside their model file. To ensure the `init()` functions are executed before the server starts, import the `models` package in your `main.go`.
 
 ``` go
 import _ "database/model"
@@ -376,7 +412,7 @@ Find requests page information (total records and max page) and executes the tra
 
 If you want to make your database connection use a TLS configuration, create `database/tls.go`. In this file, create an `init()` function which will load your certificates and keys.
 
-Don't forget to blank import the database package in your `kernel.go`: `import _ "myproject/database"`. Finally, for a configuration named "custom", add `&tls=custom` at the end of the `database.options` configuration entry.
+Don't forget to blank import the database package in your `main.go`: `import _ "myproject/database"`. Finally, for a configuration named "custom", add `&tls=custom` at the end of the `database.options` configuration entry.
 
 ```go
 package database
@@ -386,7 +422,7 @@ import (
     "crypto/x509"
     "io/ioutil"
 
-    "github.com/System-Glitch/goyave/v3"
+    "goyave.dev/goyave/v3"
     "github.com/go-sql-driver/mysql"
 )
 

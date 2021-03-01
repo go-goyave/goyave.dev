@@ -19,7 +19,7 @@ Handlers receive a `goyave.Response` and a `goyave.Request` as parameters. This 
 All functions below require the `goyave` package to be imported.
 
 ``` go
-import "github.com/System-Glitch/goyave/v3"
+import "goyave.dev/goyave/v3"
 ```
 
 ## Methods
@@ -172,7 +172,7 @@ Referrer returns the referring URL, if sent in the request.
 
 **Example:**
 ``` go
-fmt.Println(request.Referrer()) // "https://github.com/System-Glitch/goyave/"
+fmt.Println(request.Referrer()) // "https://github.com/go-goyave/goyave/"
 ```
 
 #### Request.UserAgent

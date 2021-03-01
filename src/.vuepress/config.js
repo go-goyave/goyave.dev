@@ -26,7 +26,7 @@ module.exports = {
         ['meta', { property: 'og:site_name', content: "Goyave" }],
     ],
     themeConfig: {
-        repo: 'System-Glitch/goyave',
+        repo: 'go-goyave/goyave',
         editLinks: true,
         docsRepo: 'go-goyave/goyave.dev',
         docsDir: 'src',
@@ -44,7 +44,9 @@ module.exports = {
                     '/guide/': getGuideSidebar(),
                 }
             }
-        }
+        },
+        becomeSponsorLink: "https://github.com/sponsors/System-Glitch/",
+        sponsors: []
     },
     extraWatchFiles: [
         '.vuepress/nav/en.js',
@@ -94,6 +96,7 @@ function getGuideSidebar () {
                 'advanced/status-handlers',
                 'advanced/logging',
                 'advanced/rate-limiting',
+                'advanced/websocket',
             ]
         }
     ]

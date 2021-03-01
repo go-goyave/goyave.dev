@@ -14,12 +14,12 @@ meta:
 
 ## Introduction
 
-Sometimes you need to run several services in the same executable. For example if you are hosting a websocket server on top of your web API. Goyave can be run in a goroutine and stopped on-demand.
+Sometimes you need to run several services in the same executable. For example if you are also listening to a message queue on top of running your web API. Goyave can be run in a goroutine and stopped on-demand.
 
 All functions below are features that require the `goyave` package to be imported.
 
 ``` go
-import "github.com/System-Glitch/goyave/v3"
+import "goyave.dev/goyave/v3"
 ```
 
 ## Startup hooks
@@ -52,6 +52,38 @@ Clear all registered startup hooks. Useful when you are writing tests or develop
 **Example:**
 ``` go
 goyave.ClearStartupHooks()
+```
+
+## Shutdown hooks
+
+Shutdown hooks are functions executed when the server stops. This is especially useful when you want to stop other services when the server stops.
+
+#### goyave.RegisterShutdownHook
+
+Register a shutdown hook to execute some code after the server stopped. Shutdown hooks are executed before `goyave.Start()` returns.
+
+| Parameters    | Return |
+|---------------|--------|
+| `hook func()` | `void` |
+
+**Example:**
+``` go
+goyave.RegisterShutdownHook(func() {
+    goyave.Logger.Println("Server shutdown.")
+})
+```
+
+#### goyave.ClearShutdownHooks
+
+Clear all registered shutdown hooks. Useful when you are writing tests or developing a service able to restart your server multiple times.
+
+| Parameters | Return |
+|------------|--------|
+|            | `void` |
+
+**Example:**
+``` go
+goyave.ClearShutdownHooks()
 ```
 
 ## Start the server

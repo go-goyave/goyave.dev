@@ -25,7 +25,7 @@ If you didn't write anything before the request lifecycle ends, `204 No Content`
 All functions below require the `goyave` package to be imported.
 
 ``` go
-import "github.com/System-Glitch/goyave/v3"
+import "goyave.dev/goyave/v3"
 ```
 
 **List of response methods**:
@@ -387,7 +387,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/System-Glitch/goyave/v3"
+	"goyave.dev/goyave/v3"
 )
 
 type LogWriter struct {
@@ -454,3 +454,31 @@ This can be used to chain writers, for example to enable gzip compression, or fo
 | Parameters         | Return |
 |--------------------|--------|
 | `writer io.Writer` |        |
+
+## Hijack
+
+Goyave responses implement [`http.Hijacker`](https://golang.org/pkg/net/http/#Hijacker).
+
+#### Response.Hijack
+
+Hijack lets the caller take over the connection.
+
+Returns `goyave.ErrNotHijackable` if the underlying `http.ResponseWriter` doesn't implement `http.Hijacker`. This can happen with HTTP/2 connections.
+
+Middleware executed after controller handlers, as well as status handlers, keep working as usual after a connection has been hijacked. Callers should properly set the response status to ensure middleware and status handler execute correctly. Usually, callers of the `Hijack` method set the HTTP status to `http.StatusSwitchingProtocols`.
+
+If no status is set, the regular behavior will be kept and `204 No Content` will be set as the response status.
+
+| Parameters | Return              |
+|------------|---------------------|
+|            | `net.Conn`          |
+|            | `*bufio.ReadWriter` |
+|            | `error`             |
+
+#### Response.Hijacked
+
+Returns `true` if the underlying connection has been successfully hijacked via the `Hijack` method.
+
+| Parameters | Return |
+|------------|--------|
+|            | `bool` |

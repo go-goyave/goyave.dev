@@ -131,7 +131,7 @@ The typical and recommended directory structure for Goyave applications is as fo
 ├── .gitignore
 ├── config.json
 ├── go.mod
-└── kernel.go
+└── main.go
 :::
 
 ### Database directory
@@ -175,7 +175,7 @@ This directory can contain a `validation.go` file, which will define custom vali
 
 This directory can also contain a `placeholder.go` file, which will define validation rule messages placeholders. Learn more [here](./basics/validation.html#placeholders).
 
-This package is usually imported in `kernel.go` to call the `init()` functions defined in the two files mentionned above.
+This package is usually imported in `main.go` to call the `init()` functions defined in the two files mentionned above.
 
 #### HTTP Routes
 
