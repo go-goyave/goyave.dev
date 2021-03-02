@@ -12,7 +12,14 @@ meta:
 
 [[toc]]
 
-## v3.7.0
+## v3.7.x
+
+### v3.7.1
+
+- Don't parse body if `Content-Type` is not set. Query params are still parsed. This change should drastically improve performance on requests with no body.
+- Set `request.Data` to `nil` (meaning parse failed) if query params couldn't be parsed.
+
+### v3.7.0
 
 - Added `Optional` flag to `BasicAuthenticator` and `JWTAuthenticator`.
 - Added support for `database.options` for the SQLite driver.
