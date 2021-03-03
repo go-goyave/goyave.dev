@@ -457,6 +457,8 @@ This can be used to chain writers, for example to enable gzip compression, or fo
 
 ## Hijack
 
+<p><Badge text="Since v3.7.0"/></p>
+
 Goyave responses implement [`http.Hijacker`](https://golang.org/pkg/net/http/#Hijacker).
 
 #### Response.Hijack
