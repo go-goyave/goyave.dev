@@ -344,7 +344,7 @@ If the nth field is not found, the nth value of the returned slice will be `nil`
 
 | Parameters          | Return           |
 |---------------------|------------------|
-| `strct interface{}` | `[]*auth.Column` |
+| `struct interface{}` | `[]*auth.Column` |
 | `fields ...string`  |                  |
 
 **Example**:
