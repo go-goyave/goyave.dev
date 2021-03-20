@@ -500,7 +500,7 @@ func init() {
 | name               | `string` | "goyave"                                                                |                                                           |
 | username           | `string` | "root"                                                                  |                                                           |
 | password           | `string` | "root"                                                                  |                                                           |
-| otions             | `string` | "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local" |                                                           |
+| options             | `string` | "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local" |                                                           |
 | maxOpenConnections | `int`    | `20`                                                                    |                                                           |
 | maxIdleConnections | `int`    | `20`                                                                    |                                                           |
 | maxLifetime        | `int`    | `300`                                                                   | The maximum time (in seconds) a connection may be reused. |
