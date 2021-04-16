@@ -34,6 +34,12 @@ Come and learn about the framework, stay updated on the progress, be notified wh
   </a>
 </p>
 
+## Sponsors, patrons and donators
+
+- Ben Hyrman
+- Massimiliano Bertinetti
+- ethicnology
+
 ## Contributors
 
 A big "Thank you" to the Goyave contributors:
