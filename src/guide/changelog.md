@@ -18,7 +18,7 @@ meta:
 - Added `router.Group`, which is an alias for `router.Subrouter("")`, aimed at improving route definition readability.
 - Address generation outputs `127.0.0.1` if `0.0.0.0` is set as server host.
 - Added validation `Rule.IsType()` and `Rule.IsTypeDependent()`.
-- Added `route.BuildURI()` to be able to generate a full URI without the host and protocol prefix.
+- Added [`route.BuildURI()`](./basics/routing.html#route-builduri) to be able to generate a full URI without the host and protocol prefix.
 - Added various accessors for routes and routers.
 - Fixed timing attack on config basic authenticator.
 - Exported `goyave.NewRouter()`.
