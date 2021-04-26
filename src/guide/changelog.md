@@ -12,6 +12,24 @@ meta:
 
 [[toc]]
 
+## v3.8.0
+
+- Added `helper.Map`. *Thanks to [@agbaraka](https://github.com/agbaraka) for the contribution!*
+- Added `router.Group`, which is an alias for `router.Subrouter("")`, aimed at improving route definition readability.
+- Address generation outputs `127.0.0.1` if `0.0.0.0` is set as server host.
+- Added validation `Rule.IsType()` and `Rule.IsTypeDependent()`.
+- Added `route.BuildURI()` to be able to generate a full URI without the host and protocol prefix.
+- Added various accessors for routes and routers.
+- Fixed timing attack on config basic authenticator.
+- Exported `goyave.NewRouter()`.
+- Minor memory improvements by re-aligning some structure fields.
+- Added support for custom JWT claims. (`jwt.GenerateTokenWithClaims()`). *Thanks to [@Morishiri](https://github.com/Morishiri) for the contribution!*
+- Added `JWTController.TokenFunc` to let developers define their own token generation logic. *Thanks to [@Morishiri](https://github.com/Morishiri) for the contribution!*
+- Added support for RSA and ECDSA JWT signatures.
+- Added `JWTAuthenticator.ClaimName`. This field defines what is the name if the claim used as an ID.
+- `JWTAuthenticator` now adds token claims to `request.Extra` if the provided token is valid. (key: `"jwt_claims"`)
+- `JWTController.Login` now returns `401 Unauthorized` instead of `422 Unprocessable Entity` if provided credentials are invalid.
+
 ## v3.7.x
 
 ### v3.7.1
