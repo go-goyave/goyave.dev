@@ -354,12 +354,12 @@ Let's take a simple scenario where we want to implement a user CRUD. All our rou
 userRouter := router.Subrouter("/user")
 ```
 
-In our application, user profiles are public: anyone can see the user profiles without being authenticated. However, only authenticated users can modify their information and delete their account. We don't want to add some redundancy and apply the authentication middleware for each route needing it, so we are going to create another sub-router. Sub-routers having an empty prefix are called **route groups**.
+In our application, user profiles are public: anyone can see the user profiles without being authenticated. However, only authenticated users can modify their information and delete their account. We don't want to add some redundancy and apply the authentication middleware for each route needing it, so we are going to create another sub-router. Sub-routers having an empty prefix are called **route groups** and can be created using `router.Group()`.
 ```go
 userRouter.Get("/{username}", user.Show)
 userRouter.Post("", user.Register).Validate(user.RegisterRequest)
 
-authUserRouter := userRouter.Subrouter("") // Don't add a prefix
+authUserRouter := userRouter.Group()
 authUserRouter.Middleware(authenticationMiddleware)
 authUserRouter.Put("/{id}", user.Update).Validate(user.UpdateRequest)
 authUserRouter.Delete("/{id}", user.Delete)
