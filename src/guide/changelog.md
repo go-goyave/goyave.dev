@@ -14,7 +14,7 @@ meta:
 
 ## v3.8.0
 
-- Added `helper.Map`. *Thanks to [@agbaraka](https://github.com/agbaraka) for the contribution!*
+- Added [`helper.Map`](./advanced/helpers.html#helper-map). *Thanks to [@agbaraka](https://github.com/agbaraka) for the contribution!*
 - Added `router.Group`, which is an alias for `router.Subrouter("")`, aimed at improving route definition readability.
 - Address generation outputs `127.0.0.1` if `0.0.0.0` is set as server host.
 - Added validation `Rule.IsType()` and `Rule.IsTypeDependent()`.
