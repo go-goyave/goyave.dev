@@ -385,7 +385,9 @@ fmt.Println(token)
 
 ---
 
-This Authenticator comes with a built-in login controller for password grant, using the field tags explained earlier. You can register the `/auth/login` route using the helper function `auth.JWTRoutes(router)`.
+#### JWTController
+
+JWTAuthenticator comes with a built-in login controller for password grant, using the field tags explained earlier. You can register the `/auth/login` route using the helper function `auth.JWTRoutes(router)`.
 
 #### auth.JWTRoutes
 
@@ -413,7 +415,7 @@ func Register(router *goyave.Router) {
 
 #### auth.NewJWTController
 
-If you want or need to register the routes yourself, you can instantiate a new JWTController using `auth.NewJWTController()`.
+If you want or need to register the routes yourself, you can instantiate a new `JWTController` using `auth.NewJWTController()`.
 
 This function creates a new `JWTController` that will be using the given model for login and token generation.
 
@@ -437,7 +439,39 @@ By default, the controller will use the "username" and "password" fields from in
 ```go
 jwtController := auth.NewJWTController(&model.User{})
 jwtController.UsernameField = "email"
+jwtController.PasswordField = "pwd"
 ```
+:::
+
+##### Signing method
+
+As `JWTController` generates token for you, you can also customize the signing method it uses. By default, HMAC-SHA256 is used. You can override this by changing the `SigningMethod` field:
+
+```go
+import "github.com/dgrijalva/jwt-go"
+
+//...
+
+jwtController := auth.NewJWTController(&model.User{})
+jwtController.SigningMethod = jwt.SigningMethodES256
+```
+
+##### Custom token generation
+
+You can also override the token generation logic executed by the controller on successful authentication by setting the `TokenFunc` field:
+
+```go
+jwtController := auth.NewJWTController(&model.User{})
+jwtController.TokenFunc = func(r *goyave.Request, user interface{}) (string, error) {
+	return GenerateTokenWithClaims(jwt.MapClaims{
+		"sub":  user.(*model.User).ID,
+		"name": user.(*model.User).Name,
+	}, jwt.SigningMethodHS256)
+}
+```
+
+::: tip
+`auth.TokenFunc` is an alias for `func(request *goyave.Request, user interface{}) (string, error)`
 :::
 
 ### Writing custom Authenticator
