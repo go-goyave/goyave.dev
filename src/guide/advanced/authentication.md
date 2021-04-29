@@ -222,7 +222,7 @@ router.Middleware(authenticator)
 By default, `auth.JWTAuthenticator` looks for the claim named `userid` in the given token. You can customize the name of the token using the `ClaimName` field:
 
 ``` go
-authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{Optional: true})
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{ClaimName: "sub"})
 router.Middleware(authenticator)
 ```
 
