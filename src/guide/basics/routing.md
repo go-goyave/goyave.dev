@@ -92,9 +92,12 @@ router.Options("/options", myHandlerFunction)
 [Name](#route-name)
 [GetName](#route-getname)
 [BuildURL](#route-buildurl)
+[BuildURI](#route-builduri)
 [GetURI](#route-geturi)
 [GetFullURI](#route-getfulluri)
 [GetMethods](#route-getmethods)
+[GetHandler](#route-gethandler)
+[GetValidationRules](#route-getvalidationrules)
 [Validate](#route-validate)
 [Middleware](#route-middleware)
 ::: 
@@ -111,7 +114,7 @@ Returns itself.
 |---------------|-----------------|
 | `name string` | `*goyave.Route` |
 
-**Examples:**
+**Example:**
 ``` go
 router.Route("GET", "/product/{id:[0-9]+}", myHandlerFunction).Name("product.show")
 ```
@@ -124,7 +127,7 @@ Get the name of this route.
 |------------|----------|
 |            | `string` |
 
-**Examples:**
+**Example:**
 ``` go
 fmt.Println(route.GetName()) // "product.create"
 ```
@@ -139,9 +142,26 @@ Panics if the amount of parameters doesn't match the amount of actual parameters
 |------------------------|----------|
 | `parameters ...string` | `string` |
 
-**Examples:**
+**Example:**
 ``` go
 fmt.Println(route.BuildURL("42")) // "http://localhost:8080/product/42"
+```
+
+#### Route.BuildURI
+
+<p><Badge text="Since v3.8.0"/></p>
+
+Build a full URI pointing to this route. The returned string doesn't include the protocol and domain. (e.g. "/user/login")
+
+Panics if the amount of parameters doesn't match the amount of actual parameters for this route.
+
+| Parameters             | Return   |
+|------------------------|----------|
+| `parameters ...string` | `string` |
+
+**Example:**
+``` go
+fmt.Println(route.BuildURI("42")) // "/product/42"
 ```
 
 #### Route.GetURI
@@ -156,7 +176,7 @@ Note that this URI may contain route parameters in their définition format. Use
 |------------|----------|
 |            | `string` |
 
-**Examples:**
+**Example:**
 ``` go
 fmt.Println(route.GetURI()) // "/{id:[0-9]+}"
 ```
@@ -171,7 +191,7 @@ Note that this URI may contain route parameters in their définition format. Use
 |------------|----------|
 |            | `string` |
 
-**Examples:**
+**Example:**
 ``` go
 fmt.Println(route.GetFullURI()) // "/product/{id:[0-9]+}"
 ```
@@ -184,9 +204,48 @@ Returns the methods the route matches against.
 |------------|------------|
 |            | `[]string` |
 
-**Examples:**
+**Example:**
 ``` go
 fmt.Println(route.GetMethods()) // [GET OPTIONS]
+```
+
+#### Route.GetHandler
+
+<p><Badge text="Since v3.8.0"/></p>
+
+Returns the Handler associated with this route.
+
+| Parameters | Return           |
+|------------|------------------|
+|            | `goyave.Handler` |
+
+#### Route.GetValidationRules
+
+<p><Badge text="Since v3.8.0"/></p>
+
+Returns the validation rules associated with this route.
+
+| Parameters | Return              |
+|------------|---------------------|
+|            | `*validation.Rules` |
+
+#### Route.GetFullURIAndParameters
+
+<p><Badge text="Since v3.8.0"/></p>
+
+Get the full uri and parameters for this route and all its parent routers.
+
+| Parameters | Return                |
+|------------|-----------------------|
+|            | `uri string`          |
+|            | `parameters []string` |
+
+**Example:**
+
+``` go
+subrouter := router.Subrouter("/{article}")
+route := subrouter.Get("/{id:[0-9+]}")
+fmt.Println(route.GetFullURIAndParameters()) // "/{article}/{id:[0-9+]}" [article id]
 ```
 
 #### Route.Validate
@@ -201,7 +260,7 @@ Returns itself.
 |------------------------------------|-----------------|
 | `validationRules validation.Ruler` | `*goyave.Route` |
 
-**Examples:**
+**Example:**
 ``` go
 router.Post("/user", user.Register).Validate(user.RegisterRequest)
 ```
@@ -222,7 +281,7 @@ Returns itself.
 |-----------------------------------|-----------------|
 | `middleware ...goyave.Middleware` | `*goyave.Route` |
 
-**Examples:**
+**Example:**
 ``` go
 router.Put("/product", product.Update).Middleware(middleware.Admin)
 ```
@@ -354,12 +413,12 @@ Let's take a simple scenario where we want to implement a user CRUD. All our rou
 userRouter := router.Subrouter("/user")
 ```
 
-In our application, user profiles are public: anyone can see the user profiles without being authenticated. However, only authenticated users can modify their information and delete their account. We don't want to add some redundancy and apply the authentication middleware for each route needing it, so we are going to create another sub-router. Sub-routers having an empty prefix are called **route groups**.
+In our application, user profiles are public: anyone can see the user profiles without being authenticated. However, only authenticated users can modify their information and delete their account. We don't want to add some redundancy and apply the authentication middleware for each route needing it, so we are going to create another sub-router. Sub-routers having an empty prefix are called **route groups** and can be created using `router.Group()`.
 ```go
 userRouter.Get("/{username}", user.Show)
 userRouter.Post("", user.Register).Validate(user.RegisterRequest)
 
-authUserRouter := userRouter.Subrouter("") // Don't add a prefix
+authUserRouter := userRouter.Group()
 authUserRouter.Middleware(authenticationMiddleware)
 authUserRouter.Put("/{id}", user.Update).Validate(user.UpdateRequest)
 authUserRouter.Delete("/{id}", user.Delete)

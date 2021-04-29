@@ -35,6 +35,7 @@ import "goyave.dev/goyave/v3/helper"
 [RemoveHiddenFields](#helper-removehiddenfields)
 [Only](#helper-only)
 [EscapeLike](#helper-escapelike)
+[Map](#helper-map)
 :::
 
 #### helper.IndexOf
@@ -245,6 +246,27 @@ Escape "%" and "_" characters in the given string for use in SQL "LIKE" clauses.
 ``` go
 search := helper.EscapeLike("se%r_h")
 fmt.Println(search) // "se\%r\_h"
+```
+
+#### helper.Map
+
+Map is an alias to `map[string]interface{}`. Useful and a cleaner way to create a JSON response object
+
+**Example:**
+``` go
+response.JSON(200, helper.Map{
+  "name": "Albert Shirima",
+  "projects": []helper.Map{
+	  {
+		  "name": "Goyave",
+		  "is_contributor": true,
+		  "meta": helper.Map{
+			  "website": "goyave.dev",
+			  "contributors": 4,
+		  },
+	  },
+  },
+})
 ```
 
 ## Filesystem

@@ -167,14 +167,15 @@ The user is authenticated if the `auth.basic.username` and `auth.basic.password`
 
 ### JSON Web Token (JWT)
 
-JWT, or [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token), is an open standard of authentication that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. Goyave uses HMAC-SHA256 in its implementation.
+JWT, or [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token), is an open standard of authentication that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. Goyave supports HMAC, RSA (with or without password) and ECDSA. RSA and ECDSA require **PEM-encoded** keys. Goyave uses the [jwt-go](https://github.com/dgrijalva/jwt-go) library in the background.
 
-JWT Authentication comes with two configuration entries:
+JWT Authentication comes with the `auth.jwt.expiry` configuration entry, which defines the number of seconds a token is valid for and defaults to `300` (5 minutes).
 
-- `auth.jwt.expiry`: the number of seconds a token is valid for. Defaults to `300` (5 minutes).
-- `auth.jwt.secret`: the secret used for the HMAC signature. This entry **doesn't have a default value**, you need to define it yourself. Use a key that is **at least 256 bits long**.
+#### Basic usage
 
-To apply this protection to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.jwt` sub-category:
+By default, Goyave's built-in JWT components will use HMAC-SHA256 to sign generated tokens and will expect this method for signature verification. In this basic usage example, this is what we are going to use. Check the next sections for details on how to use RSA or ECDSA.
+
+To apply JWT authentication to your routes, start by adding the `auth` category at the root of your configuration, and the `auth.jwt` sub-category:
 
 ```json
 {
@@ -188,6 +189,13 @@ To apply this protection to your routes, start by adding the `auth` category at 
 }
 ```
 
+::: warning
+Make sure your HMAC secret is securely generated and is long enough:
+- HMAC-SHA256: the secret must be 256+ bits long
+- HMAC-SHA384: the secret must be 384+ bits long
+- HMAC-SHA512: the secret must be 512+ bits long
+:::
+
 Then, add the following middleware:
 
 ``` go
@@ -200,6 +208,8 @@ To request a protected route, you will need to add the following header:
 Authorization: Bearer <YOUR_TOKEN>
 ```
 
+##### Optional authentication
+
 This provider supports the `Optional` flag, which defines if the authenticator allows requests that don't provide credentials. Handlers should therefore check if `request.User` is not `nil` before accessing it.
 
 ``` go
@@ -207,9 +217,177 @@ authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{Optional:
 router.Middleware(authenticator)
 ```
 
+##### Custom ID claim name
+
+By default, `auth.JWTAuthenticator` looks for the claim named `userid` in the given token. You can customize the name of the token using the `ClaimName` field:
+
+``` go
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{ClaimName: "sub"})
+router.Middleware(authenticator)
+```
+
+##### Claims in request.Extra
+
+If a token is valid (even if authentication fails), its claims are put into `request.Extra` with the `jwt_claims` key, so you can access them in any subsequent handler:
+
+```go
+import "github.com/dgrijalva/jwt-go"
+
+//...
+
+func myHandler(resp *Response, r *Request) {
+	claims := request.Extra["jwt_claims"].(jwt.MapClaims)
+	//...
+}
+```
+
+#### RSA
+
+If you expect tokens to be signed with RSA, you will need to add the `auth.jwt.rsa.public` configuration entry. This entry defines the path to the **PEM-encoded** RSA public key file. Make sure the system user running your application has read access. Both absolute and relative paths are supported.
+
+```json
+{
+  ...
+  "auth": {
+    "jwt": {
+      "expiry": 300,
+      "rsa": {
+		  "public": "/path/to/rsa-key.pem"
+	  }
+    }
+  }
+}
+```
+
+Then, specify the expected signature method in the `SignatureMethod` field of `auth.JWTAuthenticator`:
+
+``` go
+import "github.com/dgrijalva/jwt-go"
+
+//...
+
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{SigningMethod: jwt.SigningMethodRS256})
+router.Middleware(authenticator)
+```
+
+::: tip
+You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/dgrijalva/jwt-go#SigningMethodRSA).
+- For testing purposes, you can generate an RSA key-pair using OpenSSL:
+```
+openssl genrsa -out rsa-private.pem 2048
+openssl rsa -in rsa-private.pem -outform PEM -pubout -out rsa-public.pem
+```
+:::
+
+#### ECDSA
+
+If you expect tokens to be signed with ECDSA, you will need to add the `auth.jwt.ecdsa.public` configuration entry. This entry defines the path to the **PEM-encoded** ECDSA public key file. Make sure the system user running your application has read access. Both absolute and relative paths are supported.
+
+```json
+{
+  ...
+  "auth": {
+    "jwt": {
+      "expiry": 300,
+      "rsa": {
+		  "public": "/path/to/ecdsa-key.pem"
+	  }
+    }
+  }
+}
+```
+
+Then, specify the expected signature method in the `SignatureMethod` field of `auth.JWTAuthenticator`:
+
+``` go
+import "github.com/dgrijalva/jwt-go"
+
+//...
+
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{SigningMethod: jwt.SigningMethodES256})
+router.Middleware(authenticator)
+```
+
+::: tip
+- You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/dgrijalva/jwt-go#SigningMethodECDSA).
+- For testing purposes, you can generate an ECDSA key-pair using OpenSSL:
+```
+openssl ecparam -name prime256v1 -genkey -noout -out ecdsa-private.key
+openssl pkcs8 -topk8 -in ecdsa-private.key -out ecdsa-private.pem
+openssl ec -in ecdsa-private.pem -pubout -out ecdsa-public.pem
+```
+:::
+
+#### Generating tokens
+
+#### auth.GenerateTokenWithClaims
+
+Generate a new JWT with custom claims and signed using the given signing method.
+
+The token is set to expire in the amount of seconds defined by the `auth.jwt.expiry` config entry.
+
+Depending on the given signing method, the following configuration entries will be used:
+- RSA:
+	- `auth.jwt.rsa.private`: path to the private PEM-encoded RSA key.
+	- `auth.jwt.rsa.password`: optional password for the private RSA key.
+- ECDSA: `auth.jwt.ecdsa.private`: path to the private PEM-encoded ECDSA key.
+- HMAC: `auth.jwt.secret`: HMAC secret
+
+The generated token will also contain the following claims:
+- `nbf`: "Not before", the current timestamp is used
+- `exp`: "Expiry", the current timestamp plus the `auth.jwt.expiry` config entry.
+
+`nbf` and `exp` can be overridden if they are set in the `claims` parameter.
+
+| Parameters                        | Return   |
+|-----------------------------------|----------|
+| `claims jwt.MapClaims`            | `string` |
+| `signingMethod jwt.SigningMethod` | `error`  |
+
+**Example:**
+``` go
+import "github.com/dgrijalva/jwt-go"
+
+//...
+
+token, err := auth.GenerateTokenWithClaims(jwt.MapClaims{"sub": user.ID}, jwt.SigningMethodES256)
+if err != nil {
+	panic(err)
+}
+fmt.Println(token)
+```
+
+#### auth.GenerateToken
+
+Generate a new JWT. This function is a shortcut to `auth.GenerateTokenWithClaims()`.
+
+The token is created using the HMAC SHA256 method and signed using the `auth.jwt.secret` config entry.  
+The token is set to expire in the amount of seconds defined by the `auth.jwt.expiry` config entry.
+
+The generated token will contain the following claims:
+- `userid`: has the value of the `id` parameter
+- `nbf`: "Not before", the current timestamp is used
+- `exp`: "Expiry", the current timestamp plus the `auth.jwt.expiry` config entry.
+
+| Parameters       | Return   |
+|------------------|----------|
+| `id interface{}` | `string` |
+|                  | `error`  |
+
+**Example:**
+``` go
+token, err := auth.GenerateToken(user.ID)
+if err != nil {
+	panic(err)
+}
+fmt.Println(token)
+```
+
 ---
 
-This Authenticator comes with a built-in login controller for password grant, using the field tags explained earlier. You can register the `/auth/login` route using the helper function `auth.JWTRoutes(router)`.
+#### JWTController
+
+JWTAuthenticator comes with a built-in login controller for password grant, using the field tags explained earlier. You can register the `/auth/login` route using the helper function `auth.JWTRoutes(router)`.
 
 #### auth.JWTRoutes
 
@@ -237,7 +415,7 @@ func Register(router *goyave.Router) {
 
 #### auth.NewJWTController
 
-If you want or need to register the routes yourself, you can instantiate a new JWTController using `auth.NewJWTController()`.
+If you want or need to register the routes yourself, you can instantiate a new `JWTController` using `auth.NewJWTController()`.
 
 This function creates a new `JWTController` that will be using the given model for login and token generation.
 
@@ -261,34 +439,40 @@ By default, the controller will use the "username" and "password" fields from in
 ```go
 jwtController := auth.NewJWTController(&model.User{})
 jwtController.UsernameField = "email"
+jwtController.PasswordField = "pwd"
 ```
 :::
 
-#### auth.GenerateToken
+##### Signing method
 
-You may need to generate a token yourself outside of the login route. This function generates a new JWT.
+As `JWTController` generates token for you, you can also customize the signing method it uses. By default, HMAC-SHA256 is used. You can override this by changing the `SigningMethod` field:
 
-The token is created using the HMAC SHA256 method and signed using the `auth.jwt.secret` config entry.  
-The token is set to expire in the amount of seconds defined by the `auth.jwt.expiry` config entry.
+```go
+import "github.com/dgrijalva/jwt-go"
 
-The generated token will contain the following claims:
-- `userid`: has the value of the `id` parameter
-- `nbf`: "Not before", the current timestamp is used
-- `exp`: "Expiry", the current timestamp plus the `auth.jwt.expiry` config entry.
+//...
 
-| Parameters       | Return   |
-|------------------|----------|
-| `id interface{}` | `string` |
-|                  | `error`  |
-
-**Example:**
-``` go
-token, err := auth.GenerateToken(user.ID)
-if err != nil {
-	panic(err)
-}
-fmt.Println(token)
+jwtController := auth.NewJWTController(&model.User{})
+jwtController.SigningMethod = jwt.SigningMethodES256
 ```
+
+##### Custom token generation
+
+You can also override the token generation logic executed by the controller on successful authentication by setting the `TokenFunc` field:
+
+```go
+jwtController := auth.NewJWTController(&model.User{})
+jwtController.TokenFunc = func(r *goyave.Request, user interface{}) (string, error) {
+	return GenerateTokenWithClaims(jwt.MapClaims{
+		"sub":  user.(*model.User).ID,
+		"name": user.(*model.User).Name,
+	}, jwt.SigningMethodHS256)
+}
+```
+
+::: tip
+`auth.TokenFunc` is an alias for `func(request *goyave.Request, user interface{}) (string, error)`
+:::
 
 ### Writing custom Authenticator
 
@@ -342,10 +526,10 @@ Promoted fields are matched as well.
 
 If the nth field is not found, the nth value of the returned slice will be `nil`.
 
-| Parameters          | Return           |
-|---------------------|------------------|
+| Parameters           | Return           |
+|----------------------|------------------|
 | `struct interface{}` | `[]*auth.Column` |
-| `fields ...string`  |                  |
+| `fields ...string`   |                  |
 
 **Example**:
 
