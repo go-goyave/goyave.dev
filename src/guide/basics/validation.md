@@ -503,7 +503,7 @@ var (
 )
 ```
 
-Since `v3.9.0`, you can specifiy a dot-separated path to rules comparing the value with another field. For example:
+Since `v3.9.0`, you can specify a dot-separated path to rules comparing the value with another field. For example:
 
 ```go
 var (
