@@ -415,12 +415,6 @@ This rule converts the field to `time.Time` if it passes.
 See the [Golang datetime format](https://golang.org/src/time/format.go).
 :::
 
-::: warning
-When validating dates by comparing them together, the order of the declaration of the fields in the request is important. For example, if you want to validate that an end date is after a start date, the start date should be declared **before** the end date in the rules set.
-
-If a date has not been validated and converted yet, the date comparison rules will attempt to parse the dates using the following format: `2006-01-02`.
-:::
-
 #### before:date
 
 The field under validation must be a value preceding the given date. The `date` must be written using following format: `2006-01-02T15:04:05`.
@@ -505,6 +499,19 @@ var (
         "user":       {"required", "object"},
         "user.name":  {"required", "string", "between:3,50"},
         "user.email": {"required", "email"},
+    }
+)
+```
+
+Since `v3.9.0`, you can specifiy a dot-separated path to rules comparing the value with another field. For example:
+
+```go
+var (
+    BirthdayRequest = validation.RuleSet{
+        "user":          {"required", "object"},
+        "user.birthday": {"required", "date", "before:dates.today"},
+        "dates":         {"required", "object"},
+        "dates.today":   {"required", "date"},
     }
 )
 ```
@@ -606,6 +613,9 @@ type RuleDefinition struct {
     // and can convert the raw value to a value fitting. For example, the UUID
     // rule is a type rule because it takes a string as input, checks if it's a
     // valid UUID and converts it to a "uuid.UUID".
+    // The "array" rule is an exception. It does convert the value to a new slice of
+    // the correct type if provided, but is not considered a type rule to avoid being
+    // able to be used as parameter for itself ("array:array").
     IsType bool
 
     // Type-dependent rules are rules that can be used with different field types
@@ -613,6 +623,12 @@ type RuleDefinition struct {
     // depending on the type.
     // The language entry used will be "validation.rules.rulename.type"
     IsTypeDependent bool
+
+    // ComparesFields is true when the rule compares the value of the field under
+    // validation with another field. A field containing at least one rule with
+    // ComparesFields = true will be executed later in the validation process to
+    // ensure conversions are properly executed prior.
+    ComparesFields bool
 }
 ```
 
