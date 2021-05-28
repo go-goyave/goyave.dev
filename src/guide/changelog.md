@@ -12,7 +12,13 @@ meta:
 
 [[toc]]
 
-## v3.9.0
+## v3.9.x
+
+### v3.9.1
+
+- Fixed a crash when using the `nullable` rule.
+
+### v3.9.0
 
 - Fixed random inconsistencies in validation results when using rules comparing value to other fields.
 - Added `RuleDefinition.ComparesFields` to specify a rule can compare the field under validation with another field. Custom rules that do so should update their definition to avoid previously mentioned inconsistencies.
