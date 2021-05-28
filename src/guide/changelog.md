@@ -12,6 +12,14 @@ meta:
 
 [[toc]]
 
+## v3.9.0
+
+- Fixed random inconsistencies in validation results when using rules comparing value to other fields.
+- Added `RuleDefinition.ComparesFields` to specify a rule can compare the field under validation with another field. Custom rules that do so should update their definition to avoid previously mentioned inconsistencies.
+- Fixed a bug causing the shutdown hook listening to `SIGINT` and `SIGTERM` to clear itself at server startup.
+- Fixed a bug causing fields inside objects to not be converted by type rules and leaving junk into the input data.
+- Handle dot-separated path for comparison validation rules.
+
 ## v3.8.0
 
 - Added [`helper.Map`](./advanced/helpers.html#helper-map). *Thanks to [@agbaraka](https://github.com/agbaraka) for the contribution!*
