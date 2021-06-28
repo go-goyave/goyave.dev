@@ -530,7 +530,7 @@ func init() {
 | disableForeignKeyConstraintWhenMigrating | `bool` | `false` |      |
 
 ::: tip
-See [GORM's documenation](https://gorm.io/docs/gorm_config.html) for more details.
+See [GORM's documentation](https://gorm.io/docs/gorm_config.html) for more details.
 :::
 
 ## Setting up HTTPS
