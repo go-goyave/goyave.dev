@@ -12,6 +12,10 @@ meta:
 
 [[toc]]
 
+## v3.10.0
+
+- Added Gorm settings to configuration file. *Thanks to [Zao SOULA](https://github.com/zaosoula) for the contribution!*
+
 ## v3.9.x
 
 ### v3.9.1

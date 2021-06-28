@@ -60,7 +60,16 @@ The following JSON file is an example of default configuration:
         "maxOpenConnections": 20,
         "maxIdleConnections": 20,
         "maxLifetime": 300,
-        "autoMigrate": false
+        "autoMigrate": false,
+        "config": {
+            "skipDefaultTransaction": false,
+            "dryRun": false,
+            "prepareStmt": true,
+            "disableNestedTransaction": false,
+            "allowGlobalUpdate": false,
+            "disableAutomaticPing": false,
+            "disableForeignKeyConstraintWhenMigrating": false
+        }
     }
 }
 ```
@@ -500,12 +509,29 @@ func init() {
 | name               | `string` | "goyave"                                                                |                                                           |
 | username           | `string` | "root"                                                                  |                                                           |
 | password           | `string` | "root"                                                                  |                                                           |
-| options             | `string` | "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local" |                                                           |
+| options            | `string` | "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local" |                                                           |
 | maxOpenConnections | `int`    | `20`                                                                    |                                                           |
 | maxIdleConnections | `int`    | `20`                                                                    |                                                           |
 | maxLifetime        | `int`    | `300`                                                                   | The maximum time (in seconds) a connection may be reused. |
 | autoMigrate        | `bool`   | `false`                                                                 | When activated, migrate all registered models at startup  |
 
+#### GORM config sub-category
+
+<p><Badge text="Since v3.10.0"/></p>
+
+| Entry                                    | Type   | Default | Note |
+|------------------------------------------|--------|---------|------|
+| skipDefaultTransaction                   | `bool` | `false` |      |
+| dryRun                                   | `bool` | `false` |      |
+| prepareStmt                              | `bool` | `true`  |      |
+| disableNestedTransaction                 | `bool` | `false` |      |
+| allowGlobalUpdate                        | `bool` | `false` |      |
+| disableAutomaticPing                     | `bool` | `false` |      |
+| disableForeignKeyConstraintWhenMigrating | `bool` | `false` |      |
+
+::: tip
+See [GORM's documenation](https://gorm.io/docs/gorm_config.html) for more details.
+:::
 
 ## Setting up HTTPS
 
