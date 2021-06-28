@@ -1,6 +1,6 @@
 {
   "name": "goyave_docs",
-  "version": "3.9.1",
+  "version": "3.10.0",
   "description": "An All-in-one elegant web framework written in Go",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "ssri": ">=6.0.2",
     "vuepress": "^1.8.2",
-    "vuepress-plugin-container": "^2.1.5",
+    "vuepress-plugin-container": "^2.1.4",
     "vuepress-theme-goyave": "^1.1.1"
   }
 }
