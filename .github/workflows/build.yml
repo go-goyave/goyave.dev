@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        uses: jenkey2011/vuepress-deploy@master
+        uses: jenkey2011/vuepress-deploy@v1.6.1
         env:
           ACCESS_TOKEN: "x-access-token:${{ secrets.GITHUB_TOKEN }}"
           BUILD_SCRIPT: npm install && npm run build
