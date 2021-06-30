@@ -16,7 +16,7 @@ Although Goyave is developed with backwards compatibility, breaking changes can 
 
 ## v3.6.0 to v3.7.0+
 
-The framework was moved to the [go_goyave](https://github.com/go-goyave/) organization and its import path has changed. To upgrade, you just have to replace `github.com/System-Glitch/goyave/v3` with `goyave.dev/goyave/v3`.
+The framework was moved to the [go-goyave](https://github.com/go-goyave/) organization and its import path has changed. To upgrade, you just have to replace `github.com/System-Glitch/goyave/v3` with `goyave.dev/goyave/v3`.
 
 ## v2.x.x to v3.0.0
 
