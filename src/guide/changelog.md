@@ -12,15 +12,15 @@ meta:
 
 [[toc]]
 
-# v3.10.x
+## v3.10.x
 
-## v3.10.1
+### v3.10.1
 
 - Fixed native middleware don't replace http.Request and always used the initial one.
 - Fixed CORS options not working on subrouters. The main router's ones were always used.
 - Fixed route groups at root level don't match routes with `/` prefix.
 
-## v3.10.0
+### v3.10.0
 
 - Added Gorm settings to configuration file. *Thanks to [Zao SOULA](https://github.com/zaosoula) for the contribution!*
 
