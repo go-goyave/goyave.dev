@@ -220,7 +220,7 @@ func main() {
 </showcase></div>
 
 ## Configuration
-<div><showcase :tabs="['Configuration', 'Getting and setting', 'Environment']">
+<div><showcase :tabs="['Configuration', 'Get, set', 'Environment']">
   <template #slot-desc-0>
 
   The framework provides a powerful configuration system. All entries are validated. That means that the application will not start if you provided an invalid value in your config (for example if the specified port is not a number). Entries can be registered with a default value, their type and authorized values from any package.

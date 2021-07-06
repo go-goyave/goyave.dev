@@ -41,7 +41,7 @@ export default {
 .description {
 	display: none;
 	padding: 0.75rem 0.75rem 0 0.75rem;
-	overflow: scroll;
+	overflow: auto;
 }
 
 .btnWrapper {
@@ -125,6 +125,7 @@ export default {
 	overflow: hidden;
 	width: 100%;
 	scrollbar-width: thin;
+	scrollbar-color: #555 transparent;
 	z-index: 2;
 	flex: 1 0 0;
 }
@@ -165,6 +166,7 @@ div[class*="language-"] {
 		margin-bottom: 0;
     width: 100%;
 		scrollbar-width: thin;
+		scrollbar-color: #555 transparent;
 	}
 }
 
