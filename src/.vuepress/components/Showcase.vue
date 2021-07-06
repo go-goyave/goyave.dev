@@ -1,6 +1,6 @@
 <template>
-  <div class="grid" :class="background">
-    <div class="slot-desc">
+  <div class="showcase" :class="background">
+    <div class="showcase-desc">
       <div class="btnWrapper" >
         <button class="btn" @click="activeTab = i" v-for="(name, i) in tabs" :key="i" :class="{active: activeTab === i}">{{ name }}</button>
       </div>
@@ -8,7 +8,7 @@
         <slot :name="`slot-desc-${i}`"/>
       </div>
     </div>
-    <div :class="{visibleCode: activeTab === i}" class="slot-code" v-for="(name, i) in tabs" :key="i">
+    <div :class="{visibleCode: activeTab === i}" class="showcase-code" v-for="(name, i) in tabs" :key="i">
       <slot :name="`slot-code-${i}`" />
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'slot-helper',
+  name: 'showcase',
   props: {
 	tabs: {
       type: Array,
@@ -48,7 +48,7 @@ export default {
 	margin-bottom:15px;
 }
 
-.grid {
+.showcase {
 	display: flex;
 	position: relative;
   align-items: center;
@@ -91,12 +91,12 @@ export default {
 			background: linear-gradient(45deg, white, $mainBlueTheme);
 		}
 
-		.slot-desc {
+		.showcase-desc {
 			margin-right: 15px;
 			margin-left: 0px;
 		}
 
-		.slot-code {
+		.showcase-code {
 			padding-left: 0;
 			padding-right: 50px;
 			margin-right: -50px;
@@ -118,7 +118,7 @@ export default {
 	}
 }
 
-.slot-desc {
+.showcase-desc {
 	width: 50%;
 	height: 250px;
 	display: flex;
@@ -132,7 +132,7 @@ export default {
 	z-index: 2;
 }
 
-.slot-code {
+.showcase-code {
 	display: none;
 	height: 400px;
   width: 50%;
@@ -200,11 +200,11 @@ div[class*="language-"] {
 }
 
 .theme-dark {
-	.slot-desc {
+	.showcase-desc {
 	  background-color: #1a1a1a;
 	}
 
-	.grid {
+	.showcase {
 		&:before {
 			background: linear-gradient(45deg, #1a1a1a , $tipGreenBackground);
 		}
@@ -243,14 +243,14 @@ div[class*="language-"] {
 }
 
 @media only screen and (max-width: $MQNarrow) {
-	.slot-desc {
+	.showcase-desc {
 		width:100%;
 		height: 350px;
 		margin:0;
 		margin-bottom: 0.5rem;
 	}
 
-	.slot-code {
+	.showcase-code {
 		margin:0;
 		width:100%;
 		padding-left:0;
@@ -261,7 +261,7 @@ div[class*="language-"] {
 			margin:0;
 		}
 	}
-	.grid {
+	.showcase {
 		flex-direction: column;
 		padding:20px;
 		.btn {
@@ -281,11 +281,11 @@ div[class*="language-"] {
 				background: linear-gradient(180deg, $mainBlueTheme, white);
 			}
 
-			.slot-desc {
+			.showcase-desc {
 				margin-right: 0px;
 			}
 
-			.slot-code {
+			.showcase-code {
 				margin-left: 0px;
 				margin-right: 0px;
 				padding-right: 0px;
@@ -312,7 +312,7 @@ div[class*="language-"] {
 	}
 
 	.theme-dark{
-		.grid { 
+		.showcase { 
 			&:before {
 				background: linear-gradient(180deg, #1a1a1a,  $tipGreenBackground);
 			}
