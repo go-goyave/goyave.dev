@@ -1,25 +1,67 @@
-.home .feature {
-	display: flex;
-	flex-basis: 100% !important;
-	max-width: 100% !important;
-	flex-direction: row;
-	flex-wrap: wrap;
-	text-align: center;
-	align-items: center;
-	justify-content: center;
-	padding: 0 !important;
-	img {
-		min-width: 275px;
+.home {
+	h2 {
+		font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	}
+	.feature {
+		display: flex;
+		flex-basis: 100% !important;
+		max-width: 100% !important;
+		flex-direction: row;
+		flex-wrap: wrap;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
+		padding: 0 !important;
+		img {
+			max-width: 200px;
+		}
+
+		@media screen and (min-width 720px) {
+			padding: 0 2.5rem;
+			margin: 2rem 1.5rem;
+			flex-wrap: nowrap;
+			justify-content: left;
+			text-align: left;
+			img {
+				margin-right: 2.5rem;
+			}
+		}
+	}
+	.features {
+		@media screen and (min-width $MQNarrow) {
+			flex-wrap: nowrap !important;
+			.feature {
+				flex-direction: column;
+			}
+		}
 	}
 
-	@media screen and (min-width 720px) {
-		padding: 0 2.5rem;
-		margin: 2rem 1.5rem;
-		flex-wrap: nowrap;
-		justify-content: left;
-		text-align: left;
-		img {
-			margin-right: 2.5rem;
+	.bottom-hero {
+		text-align: center;
+		.bottom-hero-title {
+			font-size: 2.6rem;
+			font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 		}
+		.action-button {
+			display: inline-block;
+			background-color: #00aed8;
+			font-size: 1.2rem;
+			padding: 0.8rem 1.6rem;
+			border-radius: 4px;
+			transition: background-color 0.1s ease;
+			box-sizing: border-box;
+			border-bottom: 1px solid #009dc2;
+			
+			p {
+				margin: 0;
+			}
+
+			a {
+				color: #fff;
+				padding: 0;
+			}
+		}
+
+		margin-bottom: 5rem;
 	}
 }
