@@ -40,12 +40,12 @@ export default {
 
 .description {
 	display: none;
-	margin-right: -10px;
-	margin-bottom: -10px;
+	padding: 0.75rem 0.75rem 0 0.75rem;
+	overflow: scroll;
 }
 
 .btnWrapper {
-	margin-bottom:15px;
+	padding: 0.75rem 0.75rem 0 0.75rem;
 }
 
 .showcase {
@@ -54,6 +54,7 @@ export default {
   align-items: center;
 	border-radius: 1.5rem;
 	margin-bottom: 8rem;
+	padding: 0.75rem;
 
 	&:before {
 		content: "";
@@ -89,25 +90,21 @@ export default {
 		
 		&:before {
 			background: linear-gradient(45deg, white, $mainBlueTheme);
+			right: 0;
+			left: auto;
 		}
 
 		.showcase-desc {
-			margin-right: 15px;
-			margin-left: 0px;
+			margin-right: 0;
 		}
 
 		.showcase-code {
-			padding-left: 0;
-			padding-right: 50px;
-			margin-right: -50px;
-		}
+			margin-right: -30px;
+			padding-right: 30px;
 
-		div[class*="language-"] {
-				padding-right:50px;
-
-				&::before {
-					right: calc(1em + 50px);
-				}
+			div[class*="language-"] {
+				padding-left: 0;
+			}
 		}
 
 		.btn {
@@ -119,37 +116,32 @@ export default {
 }
 
 .showcase-desc {
-	width: 50%;
-	height: 250px;
+	height: 300px;
 	display: flex;
 	flex-direction: column;
 	background-color: white;
 	border-radius: 1.5rem;
-	margin-left: 15px;
 	margin-right: -30px;
-	padding: 10px;
 	overflow: hidden;
+	width: 100%;
+	scrollbar-width: thin;
 	z-index: 2;
+	flex: 1 0 0;
 }
 
 .showcase-code {
 	display: none;
 	height: 400px;
-  width: 50%;
 	border-radius: 1.5rem;
 	background-color: #282c34;
 	font-size: 13px;
-	margin-top: 15px;
-	padding-left: 30px;
 	z-index: 1;
-	margin-top: 15px;
+	flex: 1 0 0;
+	overflow: hidden;
 }
 
 .visibleDesc {
-	width: 100%;
 	display: block;
-	overflow: auto;
-	scrollbar-width: thin;
 }	
 
 .visibleCode {
@@ -163,13 +155,15 @@ export default {
 
 div[class*="language-"] {
   	display: flex;
-	background-color: transparent;
-  	width:100%;
+		background-color: transparent;
+  	width: 100%;
+		overflow: hidden;
+		padding-left: 30px;
 	
 	pre {
 		margin-top: 0;
 		margin-bottom: 0;
-    	width: 100%;
+    width: 100%;
 		scrollbar-width: thin;
 	}
 }
@@ -222,14 +216,6 @@ div[class*="language-"] {
 			flex-direction: row-reverse;
 			&:before {
 				background: linear-gradient(45deg, $mainBlueTheme, #1a1a1a );
-				right: 0;
-				left: auto;
-			}
-
-			div[class*="language-"] {
-				pre {
-					padding-right:50px;
-				}
 			}
 
 			.btn {
@@ -243,22 +229,30 @@ div[class*="language-"] {
 }
 
 @media only screen and (max-width: $MQNarrow) {
+	.showcase {
+		margin-left: -1.5rem;
+		margin-right: -1.5rem;
+	}
+
 	.showcase-desc {
 		width:100%;
 		height: 350px;
 		margin:0;
 		margin-bottom: 0.5rem;
+		max-width: 100%;
+		flex-basis: auto;
 	}
 
 	.showcase-code {
 		margin:0;
 		width:100%;
-		padding-left:0;
-		padding-right: 0;
+		max-width: 100%;
+		flex-basis: auto;
 		overflow:hidden;
 		box-sizing: border-box;
 		div[class*="language-"] {
 			margin:0;
+			padding-left:0;
 		}
 	}
 	.showcase {
@@ -266,8 +260,8 @@ div[class*="language-"] {
 		padding:20px;
 		.btn {
 			width:100%;
-			padding: 5px;
-			margin-bottom:8px;
+			padding: 0.35rem;
+			margin-bottom: 0.25rem;
 		}
 
 		&:before {
@@ -300,13 +294,10 @@ div[class*="language-"] {
 			}
 
 			div[class*="language-"] {
+				padding-right: 0;
 				pre {
 					margin-right:0px;
 				}
-			}
-
-			div[class*="language-"]:before {
-				margin-right:0px;
 			}
 		}
 	}
