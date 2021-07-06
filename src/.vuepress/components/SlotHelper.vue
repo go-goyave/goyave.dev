@@ -78,6 +78,7 @@ export default {
 		margin-right: 8px;
 		color:#404040;
 		background-color: #F2F2F2;
+		font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 		&.active {
 			background-color:#39a171;
 			color:#f3f3f3;
