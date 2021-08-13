@@ -2,6 +2,18 @@
 	h2 {
 		font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	}
+	.used-by {
+		text-align: center;
+		padding: 1.2rem 0;
+		margin-bottom: 2rem;
+
+		& > div > .used-by-company {
+			display: inline-block;
+			overflow: hidden;
+			border-radius: 1rem;
+		}
+	}
+
 	.feature {
 		display: flex;
 		flex-basis: 100% !important;
@@ -14,6 +26,7 @@
 		padding: 0 !important;
 		img {
 			max-width: 200px;
+			max-height: 140px;
 		}
 
 		@media screen and (min-width 720px) {
