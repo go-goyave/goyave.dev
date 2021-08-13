@@ -373,6 +373,16 @@ func Index(response *goyave.Response, request *goyave.Request) {
     }
 }
 ```
+::: tip
+The above example assumes its route is validated using the following `RuleSet`:
+```go
+var IndexRequest = validation.RuleSet{
+	"page":     {"integer"},
+	"pageSize": {"integer", "min:1"},
+	"search":   {"string"},
+}
+```
+:::
 
 #### database.NewPaginator
 
