@@ -127,6 +127,7 @@ router.Post("/product", product.Store).Validate(product.StoreRequest)
 [Date between](#date-between-date1-date2)
 [Object](#object)
 [Unique](#unique-table-column)
+[Exists](#exists-table-column)
 :::
 
 #### required
@@ -472,6 +473,27 @@ If a second parameter is provided, it will be used as the column name:
 
 ```go
 "email_address": {"unique:users,email"}
+```
+
+*Note: this rule is only available if the `database` package is imported.*
+
+#### exists:table,[column]
+
+<p><Badge text="Since v3.11.0"/></p>
+
+The field under validation must have an existing value in the table.
+
+**Example:**
+```go
+"email": {"exists:users"}
+```
+
+This rule will ensure that the field under validation has a value that exists in the `email` column of the `users` table.
+
+If a second parameter is provided, it will be used as the column name:
+
+```go
+"email_address": {"exists:users,email"}
 ```
 
 *Note: this rule is only available if the `database` package is imported.*
