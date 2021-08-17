@@ -505,7 +505,7 @@ func (a *MyAuthenticator) Authenticate(request *goyave.Request, user interface{}
 
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			// User not found, return "These credentials don't match our records."
+			// User not found, return "Invalid credentials."
 			return fmt.Errorf(lang.Get(request.Lang, "auth.invalid-credentials"))
 		}
 		// Database error
@@ -514,6 +514,16 @@ func (a *MyAuthenticator) Authenticate(request *goyave.Request, user interface{}
 
 	// Authentication successful
 	return nil
+}
+```
+
+#### auth.Unauthorizer
+
+If you need to override the default behavior when the authentication fails, you can implement the `auth.Unauthorizer` interface on your `Authenticator`.
+
+```go
+func (a *MyAuthenticator) OnUnauthorized(response *goyave.Response, request *goyave.Request, err error) {
+	response.JSON(http.StatusUnauthorized, map[string]string{"authError": err.Error()})
 }
 ```
 

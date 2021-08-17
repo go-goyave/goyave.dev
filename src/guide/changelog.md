@@ -12,6 +12,13 @@ meta:
 
 [[toc]]
 
+## v3.11.0
+
+- Exported `validation.Rules.Check()` and `validation.Field.Check()`.
+- Added validation rule `exists`.
+- Changed default invalid credentials "en-US" language entry to "Invalid credentials.".
+- Added [`auth.Unauthorizer`](./advanced/authentication.html#auth-unauthorizer).
+
 ## v3.10.x
 
 ### v3.10.1
