@@ -400,11 +400,11 @@ Given DB transaction can contain clauses already, such as WHERE, if you want to 
 **`Paginator` definition:**
 ```go
 type Paginator struct {
-	  MaxPage     int64
-	  Total       int64
-	  PageSize    int
-	  CurrentPage int
-	  Records     interface{}
+	Records     interface{} `json:"records"`
+	MaxPage     int64       `json:"maxPage"`
+	Total       int64       `json:"total"`
+	PageSize    int         `json:"pageSize"`
+	CurrentPage int         `json:"currentPage"`
 }
 ```
 
