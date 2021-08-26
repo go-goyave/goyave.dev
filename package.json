@@ -14,6 +14,6 @@
     "ssri": ">=6.0.2",
     "vuepress": "^1.8.2",
     "vuepress-plugin-container": "^2.1.4",
-    "vuepress-theme-goyave": "^1.1.1"
+    "vuepress-theme-goyave": "^1.1.2"
   }
 }
