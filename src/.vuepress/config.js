@@ -42,6 +42,7 @@ module.exports = {
                 nav: require('./nav/en'),
                 sidebar: {
                     '/guide/': getGuideSidebar(),
+                    '/v3/guide/': getGuideSidebar(),
                 }
             }
         },
@@ -51,7 +52,6 @@ module.exports = {
     extraWatchFiles: [
         '.vuepress/nav/en.js',
     ]
-    
 }
 
 function getGuideSidebar () {
