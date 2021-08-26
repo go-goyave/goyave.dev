@@ -47,8 +47,8 @@ To enable logging of accesses using the [Common Log Format](https://en.wikipedia
 
 ``` go
 import (
-    "goyave.dev/goyave/v3/log"
-    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v4/log"
+    "goyave.dev/goyave/v4"
 )
 
 func registerRoutes(router *goyave.Router) {

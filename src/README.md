@@ -58,7 +58,7 @@ Goyave is a progressive and accessible web application framework focused on REST
 ## Hello world from scratch
 
 ```go
-import "goyave.dev/goyave/v3"
+import "goyave.dev/goyave/v4"
 
 func registerRoutes(router *goyave.Router) {
     router.Get("/hello", func(response *goyave.Response, request *goyave.Request) {
@@ -221,7 +221,7 @@ func main() {
   ```go
   package status
 
-  import "goyave.dev/goyave/v3"
+  import "goyave.dev/goyave/v4"
 
   func NotFound(response *goyave.Response, request *goyave.Request) {
       if err := response.RenderHTML(response.GetStatus(), "errors/404.html", nil); err != nil {
@@ -573,7 +573,7 @@ func main() {
   ```go
   import (
       "github.com/username/projectname/http/route"
-      "goyave.dev/goyave/v3"
+      "goyave.dev/goyave/v4"
   )
 
   type CustomTestSuite struct {

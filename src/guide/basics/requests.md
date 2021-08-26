@@ -19,7 +19,7 @@ Handlers receive a `goyave.Response` and a `goyave.Request` as parameters. This 
 All functions below require the `goyave` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v3"
+import "goyave.dev/goyave/v4"
 ```
 
 ## Methods

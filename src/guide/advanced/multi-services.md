@@ -19,7 +19,7 @@ Sometimes you need to run several services in the same executable. For example i
 All functions below are features that require the `goyave` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v3"
+import "goyave.dev/goyave/v4"
 ```
 
 ## Startup hooks

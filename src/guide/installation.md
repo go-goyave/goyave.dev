@@ -59,7 +59,7 @@ In a terminal, run:
 ```
 $ mkdir myproject && cd myproject
 $ go mod init github.com/username/projectname
-$ go get -u goyave.dev/goyave/v3
+$ go get -u goyave.dev/goyave/v4
 ```
 
 Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `main.go`:
@@ -68,7 +68,7 @@ package main
 
 import (
     "github.com/username/projectname/http/route"
-    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v4"
 )
 
 func main() {
@@ -92,7 +92,7 @@ Create `http/route/route.go`:
 ``` go
 package routes
 
-import "goyave.dev/goyave/v3"
+import "goyave.dev/goyave/v4"
 
 // Register all the routes
 func Register(router *goyave.Router) {

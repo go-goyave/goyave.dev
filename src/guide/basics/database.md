@@ -22,7 +22,7 @@ All functions below require the `database` and the `gorm` packages to be importe
 
 ``` go
 import (
-  "goyave.dev/goyave/v3/database"
+  "goyave.dev/goyave/v4/database"
   "gorm.io/gorm"
 )
 ```
@@ -94,10 +94,10 @@ Change the `database.connection` config entry to the desired driver.
 
 In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 ``` go
-import _ "goyave.dev/goyave/v3/database/dialect/mysql"
-// import _ "goyave.dev/goyave/v3/database/dialect/postgres"
-// import _ "goyave.dev/goyave/v3/database/dialect/sqlite"
-// import _ "goyave.dev/goyave/v3/database/dialect/mssql"
+import _ "goyave.dev/goyave/v4/database/dialect/mysql"
+// import _ "goyave.dev/goyave/v4/database/dialect/postgres"
+// import _ "goyave.dev/goyave/v4/database/dialect/sqlite"
+// import _ "goyave.dev/goyave/v4/database/dialect/mssql"
 ```
 
 ::: tip
@@ -110,7 +110,7 @@ You can **register more dialects** for GORM. Start by implementing or importing 
 
 ```go
 import (
-  "goyave.dev/goyave/v3/database"
+  "goyave.dev/goyave/v4/database"
   "example.com/user/mydriver"
 )
 
@@ -432,7 +432,7 @@ import (
     "crypto/x509"
     "io/ioutil"
 
-    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v4"
     "github.com/go-sql-driver/mysql"
 )
 

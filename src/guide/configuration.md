@@ -99,7 +99,7 @@ Since `v2.0.0`, you can use custom environments.
 
 Before being able to use the config, import the config package:
 ``` go
-import "goyave.dev/goyave/v3/config"
+import "goyave.dev/goyave/v4/config"
 ```
 
 The configuration is loaded automatically when the server starts, but you can reload it manually if needed.
@@ -135,8 +135,8 @@ import (
     "flag"
     "os"
 
-    "goyave.dev/goyave/v3"
-    "goyave.dev/goyave/v3/config"
+    "goyave.dev/goyave/v4"
+    "goyave.dev/goyave/v4/config"
 
     //...
 )
@@ -183,8 +183,8 @@ Load a configuration file from raw JSON. Can be used in combination with Go's 1.
 import (
     "os"
 
-    "goyave.dev/goyave/v3"
-    "goyave.dev/goyave/v3/config"
+    "goyave.dev/goyave/v4"
+    "goyave.dev/goyave/v4/config"
 
     //...
 

@@ -17,7 +17,7 @@ meta:
 Goyave provides a convenient and expandable way of handling authentication in your application. Authentication can be enabled when registering your routes:
 
 ``` go
-import "goyave.dev/goyave/v3/auth"
+import "goyave.dev/goyave/v4/auth"
 
 //...
 

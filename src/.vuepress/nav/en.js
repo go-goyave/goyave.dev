@@ -9,6 +9,6 @@ module.exports = [
   },
   {
     text: 'pkg.go.dev',
-    link: 'https://pkg.go.dev/goyave.dev/goyave/v3'
+    link: 'https://pkg.go.dev/goyave.dev/goyave/v4'
   }
 ];

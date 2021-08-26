@@ -31,7 +31,7 @@ You can customize the validation error messages by editing `resources/lang/<lang
 The following features require the `validation` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v3/validation"
+import "goyave.dev/goyave/v4/validation"
 ```
 
 ## Rules sets
