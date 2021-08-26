@@ -148,14 +148,14 @@ fmt.Println(request.RemoteAddress()) // 192.168.0.10:1234
 
 Cookies returns the HTTP cookies sent with the request.
 
-| Parameters    | Return           |
-|---------------|------------------|
-| `name string` | `[]*http.Cookie` |
+| Parameters | Return           |
+|------------|------------------|
+|            | `[]*http.Cookie` |
 
 **Example:**
 ``` go
-cookie := request.Cookies("cookie-name")
-fmt.Println(cookie[0].value)
+cookies := request.Cookies()
+fmt.Println(cookies[0].value)
 ```
 
 ::: warning

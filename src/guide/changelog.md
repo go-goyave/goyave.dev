@@ -12,7 +12,9 @@ meta:
 
 [[toc]]
 
-## v4.0.0-rc1 <Badge text="Prerelease" type="warning"/>
+## v4.0.0-rc1
+
+<p><Badge text="Prerelease" type="warning"/></p>
 
 - Only the last two major versions of Go will be supported, starting with this release.
 

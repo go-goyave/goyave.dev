@@ -365,8 +365,8 @@ You can assign a validation rules set to each route. Learn more in the dedicated
 
 ``` go
 router.Route("POST", "/product", product.Store).Validate(validation.RuleSet{
-	"Name":  {"required", "string", "min:4"},
-	"Price": {"required", "numeric"},
+	"Name":  validation.List{"required", "string", "min:4"},
+	"Price": validation.List{"required", "numeric"},
 })
 ```
 
@@ -392,7 +392,7 @@ Middleware apply one or more middleware to the route group.
 
 **Example:**
 ``` go
-router.Middleware(middleware.DisallowNonValidatedFields)
+router.Middleware(middleware.Trim)
 ```
 
 ---

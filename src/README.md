@@ -276,7 +276,7 @@ func main() {
       "timeout": 10,
       "maxUploadSize": 10
     },
-      "database": {
+    "database": {
       "connection": "mysql",
       "host": "127.0.0.1",
       "port": 3306,
@@ -337,7 +337,7 @@ func main() {
   </template>
   <template #slot-desc-2>
 
-  Validating arrays is easy. All the validation rules, can be applied to array values using the prefix `>`. When array values are validated, all of them must pass the validation.
+  Validating arrays is easy. All the validation rules can be applied to array values. When array values are validated, all of them must pass the validation.
 
   [Learn more](./guide/basics/validation.html#validating-arrays)
 
@@ -354,9 +354,9 @@ func main() {
   ```go
   var (
       StoreRequest validation.RuleSet = validation.RuleSet{
-          "name":  {"required", "string", "between:3,50"},
-          "price": {"required", "numeric", "min:0.01"},
-          "image": {"nullable", "file", "image", "max:2048", "count:1"},
+          "name":  validation.List{"required", "string", "between:3,50"},
+          "price": validation.List{"required", "numeric", "min:0.01"},
+          "image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
       }
   )
 
@@ -371,9 +371,9 @@ func main() {
   ```go
   var (
       StoreRequest validation.RuleSet = validation.RuleSet{
-          "name":  {"required", "string", "between:3,50"},
-          "price": {"required", "numeric", "min:0.01"},
-          "image": {"nullable", "file", "image", "max:2048", "count:1"},
+          "name":  validation.List{"required", "string", "between:3,50"},
+          "price": validation.List{"required", "numeric", "min:0.01"},
+          "image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
       }
   )
 
@@ -387,11 +387,15 @@ func main() {
   
   ```go
   var arrayValidation = validation.RuleSet{
-      "array": {"required", "array:string", "between:1,5", ">email", ">max:128"},
+      "array":   validation.List{"required", "array:string", "between:1,5"},
+      "array[]": validation.List{"email", "max:128"}
   }
 
   var nDimensionalArrayValidation = RuleSet{
-    "array": {"required", "array", ">array", ">>array:numeric", ">max:3", ">>>max:4"},
+      "array":       validation.List{"required", "array"},
+      "array[]":     validation.List{"array", "max:3"},
+      "array[][]":   validation.List{"array:numeric"},
+      "array[][][]": validation.List{"numeric", "max:4"},
   }
 
   ```
@@ -402,9 +406,9 @@ func main() {
   ```go
   var (
       StoreRequest = validation.RuleSet{
-          "user":       {"required", "object"},
-          "user.name":  {"required", "string", "between:3,50"},
-          "user.email": {"required", "email"},
+          "user":       validation.List{"required", "object"},
+          "user.name":  validation.List{"required", "string", "between:3,50"},
+          "user.email": validation.List{"required", "email"},
       }
   )
 

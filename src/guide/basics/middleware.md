@@ -78,18 +78,6 @@ Built-in middleware is located in the `middleware` package.
 import "goyave.dev/goyave/v4/middleware"
 ```
 
-### DisallowNonValidatedFields
-
-DisallowNonValidatedFields validates that all fields in the request are validated by the rule set. The middleware stops the request and sends "422 Unprocessable Entity" and an error message if the user has sent non-validated field(s). Fields ending with `_confirmation` are ignored.
-
-If the body parsing failed, this middleware immediately passes to the next handler. **This middleware shall only be used with requests having a rule set defined.**
-
-The returned error message can be customized using the entry `disallow-non-validated-fields` in the `locale.json` language file.
-
-```go
-router.Middleware(middleware.DisallowNonValidatedFields)
-```
-
 ### Trim
 
 <p><Badge text="Since v2.0.0"/></p>

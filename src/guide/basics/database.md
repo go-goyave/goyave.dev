@@ -377,9 +377,9 @@ func Index(response *goyave.Response, request *goyave.Request) {
 The above example assumes its route is validated using the following `RuleSet`:
 ```go
 var IndexRequest = validation.RuleSet{
-	"page":     {"integer"},
-	"pageSize": {"integer", "min:1"},
-	"search":   {"string"},
+	"page":     validation.List{"integer"},
+	"pageSize": validation.List{"integer", "min:1"},
+	"search":   validation.List{"string"},
 }
 ```
 :::
