@@ -12,6 +12,41 @@ meta:
 
 [[toc]]
 
+## v4.0.0-rc1 <Badge text="Prerelease" type="warning"/>
+
+- Only the last two major versions of Go will be supported, starting with this release.
+
+**Motivation**: *Supporting only the last two minor versions of the language follows Google's policy and allows for development of new modern features. It lets the framework be updated without it being considered a breaking change, and encourages to not use outdated versions of the language while newer ones contain security fixes.*
+
+- Validation changes
+    - Added validation rules `before_now` and `after_now`.
+    - Added validation `RuleSet` and `Rules` composition for re-usability of redundant validated objects.
+    - Changed signature of `validation.RuleFunc` to `func(*validation.Context) bool`. `validation.Context` provides more information and a cleaner and more flexible API.
+        - Note: Converting rules now modify `context.Value` instead of directly modifying the input data.
+    - Improved n-dimensional array validation with a new syntax.
+        - The chevron-based syntax disappears in favor of a new more idiomatic syntax based on the name of the field, for example `array[]` will validate all the elements of the `array` array.
+        - This new syntax allows for the validation of objects inside arrays.
+    - Improved tree-like validation error messages structure, identifying precisely each element based on the expected structure. This structure also identifies each array element precisely with its index.
+    - Removed the `confirmed` validation rule. Use `same:path.to.field` instead.
+    - If a field is missing and not required, child fields are now skipped. This prevents `required` rules to not pass if the parent is not required and missing.
+
+**Motivation**: *Although the validation package has seen some major improvements in v3, it was still far from perfect and was really lacking some important capabilities, such as the validation of objects in arrays. The array validation syntax was confusing, hard to read, and incompatible with the new syntax that was needed for object validation in arrays. We now have a more readable syntax, offering better capabilities. Because of how differently the validator works internally, we also had the opportunity to rework the error messages output, which now offers an impressive degree of precision. Precision in error messages gives a real edge over competing validation libraries.*
+
+- Added `helper/walk` package to navigate complex data structure of unknown type (`map[string]interface{}`). This is used by the validator.
+- Migrated from `dgrijalva/jwt-go` library to the maintained [golang-jwt/jwt](https://github.com/golang-jwt/jwt).
+- Added ability to set default language strings from code using `lang.SetDefaultLine()`, `lang.SetDefaultValidationRule()` and `lang.SetDefaultFieldName()`.
+- JWT: now uses standard `sub` instead of `userid` by default.
+- Reduced the amount of reflection in `auth.FindColums`.
+- Added support for promoted pointer of struct in `auth.FindColumns` and `helper.Only`.
+- `database.Paginator` improvements
+    - Now exports its `DB` field so it can be re-assigned with new clauses.
+    - Now exports its `UpdatePageInfo()` method so it can be called manually before the real query.
+    - Now uses a Gorm session for page info query to prevent weird queries in some specific scenarios.
+    - Fields names are now in camel case when json marshalling a `Paginator`. 
+- Removed the `DisallowNonValidatedFields` middleware as it would be too expensive and complex to properly implement it with the new validation system.
+- Removed the unused `name` parameter in `request.Cookie()`. *Thanks to [@agbaraka](https://github.com/agbaraka) for the contribution!*
+- Fixed duplicate error message when a request accessor panicked.
+
 ## v3.11.0
 
 - Exported `validation.Rules.Check()` and `validation.Field.Check()`.
