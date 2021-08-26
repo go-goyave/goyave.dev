@@ -50,7 +50,7 @@ Goyave is a progressive and accessible web application framework focused on REST
         </a>
         </span>
     </div>
-    <p>Do you want to be featured here? <a href="https://github.com/go-goyave/goyave/issues/new" target="_blank" rel="nofollow">Open an issue</a>.</p>
+    <p>Do you want to be featured here? <a href="https://github.com/go-goyave/goyave/issues/new?template=used_by.md" target="_blank" rel="nofollow">Open an issue</a>.</p>
 </div>
 
 ---
