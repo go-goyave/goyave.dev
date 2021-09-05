@@ -39,6 +39,7 @@ Come and learn about the framework, stay updated on the progress, be notified wh
 - Ben Hyrman
 - Massimiliano Bertinetti
 - ethicnology
+- Yariya
 
 ## Contributors
 
