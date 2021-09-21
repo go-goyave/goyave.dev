@@ -93,6 +93,24 @@ rules := &validation.Rules{
 }
 ```
 
+Because `required` now allows empty string, you will have to add another rule to your validated strings (if not already the case):
+
+```go
+var (
+	StoreRequest = validation.RuleSet{
+		"text":         validation.List{"required", "string"},
+	}
+)
+```
+Becomes
+```go
+var (
+	StoreRequest = validation.RuleSet{
+		"text":         validation.List{"required", "string", "min:1"}, // min:1 added
+	}
+)
+```
+
 #### Custom rules
 
 The signature of `validation.RuleFunc` has changed to `func(*validation.Context) bool`.
