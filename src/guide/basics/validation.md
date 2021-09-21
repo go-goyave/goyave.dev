@@ -162,7 +162,7 @@ router.Post("/product", product.Store).Validate(product.StoreRequest)
 
 The field under validation must be present.
 
-If the field is a string, the string must not be empty. If a field is `null` and has the `nullable` rule, the `required` rules passes. As non-nullable fields are removed if they have a `null` value, the `required` rule doesn't pass if a field is `null` and doesn't have the `nullable` rule.
+If a field is `null` and has the `nullable` rule, the `required` rules passes. As non-nullable fields are removed if they have a `null` value, the `required` rule doesn't pass if a field is `null` and doesn't have the `nullable` rule.
 
 #### nullable
 
