@@ -178,30 +178,6 @@ fmt.Println(helper.ParseMultiValuesHeader("text/html;q=0.8,text/*;q=0.8,*/*;q=0.
 // [{text/html 0.8} {text/* 0.8} {*/* 0.8}]
 ```
 
-#### helper.RemoveHiddenFields
-
-Remove hidden fields if the given model is a struct pointer. All fields marked with the tag `model:"hide"` will be set to their zero value.
-
-| Parameters          | Return |
-|---------------------|--------|
-| `model interface{}` | `void` |
-
-**Example:**
-``` go
-type Model struct {
-    Username string
-    Password string `model:"hide" json:",omitempty"`
-}
-
-model := &Model{
-    Username: "Jeff",
-    Password: "bcrypted password",
-}
-
-helper.RemoveHiddenFields(model)
-fmt.Println(model) // &{ Jeff}
-```
-
 #### helper.Only
 
 Extracts the requested field from the given `map[string]` or structure and returns a `map[string]interface{}` containing only those values.

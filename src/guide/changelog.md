@@ -12,6 +12,13 @@ meta:
 
 [[toc]]
 
+## v4.0.0-rc2
+
+<p><Badge text="Prerelease" type="warning"/></p>
+
+- The `required` rules now allows empty strings.
+- Removed `model:"hide"` because it was redundant with `json:"-"`.
+
 ## v4.0.0-rc1
 
 <p><Badge text="Prerelease" type="warning"/></p>
@@ -31,7 +38,6 @@ meta:
     - Improved tree-like validation error messages structure, identifying precisely each element based on the expected structure. This structure also identifies each array element precisely with its index.
     - Removed the `confirmed` validation rule. Use `same:path.to.field` instead.
     - If a field is missing and not required, child fields are now skipped. This prevents `required` rules to not pass if the parent is not required and missing.
-    - The `required` rules now allows empty strings.
 
 **Motivation**: *Although the validation package has seen some major improvements in v3, it was still far from perfect and was really lacking some important capabilities, such as the validation of objects in arrays. The array validation syntax was confusing, hard to read, and incompatible with the new syntax that was needed for object validation in arrays. We now have a more readable syntax, offering better capabilities. Because of how differently the validator works internally, we also had the opportunity to rework the error messages output, which now offers an impressive degree of precision. Precision in error messages gives a real edge over competing validation libraries.*
 
