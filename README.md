@@ -4,6 +4,8 @@ This website is built with [Vuepress](https://vuepress.vuejs.org/) and contains 
 
 ## Development
 
+This project doesn't work with node v17+. Use node v16 maximum.
+
 ```
 npm install
 npm run dev

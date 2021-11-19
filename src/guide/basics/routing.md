@@ -447,6 +447,50 @@ router.Get("/product/{id:[0-9]+}", handler) // This route will never match
 router.Get("/product/category", handler)    // This one neither
 ```
 
+## URL generation
+
+Using a route's [`BuildURI()`](#route-builduri) and [`BuildURL()`](#route-buildurl), you can generate a path or full URL to this route:
+
+```go
+route.BuildURI("42") // "/product/42"
+route.BuildURL("42") // "http://localhost:8080/product/42"
+```
+
+### BaseURL
+
+You can generate the base URL to your application using `goyave.BaseURL()`:
+
+```go
+goyave.BaseURL() // "http://localhost:8080"
+```
+
+This function uses configuration. If `server.domain` is set, it will be used instead of `server.host`. If the port matches the standard port for the protocol (`80` for HTTP, `443` for HTTPS), it won't be added to the resulting string.
+
+### ProxyBaseURL
+
+<p><Badge text="Since v4.0.0"/></p>
+
+If you are running your application behind a reverse proxy (such as nginx or apache), you may need to generate a URL that does not directly points to your application, but one that points to your proxy instead. Use `goyave.ProxyBaseURL()` for this.
+
+Example with the following config:
+```json
+{
+    "server": {
+        ...
+        "proxy": {
+            "protocol": "https",
+            "host": "myproxydomain.example.com",
+            "port": 443,
+            "base": "/basepath"
+        }
+    }
+}
+```
+``` go
+goyave.ProxyBaseURL() // "https://myproxydomain.example.com/basepath"
+fmt.Println(goyave.ProxyBaseURL() + route.BuildURI("42")) // "https://myproxydomain.example.com/basepath/product/42"
+```
+
 ## Serve static resources
 
 The Goyave router provides a way to serve a directory of static resources, including its sub-directories.

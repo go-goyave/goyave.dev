@@ -18,6 +18,7 @@ meta:
 
 - The `required` rules now allows empty strings.
 - Removed `model:"hide"` because it was redundant with `json:"-"`.
+- Added `goyave.ProxyBaseURL()`.
 
 ## v4.0.0-rc1
 

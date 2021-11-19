@@ -45,8 +45,8 @@ The following JSON file is an example of default configuration:
         "timeout": 10,
         "maxUploadSize": 10,
         "tls": {
-        "cert": "/path/to/cert",
-        "key": "/path/to/key"
+            "cert": "/path/to/cert",
+            "key": "/path/to/key"
         }
     },
     "database": {
@@ -498,6 +498,18 @@ func init() {
 |-------|----------|---------|-----------------------|
 | cert  | `string` | none    | Path to your TLS cert |
 | key   | `string` | none    | Path to your TLS key  |
+
+#### Proxy sub-category
+
+This section is used for URL generation ([`goyave.ProxyBaseURL()`](./basics/routing.html#proxybaseurl)) if you are running your application behind a reverse proxy (such as nginx or apache). **These entries don't have any impact on networking and are not required.**
+
+| Entry    | Type     | Accepted values | Default | Note                                |
+|----------|----------|-----------------|---------|-------------------------------------|
+| protocol | `string` | "http", "https" | "http"  |                                     |
+| host     | `string` | any             |         | Public host or domain of your proxy |
+| port     | `int`    | any             | `80`    |                                     |
+| base     | `string` | any             | ""      |                                     |
+
 
 ### Database category
 
