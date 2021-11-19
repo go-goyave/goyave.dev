@@ -15,6 +15,6 @@
     "vuepress": "^1.8.2",
     "vuepress-plugin-container": "^2.1.4",
     "vuepress-plugin-sitemap": "^2.3.1",
-    "vuepress-theme-goyave": "^1.1.2"
+    "vuepress-theme-goyave": "^1.1.3"
   }
 }
