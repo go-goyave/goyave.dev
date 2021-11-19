@@ -25,6 +25,9 @@ module.exports = {
         ['meta', { property: 'og:image', content: `https://goyave.dev/goyave_banner.png` }],
         ['meta', { property: 'og:site_name', content: "Goyave" }],
     ],
+    plugins: [
+        ['sitemap', { hostname: 'https://goyave.dev' }] 
+    ],
     themeConfig: {
         repo: 'go-goyave/goyave',
         editLinks: true,
