@@ -16,9 +16,25 @@ meta:
 
 <p><Badge text="Prerelease" type="warning"/></p>
 
+- Refactored  the `helper` package and split it into several focused packages.
+    - `helper/filesystem` moved to `util/fsutil`
+    - `helper/walk` moved to `util/walk`
+    - New package `util/httputil`
+        - Contains `ParseMultiValuesHeader()` and `HeaderValue`
+    - New package `util/reflectutil`
+        - Contains `Only()`
+    - New package `util/sliceutil`
+        - Contains `IndexOf()`, `IndexOfStr()`, `Contains()`, `ContainsStr()` and `Equal()` (previously named `SliceEqual()`)
+    - New pacakge `util/sqlutil`
+        - Contains `EscapeLike()`
+    - New package `util/typeutil`
+        - Contains `Map`, `ToFloat64()`, `ToString()`
+
+**Motivation**: *The `helper` packaged started to become more and more bloated with functions for things unrelated to each other. To make this part of the code more idiomatic and expressive, the decision to split the package in several parts and re-think the naming was taken.*
+
 - The `required` rules now allows empty strings.
 - Removed `model:"hide"` because it was redundant with `json:"-"`.
-- Added `goyave.ProxyBaseURL()`.
+- Added `goyave.ProxyBaseURL()` and `server.proxy` configuration entries.
 
 ## v4.0.0-rc1
 

@@ -156,6 +156,22 @@ type FieldErrors struct {
 }
 ```
 
+### Helper package refactoring
+
+The `helper` package has been refactored and split into several focused packages. To upgrade, replace your `helper` imports with the corresponding package:
+- `helper/filesystem` moved to `util/fsutil`
+- `helper/walk` moved to `util/walk`
+- New package `util/httputil`
+  - Contains `ParseMultiValuesHeader()` and `HeaderValue`
+- New package `util/reflectutil`
+  - Contains `Only()`
+- New package `util/sliceutil`
+  - Contains `IndexOf()`, `IndexOfStr()`, `Contains()`, `ContainsStr()` and `Equal()` (previously named `SliceEqual()`)
+- New pacakge `util/sqlutil`
+  - Contains `EscapeLike()`
+- New package `util/typeutil`
+  - Contains `Map`, `ToFloat64()`, `ToString()`
+
 ### Minor changes
 
 - Because of the migration from `dgrijalva/jwt-go` library to the maintained [golang-jwt/jwt](https://github.com/golang-jwt/jwt), you will need to update the import paths to `github.com/golang-jwt/jwt`.
