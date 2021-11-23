@@ -53,10 +53,10 @@ import (
 
 func registerRoutes(router *goyave.Router) {
     // Common log format
-    router.Middleware(log.CommonLogMiddleware())
+    router.GlobalMiddleware(log.CommonLogMiddleware())
 
     // Combined log format
-    router.Middleware(log.CombinedLogMiddleware())
+    router.GlobalMiddleware(log.CombinedLogMiddleware())
 }
 ```
 
@@ -113,5 +113,5 @@ Middleware captures response data and outputs it to the default logger using the
 
 **Example:**
 ``` go
-router.Middleware(log.Middleware(CustomFormatter))
+router.GlobalMiddleware(log.Middleware(CustomFormatter))
 ```

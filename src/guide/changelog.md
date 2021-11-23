@@ -35,6 +35,7 @@ meta:
 - The `required` rules now allows empty strings.
 - Removed `model:"hide"` because it was redundant with `json:"-"`.
 - Added `goyave.ProxyBaseURL()` and `server.proxy` configuration entries.
+- Added global middleware. Global middleware are executed on all requests, including requests that don't match any route or that result in "Method Not Allowed". This allows for better logging, rate limiting, and more, while keeping the already existing tools.
 
 ## v4.0.0-rc1
 

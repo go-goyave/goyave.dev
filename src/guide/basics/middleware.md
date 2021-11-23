@@ -71,6 +71,12 @@ router.Middleware(middleware.MyCustomMiddleware)
 router.Get("/products", product.Index).Middleware(middleware.MyCustomMiddleware)
 ```
 
+You can also apply your middleware globally so it is executed for every request, even if it doesn't match any route.
+
+``` go
+router.GlobalMiddleware(middleware.MyCustomMiddleware)
+```
+
 ## Built-in middleware
 
 Built-in middleware is located in the `middleware` package.

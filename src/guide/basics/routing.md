@@ -404,6 +404,27 @@ Middleware can also be applied to specific routes. You can add as many as you wa
 router.Route("POST", "/product", product.Store).Validate(product.StoreRequest).Middleware(middleware.Trim)
 ```
 
+### Global middleware
+
+<p><Badge text="Since v4.0.0"/></p>
+
+Global middleware are executed for every requests including when the request doesn't match any route ("Not Found") or if it results in "Method Not Allowed". These middleware are global to the main Router: they will also be executed for subrouters. **Global Middleware are always executed first.**
+
+The typical use-case for global middleware is [logging](../advanced/logging.html). If you don't use the logging middleware globally, requests that don't match a route won't be logged because regular middleware are only executed when a route is matched.
+
+#### Router.GlobalMiddleware
+
+GlobalMiddleware apply one or more global middleware.
+
+| Parameters                        | Return |
+|-----------------------------------|--------|
+| `middleware ...goyave.Middleware` | `void` |
+
+**Example:**
+``` go
+router.GlobalMiddleware(middleware.Trim)
+```
+
 ## Groups and sub-routers
 
 Grouping routes makes it easier to define multiple routes having the same prefix and/or middleware.
