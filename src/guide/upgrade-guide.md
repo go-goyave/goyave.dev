@@ -180,6 +180,7 @@ The `helper` package has been refactored and split into several focused packages
 - The `DisallowNonValidatedFields` middleware doesn't exist anymore. If you still want to use it, implement a custom middleware.
 - The unused `name` parameter in `request.Cookie()` has been removed. Simply remove parameters from your calls to this method. As this parameter was not in use, this will not change the behavior of your application.
 - Removed the `confirmed` validation rule. Use `same:path.to.field` instead.
+- If you were using the logging or rate limiting middleware, you are advised to register them using `router.GlobalMiddleware()` instead of `router.Middleware()`.
 
 ## v3.6.0 to v3.7.0+
 

@@ -101,8 +101,15 @@ function getV4GuideSidebar () {
                 'advanced/rate-limiting',
                 'advanced/websocket',
             ]
+        },
+        {
+            title: 'Libraries',
+            collapsable: true,
+            children: [
+                'libraries/openapi',
+                'libraries/filter',
+            ]
         }
-        // TODO plugins / libaries (such as openapi, filters, etc)
     ]
 }
 
