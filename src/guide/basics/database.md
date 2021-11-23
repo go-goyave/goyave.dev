@@ -351,7 +351,7 @@ func Index(response *goyave.Response, request *goyave.Request) {
     tx := database.Conn()
 
     if request.Has("search") {
-        search := helper.EscapeLike(request.String("search"))
+        search := sqlutil.EscapeLike(request.String("search"))
         tx = tx.Where("title LIKE ?", "%"+search+"%")
     }
 

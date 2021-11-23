@@ -44,8 +44,8 @@ module.exports = {
                 lastUpdated: 'Last Updated',
                 nav: require('./nav/en'),
                 sidebar: {
-                    '/guide/': getGuideSidebar(),
-                    '/v3/guide/': getGuideSidebar(),
+                    '/guide/': getV4GuideSidebar(),
+                    '/v3/guide/': getV3GuideSidebar(),
                 }
             }
         },
@@ -57,7 +57,56 @@ module.exports = {
     ]
 }
 
-function getGuideSidebar () {
+function getV4GuideSidebar () {
+    return [
+        {
+            title: 'Guide',
+            collapsable: true,
+            children: [
+                '',
+                'changelog',
+                'installation',
+                'upgrade-guide',
+                'configuration',
+                'architecture-concepts',
+                'deployment',
+                'contribution-guide',
+            ]
+        },
+        {
+            title: 'The Basics',
+            collapsable: true,
+            children: [
+                'basics/routing',
+                'basics/middleware',
+                'basics/requests',
+                'basics/controllers',
+                'basics/responses',
+                'basics/database',
+                'basics/validation',
+            ]
+        },
+        {
+            title: 'Advanced',
+            collapsable: true,
+            children: [
+                'advanced/utilities',
+                'advanced/authentication',
+                'advanced/localization',
+                'advanced/testing',
+                'advanced/multi-services',
+                'advanced/cors',
+                'advanced/status-handlers',
+                'advanced/logging',
+                'advanced/rate-limiting',
+                'advanced/websocket',
+            ]
+        }
+        // TODO plugins / libaries (such as openapi, filters, etc)
+    ]
+}
+
+function getV3GuideSidebar () {
     return [
         {
             title: 'Guide',

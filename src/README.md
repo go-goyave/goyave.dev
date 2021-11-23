@@ -266,7 +266,7 @@ func main() {
       "debug": true,
       "defaultLanguage": "en-US"
     },
-      "server": {
+    "server": {
       "host": "127.0.0.1",
       "maintenance": false,
       "protocol": "http",
@@ -274,7 +274,11 @@ func main() {
       "port": 8080,
       "httpsPort": 8081,
       "timeout": 10,
-      "maxUploadSize": 10
+      "maxUploadSize": 10,
+      "tls": {
+        "cert": "/path/to/cert",
+        "key": "/path/to/key"
+      }
     },
     "database": {
       "connection": "mysql",
@@ -287,7 +291,16 @@ func main() {
       "maxOpenConnections": 20,
       "maxIdleConnections": 20,
       "maxLifetime": 300,
-      "autoMigrate": false
+      "autoMigrate": false,
+      "config": {
+        "skipDefaultTransaction": false,
+        "dryRun": false,
+        "prepareStmt": true,
+        "disableNestedTransaction": false,
+        "allowGlobalUpdate": false,
+        "disableAutomaticPing": false,
+        "disableForeignKeyConstraintWhenMigrating": false
+      }
     }
   }
   ```
@@ -478,11 +491,11 @@ func main() {
       Age          sql.NullInt64
       Birthday     *time.Time
       Email        string  `gorm:"type:varchar(100);uniqueIndex"`
-      Role         string  `gorm:"size:255"` // set field size to 255
+      Role         string  `gorm:"size:255"`        // set field size to 255
       MemberNumber *string `gorm:"unique;not null"` // set member number to unique and not null
-      Num          int     `gorm:"autoIncrement"` // set num to auto incrementable
-      Address      string  `gorm:"index:addr"` // create index with name `addr` for address
-      IgnoreMe     int     `gorm:"-"` // ignore this field
+      Num          int     `gorm:"autoIncrement"`   // set num to auto incrementable
+      Address      string  `gorm:"index:addr"`      // create index with name `addr` for address
+      IgnoreMe     int     `gorm:"-"`               // ignore this field
   }
   ```
 
@@ -504,7 +517,7 @@ func main() {
       tx := database.Conn()
 
       if request.Has("search") {
-          search := helper.EscapeLike(request.String("search"))
+          search := sqlutil.EscapeLike(request.String("search"))
           tx = tx.Where("title LIKE ?", "%"+search+"%")
       }
 

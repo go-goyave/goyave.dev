@@ -83,6 +83,9 @@ export default {
 			background-color:#39a171;
 			color:#f3f3f3;
 		}
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	&.bg-blue {
