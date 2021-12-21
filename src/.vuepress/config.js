@@ -50,7 +50,12 @@ module.exports = {
             }
         },
         becomeSponsorLink: "https://github.com/sponsors/System-Glitch/",
-        sponsors: []
+        sponsors: [],
+        algolia: {
+            apiKey: '3be87813b101bae6e0262355fcb91382',
+            appId: 'VC27MERM2G',
+            indexName: 'goyave'
+        }
     },
     extraWatchFiles: [
         '.vuepress/nav/en.js',
