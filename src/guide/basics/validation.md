@@ -41,21 +41,42 @@ Rule sets are defined in the same package as the controller, typically in a sepa
 **Example:** (`http/controller/product/request.go`)
 ``` go
 var (
-    StoreRequest = validation.RuleSet{
-        "name":  validation.List{"required", "string", "between:3,50"},
-        "price": validation.List{"required", "numeric", "min:0.01"},
-        "image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
-    }
-    
-    // ...
+	StoreRequest = validation.RuleSet{
+		"name":  validation.List{"required", "string", "between:3,50"},
+		"price": validation.List{"required", "numeric", "min:0.01"},
+		"image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
+	}
+
+	// ...
 )
 ```
 
 ::: warning
-**The order in which you assign rules is important**, as rules are executed in this order. The rules checking for the type of the data should **always be first**, or after `required` and `nullable`.
-
 If a field is not **required** and is missing from the request, **no rules are checked**.
 :::
+
+### Alternative syntax
+
+<p><Badge text="Since v4.0.0"/></p>
+
+To cover special cases (for example where you would have a comma in your rule parameters), a slightly more verbose syntax exists as an alternative. It can be used in combination with the shorter one.
+
+**Example:** (`http/controller/product/request.go`)
+``` go
+var (
+	StoreRequest = validation.RuleSet{
+		"name": validation.StructList{
+			{Name: "required"},
+			{Name: "string"},
+			{Name: "between", Params: []string{"3", "50"}},
+		},
+		"price": validation.List{"required", "numeric", "min:0.01"},
+		"image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
+	}
+
+	// ...
+)
+```
 
 ### Composition
 
@@ -902,130 +923,5 @@ func Store(response *goyave.Response, request *goyave.Request) {
 
     // data can be safely used from here
     // ...
-}
-```
-
-## Alternative syntax
-
-<p><Badge text="Since v3.0.0"/></p>
-
-Internally, `validation.RuleSet` is parsed and replaced with a more complex structure the first time it is used: `validation.Rules`. This avoids having to parse rules everytime a request is received. Both `validation.RuleSet` and `validation.Rules` can be used when calling `validation.Validate()`, as they both implement the `validation.Ruler` interface. The syntax for `validation.Rules` is significantly more verbose and harder to read, but more practical for use with code.
-
-Here is an example of rule definition using `validation.Rules` instead of `validation.RuleSet`:
-
-```go
-rules := &validation.Rules{
-	Fields: validation.FieldMap{
-		"email": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "string"},
-				{Name: "between", Params: []string{"3", "125"}},
-				{Name: "email"},
-			},
-		},
-		"password": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "string"},
-				{Name: "between", Params: []string{"6", "64"}},
-			},
-		},
-		"info": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "nullable"},
-				{Name: "array", Params: []string{"string"}},
-			},
-		},
-		"info[]": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "min", Params: []string{"2"}},
-			},
-		},
-	},
-}
-
-// Is the same as:
-set := validation.RuleSet{
-	"email":    {"required", "string", "between:3,125", "email"},
-	"password": {"required", "string", "between:6,64"},
-	"info":     {"nullable", "array:string"},
-	"info[]":   {"min:2"},
-}
-```
-
-::: tip
-- You can use this syntax if you need commas to be part of the values of a rule parameters.
-:::
-
-You can also use **composition**:
-```go
-userRules := &validation.Rules{
-	Fields: validation.FieldMap{
-		validation.CurrentElement: &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "object"},
-			},
-		},
-		"name": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "name"},
-				{Name: "max", Params: []string{"128"}},
-			},
-		},
-		"email": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "email"},
-				{Name: "max", Params: []string{"128"}},
-			},
-		},
-	},
-}
-
-rules := &validation.Rules{
-	Fields: validation.FieldMap{
-		"user": userRules,
-		"magazine": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "integer"},
-				{Name: "exists", Params: []string{"magazines"}},
-			},
-		},
-	},
-}
-
-// Is the same as:
-rules := &validation.Rules{
-	Fields: validation.FieldMap{
-		"user": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "object"},
-			},
-		},
-		"user.name": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "name"},
-				{Name: "max", Params: []string{"128"}},
-			},
-		},
-		"user.email": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "email"},
-				{Name: "max", Params: []string{"128"}},
-			},
-		},
-		"magazine": &validation.Field{
-			Rules: []*validation.Rule{
-				{Name: "required"},
-				{Name: "integer"},
-				{Name: "exists", Params: []string{"magazines"}},
-			},
-		},
-	},
 }
 ```

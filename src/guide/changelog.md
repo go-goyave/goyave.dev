@@ -18,6 +18,7 @@ meta:
 
 - Use `*validation.Context` in validation message placeholders. The `validation.Placeholder` signatures becomes `func(fieldName string, language string, ctx *validation.Context) string`. **This is a breaking change.**
 - Added `Extra` (`map[string]interface{}`) to `*validation.Context`. This allows placeholders to use additional information given by the validator function.
+- Added `validation.StructList`. This acts as a better alternative syntax for validation. The previous alternative syntax (`*validation.Rules`) should not be used for validation rules definition anymore but still works. 
 
 ## v4.0.0-rc2
 
