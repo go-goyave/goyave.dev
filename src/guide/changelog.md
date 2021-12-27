@@ -12,6 +12,13 @@ meta:
 
 [[toc]]
 
+## v4.0.0-rc3
+
+<p><Badge text="Prerelease" type="warning"/></p>
+
+- Use `*validation.Context` in validation message placeholders. The `validation.Placeholder` signatures becomes `func(fieldName string, language string, ctx *validation.Context) string`. **This is a breaking change.**
+- Added `Extra` (`map[string]interface{}`) to `*validation.Context`. This allows placeholders to use additional information given by the validator function.
+
 ## v4.0.0-rc2
 
 <p><Badge text="Prerelease" type="warning"/></p>

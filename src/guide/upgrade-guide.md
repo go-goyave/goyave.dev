@@ -141,6 +141,23 @@ Now they must update the context value:
 ctx.Value = newValue
 ```
 
+#### Placeholders
+
+The signature of `validation.Placeholder` has changed to `func(fieldName string, language string, ctx *validation.Context) string`.
+
+```go
+func myPlaceholder(field string, rule string, parameters []string, language string) string {
+	return parameters[0]
+}
+```
+Becomes:
+```go
+func myPlaceholder(field string, language string, ctx *Context) string {
+	// the old "rule" paramater becomes "ctx.Rule.Name"
+	return ctx.Rule.Params[0]
+}
+```
+
 #### Errors
 
 Instead of a flat `map[string][]string`, `validation.Errors` (what is returned by `validation.Validate()`) is now a recursive structure defined as follows:

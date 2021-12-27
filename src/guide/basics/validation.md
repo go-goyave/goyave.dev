@@ -782,8 +782,8 @@ Placeholders are **replacer functions**. In fact, `validation.Placeholder` is an
 
 **Example:**
 ``` go
-func simpleParameterPlaceholder(field string, rule string, parameters []string, language string) string {
-    return parameters[0]
+func simpleParameterPlaceholder(field string, language string, ctx *validation.Context) string {
+    return ctx.Rule.Params[0]
 }
 ```
 
@@ -805,8 +805,8 @@ If a placeholder with this name already exists, the latter will be overridden.
 
 **Example:**
 ``` go
-validation.SetPlaceholder("min", func(field string, rule string, parameters []string, language string) string {
-    return parameters[0] // Replace ":min" by the first parameter in the rule definition
+validation.SetPlaceholder("min", func(field string, language string, ctx *validation.Context) string {
+    return ctx.Rule.Params[0] // Replace ":min" by the first parameter in the rule definition
 })
 ```
 
