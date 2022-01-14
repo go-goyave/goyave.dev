@@ -12,17 +12,29 @@ meta:
 
 [[toc]]
 
-## v4.0.0-rc3
+## v4.0.0
 
-<p><Badge text="Prerelease" type="warning"/></p>
+- Only the last two major versions of Go will be supported, starting with this release.
 
-- Use `*validation.Context` in validation message placeholders. The `validation.Placeholder` signatures becomes `func(fieldName string, language string, ctx *validation.Context) string`. **This is a breaking change.**
-- Added `Extra` (`map[string]interface{}`) to `*validation.Context`. This allows placeholders to use additional information given by the validator function.
-- Added `validation.StructList`. This acts as a better alternative syntax for validation. The previous alternative syntax (`*validation.Rules`) should not be used for validation rules definition anymore but still works. 
+**Motivation**: *Supporting only the last two minor versions of the language follows Google's policy and allows for development of new modern features. It lets the framework be updated without it being considered a breaking change, and encourages to not use outdated versions of the language while newer ones contain security fixes.*
 
-## v4.0.0-rc2
+- Validation changes
+    - Added validation rules `before_now` and `after_now`.
+    - Added validation `RuleSet` and `Rules` composition for re-usability of redundant validated objects.
+    - Changed signature of `validation.RuleFunc` to `func(*validation.Context) bool`. `validation.Context` provides more information and a cleaner and more flexible API.
+        - Note: Converting rules now modify `context.Value` instead of directly modifying the input data.
+    - Improved n-dimensional array validation with a new syntax.
+        - The chevron-based syntax disappears in favor of a new more idiomatic syntax based on the name of the field, for example `array[]` will validate all the elements of the `array` array.
+        - This new syntax allows for the validation of objects inside arrays.
+    - Improved tree-like validation error messages structure, identifying precisely each element based on the expected structure. This structure also identifies each array element precisely with its index.
+    - Removed the `confirmed` validation rule. Use `same:path.to.field` instead.
+    - If a field is missing and not required, child fields are now skipped. This prevents `required` rules to not pass if the parent is not required and missing.
+    - The `required` rules now allows empty strings.
+    - Use `*validation.Context` in validation message placeholders. The `validation.Placeholder` signatures becomes `func(fieldName string, language string, ctx *validation.Context) string`.
+    - Added `Extra` (`map[string]interface{}`) to `*validation.Context`. This allows placeholders to use additional information given by the validator function.
+    - Added `validation.StructList`. This acts as a better alternative syntax for validation. The previous alternative syntax (`*validation.Rules`) should not be used for validation rules definition anymore but still works. 
 
-<p><Badge text="Prerelease" type="warning"/></p>
+**Motivation**: *Although the validation package has seen some major improvements in v3, it was still far from perfect and was really lacking some important capabilities, such as the validation of objects in arrays. The array validation syntax was confusing, hard to read, and incompatible with the new syntax that was needed for object validation in arrays. We now have a more readable syntax, offering better capabilities. Because of how differently the validator works internally, we also had the opportunity to rework the error messages output, which now offers an impressive degree of precision. Precision in error messages gives a real edge over competing validation libraries.*
 
 - Refactored  the `helper` package and split it into several focused packages.
     - `helper/filesystem` moved to `util/fsutil`
@@ -40,33 +52,9 @@ meta:
 
 **Motivation**: *The `helper` packaged started to become more and more bloated with functions for things unrelated to each other. To make this part of the code more idiomatic and expressive, the decision to split the package in several parts and re-think the naming was taken.*
 
-- The `required` rules now allows empty strings.
 - Removed `model:"hide"` because it was redundant with `json:"-"`.
 - Added `goyave.ProxyBaseURL()` and `server.proxy` configuration entries.
 - Added global middleware. Global middleware are executed on all requests, including requests that don't match any route or that result in "Method Not Allowed". This allows for better logging, rate limiting, and more, while keeping the already existing tools.
-
-## v4.0.0-rc1
-
-<p><Badge text="Prerelease" type="warning"/></p>
-
-- Only the last two major versions of Go will be supported, starting with this release.
-
-**Motivation**: *Supporting only the last two minor versions of the language follows Google's policy and allows for development of new modern features. It lets the framework be updated without it being considered a breaking change, and encourages to not use outdated versions of the language while newer ones contain security fixes.*
-
-- Validation changes
-    - Added validation rules `before_now` and `after_now`.
-    - Added validation `RuleSet` and `Rules` composition for re-usability of redundant validated objects.
-    - Changed signature of `validation.RuleFunc` to `func(*validation.Context) bool`. `validation.Context` provides more information and a cleaner and more flexible API.
-        - Note: Converting rules now modify `context.Value` instead of directly modifying the input data.
-    - Improved n-dimensional array validation with a new syntax.
-        - The chevron-based syntax disappears in favor of a new more idiomatic syntax based on the name of the field, for example `array[]` will validate all the elements of the `array` array.
-        - This new syntax allows for the validation of objects inside arrays.
-    - Improved tree-like validation error messages structure, identifying precisely each element based on the expected structure. This structure also identifies each array element precisely with its index.
-    - Removed the `confirmed` validation rule. Use `same:path.to.field` instead.
-    - If a field is missing and not required, child fields are now skipped. This prevents `required` rules to not pass if the parent is not required and missing.
-
-**Motivation**: *Although the validation package has seen some major improvements in v3, it was still far from perfect and was really lacking some important capabilities, such as the validation of objects in arrays. The array validation syntax was confusing, hard to read, and incompatible with the new syntax that was needed for object validation in arrays. We now have a more readable syntax, offering better capabilities. Because of how differently the validator works internally, we also had the opportunity to rework the error messages output, which now offers an impressive degree of precision. Precision in error messages gives a real edge over competing validation libraries.*
-
 - Added `helper/walk` package to navigate complex data structure of unknown type (`map[string]interface{}`). This is used by the validator.
 - Migrated from `dgrijalva/jwt-go` library to the maintained [golang-jwt/jwt](https://github.com/golang-jwt/jwt).
 - Added ability to set default language strings from code using `lang.SetDefaultLine()`, `lang.SetDefaultValidationRule()` and `lang.SetDefaultFieldName()`.
