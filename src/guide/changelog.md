@@ -45,7 +45,7 @@ meta:
         - Contains `Only()`
     - New package `util/sliceutil`
         - Contains `IndexOf()`, `IndexOfStr()`, `Contains()`, `ContainsStr()` and `Equal()` (previously named `SliceEqual()`)
-    - New pacakge `util/sqlutil`
+    - New package `util/sqlutil`
         - Contains `EscapeLike()`
     - New package `util/typeutil`
         - Contains `Map`, `ToFloat64()`, `ToString()`
