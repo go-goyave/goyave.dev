@@ -52,7 +52,7 @@ module.exports = {
         becomeSponsorLink: "https://github.com/sponsors/System-Glitch/",
         sponsors: [],
         algolia: {
-            apiKey: '3be87813b101bae6e0262355fcb91382',
+            apiKey: '1e317c1609e981ea87b837780b98204e',
             appId: 'VC27MERM2G',
             indexName: 'goyave'
         }

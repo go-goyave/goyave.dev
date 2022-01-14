@@ -48,7 +48,7 @@ The very first step of the server lifecycle is the **server setup**, taking plac
 
 Goyave starts by loading the [configuration](./configuration.html) file from the core of the framework. The application's configuration file is then loaded, overriding the default values.
 
-The second step of the initialization takes a very similar approach to load the [language](./advanced/localization.hmtl) files. The `en-US` language is available by default inside the framework and is used as the default language. When it's loaded, the framework will look for custom language files inside the working directory and will override the `en-US` language entries if needed.
+The second step of the initialization takes a very similar approach to load the [language](./advanced/localization.html) files. The `en-US` language is available by default inside the framework and is used as the default language. When it's loaded, the framework will look for custom language files inside the working directory and will override the `en-US` language entries if needed.
 
 Then, if enabled, the automatic migrations are run, thus creating the [database](./basics/database.html) connection pool. If the automatic migrations are not enabled, no connection to the database will be established until the application requires one.
 
