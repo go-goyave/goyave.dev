@@ -26,7 +26,7 @@ Goyave is using [`gorilla/websocket`](https://github.com/gorilla/websocket) and 
 
 First, import the websocket package:
 ```go
-import "goyave.dev/goyave/v4/websocket"
+import "goyave.dev/goyave/v3/websocket"
 ```
 
 You may need the `gorilla/weboscket` package too. If so, import it with an alias, such as `ws`:
@@ -174,8 +174,8 @@ To test websockets, you have to open a client connection from your test, write t
 import (
 	"testing"
 
-	"goyave.dev/goyave/v4"
-	"goyave.dev/goyave/v4/config"
+	"goyave.dev/goyave/v3"
+	"goyave.dev/goyave/v3/config"
 	ws "github.com/gorilla/websocket"
 
     "github.com/username/myproject/route"

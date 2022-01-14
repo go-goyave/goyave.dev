@@ -17,7 +17,7 @@ meta:
 Goyave provides a convenient and expandable way of handling authentication in your application. Authentication can be enabled when registering your routes:
 
 ``` go
-import "goyave.dev/goyave/v4/auth"
+import "goyave.dev/goyave/v3/auth"
 
 //...
 
@@ -167,7 +167,7 @@ The user is authenticated if the `auth.basic.username` and `auth.basic.password`
 
 ### JSON Web Token (JWT)
 
-JWT, or [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token), is an open standard of authentication that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. Goyave supports HMAC, RSA (with or without password) and ECDSA. RSA and ECDSA require **PEM-encoded** keys. Goyave uses the [golang-jwt/jwt](https://github.com/golang-jwt/jwt) library in the background.
+JWT, or [JSON Web Token](https://en.wikipedia.org/wiki/JSON_Web_Token), is an open standard of authentication that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA. Goyave supports HMAC, RSA (with or without password) and ECDSA. RSA and ECDSA require **PEM-encoded** keys. Goyave uses the [jwt-go](https://github.com/dgrijalva/jwt-go) library in the background.
 
 JWT Authentication comes with the `auth.jwt.expiry` configuration entry, which defines the number of seconds a token is valid for and defaults to `300` (5 minutes).
 
@@ -219,10 +219,10 @@ router.Middleware(authenticator)
 
 ##### Custom ID claim name
 
-By default, `auth.JWTAuthenticator` looks for the claim named `sub` in the given token. You can customize the name of the token using the `ClaimName` field:
+By default, `auth.JWTAuthenticator` looks for the claim named `userid` in the given token. You can customize the name of the token using the `ClaimName` field:
 
 ``` go
-authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{ClaimName: "userid"})
+authenticator := auth.Middleware(&model.User{}, &auth.JWTAuthenticator{ClaimName: "sub"})
 router.Middleware(authenticator)
 ```
 
@@ -231,7 +231,7 @@ router.Middleware(authenticator)
 If a token is valid (even if authentication fails), its claims are put into `request.Extra` with the `jwt_claims` key, so you can access them in any subsequent handler:
 
 ```go
-import "github.com/golang-jwt/jwt"
+import "github.com/dgrijalva/jwt-go"
 
 //...
 
@@ -262,7 +262,7 @@ If you expect tokens to be signed with RSA, you will need to add the `auth.jwt.r
 Then, specify the expected signature method in the `SignatureMethod` field of `auth.JWTAuthenticator`:
 
 ``` go
-import "github.com/golang-jwt/jwt"
+import "github.com/dgrijalva/jwt-go"
 
 //...
 
@@ -271,7 +271,7 @@ router.Middleware(authenticator)
 ```
 
 ::: tip
-You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/golang-jwt/jwt#SigningMethodRSA).
+You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/dgrijalva/jwt-go#SigningMethodRSA).
 - For testing purposes, you can generate an RSA key-pair using OpenSSL:
 ```
 openssl genrsa -out rsa-private.pem 2048
@@ -300,7 +300,7 @@ If you expect tokens to be signed with ECDSA, you will need to add the `auth.jwt
 Then, specify the expected signature method in the `SignatureMethod` field of `auth.JWTAuthenticator`:
 
 ``` go
-import "github.com/golang-jwt/jwt"
+import "github.com/dgrijalva/jwt-go"
 
 //...
 
@@ -309,7 +309,7 @@ router.Middleware(authenticator)
 ```
 
 ::: tip
-- You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/golang-jwt/jwt#SigningMethodECDSA).
+- You can find the list of available methods in the [jwt-go documentation](https://pkg.go.dev/github.com/dgrijalva/jwt-go#SigningMethodECDSA).
 - For testing purposes, you can generate an ECDSA key-pair using OpenSSL:
 ```
 openssl ecparam -name prime256v1 -genkey -noout -out ecdsa-private.key
@@ -346,7 +346,7 @@ The generated token will also contain the following claims:
 
 **Example:**
 ``` go
-import "github.com/golang-jwt/jwt"
+import "github.com/dgrijalva/jwt-go"
 
 //...
 
@@ -429,8 +429,8 @@ A `JWTController` contains one handler called `Login`.
 ``` go
 jwtRouter := router.Subrouter("/auth")
 jwtRouter.Route("POST", "/login", auth.NewJWTController(&model.User{}).Login).Validate(validation.RuleSet{
-	"username": validation.List{"required", "string"},
-	"password": validation.List{"required", "string"},
+	"username": {"required", "string"},
+	"password": {"required", "string"},
 })
 ```
 
@@ -448,7 +448,7 @@ jwtController.PasswordField = "pwd"
 As `JWTController` generates token for you, you can also customize the signing method it uses. By default, HMAC-SHA256 is used. You can override this by changing the `SigningMethod` field:
 
 ```go
-import "github.com/golang-jwt/jwt"
+import "github.com/dgrijalva/jwt-go"
 
 //...
 

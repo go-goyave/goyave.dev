@@ -45,8 +45,8 @@ The following JSON file is an example of default configuration:
         "timeout": 10,
         "maxUploadSize": 10,
         "tls": {
-            "cert": "/path/to/cert",
-            "key": "/path/to/key"
+        "cert": "/path/to/cert",
+        "key": "/path/to/key"
         }
     },
     "database": {
@@ -99,7 +99,7 @@ Since `v2.0.0`, you can use custom environments.
 
 Before being able to use the config, import the config package:
 ``` go
-import "goyave.dev/goyave/v4/config"
+import "goyave.dev/goyave/v3/config"
 ```
 
 The configuration is loaded automatically when the server starts, but you can reload it manually if needed.
@@ -135,8 +135,8 @@ import (
     "flag"
     "os"
 
-    "goyave.dev/goyave/v4"
-    "goyave.dev/goyave/v4/config"
+    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v3/config"
 
     //...
 )
@@ -183,8 +183,8 @@ Load a configuration file from raw JSON. Can be used in combination with Go's 1.
 import (
     "os"
 
-    "goyave.dev/goyave/v4"
-    "goyave.dev/goyave/v4/config"
+    "goyave.dev/goyave/v3"
+    "goyave.dev/goyave/v3/config"
 
     //...
 
@@ -498,18 +498,6 @@ func init() {
 |-------|----------|---------|-----------------------|
 | cert  | `string` | none    | Path to your TLS cert |
 | key   | `string` | none    | Path to your TLS key  |
-
-#### Proxy sub-category
-
-This section is used for URL generation ([`goyave.ProxyBaseURL()`](./basics/routing.html#proxybaseurl)) if you are running your application behind a reverse proxy (such as nginx or apache). **These entries don't have any impact on networking and are not required.**
-
-| Entry    | Type     | Accepted values | Default | Note                                |
-|----------|----------|-----------------|---------|-------------------------------------|
-| protocol | `string` | "http", "https" | "http"  |                                     |
-| host     | `string` | any             |         | Public host or domain of your proxy |
-| port     | `int`    | any             | `80`    |                                     |
-| base     | `string` | any             | ""      |                                     |
-
 
 ### Database category
 

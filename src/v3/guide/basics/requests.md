@@ -19,7 +19,7 @@ Handlers receive a `goyave.Response` and a `goyave.Request` as parameters. This 
 All functions below require the `goyave` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v4"
+import "goyave.dev/goyave/v3"
 ```
 
 ## Methods
@@ -148,14 +148,14 @@ fmt.Println(request.RemoteAddress()) // 192.168.0.10:1234
 
 Cookies returns the HTTP cookies sent with the request.
 
-| Parameters | Return           |
-|------------|------------------|
-|            | `[]*http.Cookie` |
+| Parameters    | Return           |
+|---------------|------------------|
+| `name string` | `[]*http.Cookie` |
 
 **Example:**
 ``` go
-cookies := request.Cookies()
-fmt.Println(cookies[0].value)
+cookie := request.Cookies("cookie-name")
+fmt.Println(cookie[0].value)
 ```
 
 ::: warning

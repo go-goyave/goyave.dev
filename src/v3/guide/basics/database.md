@@ -22,7 +22,7 @@ All functions below require the `database` and the `gorm` packages to be importe
 
 ``` go
 import (
-  "goyave.dev/goyave/v4/database"
+  "goyave.dev/goyave/v3/database"
   "gorm.io/gorm"
 )
 ```
@@ -94,10 +94,10 @@ Change the `database.connection` config entry to the desired driver.
 
 In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 ``` go
-import _ "goyave.dev/goyave/v4/database/dialect/mysql"
-// import _ "goyave.dev/goyave/v4/database/dialect/postgres"
-// import _ "goyave.dev/goyave/v4/database/dialect/sqlite"
-// import _ "goyave.dev/goyave/v4/database/dialect/mssql"
+import _ "goyave.dev/goyave/v3/database/dialect/mysql"
+// import _ "goyave.dev/goyave/v3/database/dialect/postgres"
+// import _ "goyave.dev/goyave/v3/database/dialect/sqlite"
+// import _ "goyave.dev/goyave/v3/database/dialect/mssql"
 ```
 
 ::: tip
@@ -110,7 +110,7 @@ You can **register more dialects** for GORM. Start by implementing or importing 
 
 ```go
 import (
-  "goyave.dev/goyave/v4/database"
+  "goyave.dev/goyave/v3/database"
   "example.com/user/mydriver"
 )
 
@@ -293,12 +293,23 @@ Unregister all models.
 
 ### Hidden fields
 
+<p><Badge text="Since v2.9.0"/></p>
+
 Sometimes you may wish to exclude some fields from your model's JSON form, such as passwords. To do so, you can add the `json:"-"` tag to the field you want to hide.
 
 ``` go
 type User struct {
     Username string
     Password string `json:"-"`
+}
+```
+
+The problem with `json:"-"` is that you won't be able to see those fields if you decide to serialize your records in json for another use, such as statistics. In that case, you can add the `model:"hide"` tag to the field you want to hide, and use [`helper.RemoveHiddenFields()`](../advanced/helpers.html#helper-removehiddenfields) to filter out those fields.
+
+``` go
+type User struct {
+    Username string
+    Password string `model:"hide" json:",omitempty"`
 }
 ```
 
@@ -351,7 +362,7 @@ func Index(response *goyave.Response, request *goyave.Request) {
     tx := database.Conn()
 
     if request.Has("search") {
-        search := sqlutil.EscapeLike(request.String("search"))
+        search := helper.EscapeLike(request.String("search"))
         tx = tx.Where("title LIKE ?", "%"+search+"%")
     }
 
@@ -366,9 +377,9 @@ func Index(response *goyave.Response, request *goyave.Request) {
 The above example assumes its route is validated using the following `RuleSet`:
 ```go
 var IndexRequest = validation.RuleSet{
-	"page":     validation.List{"integer"},
-	"pageSize": validation.List{"integer", "min:1"},
-	"search":   validation.List{"string"},
+	"page":     {"integer"},
+	"pageSize": {"integer", "min:1"},
+	"search":   {"string"},
 }
 ```
 :::
@@ -421,7 +432,7 @@ import (
     "crypto/x509"
     "io/ioutil"
 
-    "goyave.dev/goyave/v4"
+    "goyave.dev/goyave/v3"
     "github.com/go-sql-driver/mysql"
 )
 

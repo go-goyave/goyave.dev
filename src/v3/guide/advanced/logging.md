@@ -47,16 +47,16 @@ To enable logging of accesses using the [Common Log Format](https://en.wikipedia
 
 ``` go
 import (
-    "goyave.dev/goyave/v4/log"
-    "goyave.dev/goyave/v4"
+    "goyave.dev/goyave/v3/log"
+    "goyave.dev/goyave/v3"
 )
 
 func registerRoutes(router *goyave.Router) {
     // Common log format
-    router.GlobalMiddleware(log.CommonLogMiddleware())
+    router.Middleware(log.CommonLogMiddleware())
 
     // Combined log format
-    router.GlobalMiddleware(log.CombinedLogMiddleware())
+    router.Middleware(log.CombinedLogMiddleware())
 }
 ```
 
@@ -113,5 +113,5 @@ Middleware captures response data and outputs it to the default logger using the
 
 **Example:**
 ``` go
-router.GlobalMiddleware(log.Middleware(CustomFormatter))
+router.Middleware(log.Middleware(CustomFormatter))
 ```

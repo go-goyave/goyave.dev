@@ -123,7 +123,7 @@ Type-dependent rules must have a language line for the four following types:
 
 #### Array validation
 
-Each rule, except the file-related rules, can be used to validate array values. If a rule is used to validate an array value and doesn't pass, the rule message `validation.rules.<rule_name>.array` (or `validation.rules.<rule_name>.<type>.array` if the rule is type-dependent) is returned.
+Each rule, except the file-related rules and the `confirmed` rule, can be used to validate array values. If a rule is used to validate an array value and doesn't pass, the rule message `validation.rules.<rule_name>.array` (or `validation.rules.<rule_name>.<type>.array` if the rule is type-dependent) is returned.
 
 **Example:**
 ```json
@@ -147,7 +147,7 @@ When an incoming request enters your application, the core language middleware c
 
 To use the localization feature, import the `lang` package:
 ``` go
-import "goyave.dev/goyave/v4/lang"
+import "goyave.dev/goyave/v3/lang"
 ```
 
 The main function of the localization feature is `lang.Get(language, line string)`. This function lets you retrieve a language entry.

@@ -19,7 +19,7 @@ Routing is an essential part of any Goyave application. Routes definition is the
 All features below require the `goyave` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v4"
+import "goyave.dev/goyave/v3"
 ```
 
 Routes are defined in **routes registrer functions**. The main route registrer is passed to `goyave.Start()` and is executed automatically with a newly created root-level **router**.
@@ -365,8 +365,8 @@ You can assign a validation rules set to each route. Learn more in the dedicated
 
 ``` go
 router.Route("POST", "/product", product.Store).Validate(validation.RuleSet{
-	"Name":  validation.List{"required", "string", "min:4"},
-	"Price": validation.List{"required", "numeric"},
+	"Name":  {"required", "string", "min:4"},
+	"Price": {"required", "numeric"},
 })
 ```
 
@@ -392,7 +392,7 @@ Middleware apply one or more middleware to the route group.
 
 **Example:**
 ``` go
-router.Middleware(middleware.Trim)
+router.Middleware(middleware.DisallowNonValidatedFields)
 ```
 
 ---
@@ -402,27 +402,6 @@ Middleware can also be applied to specific routes. You can add as many as you wa
 **Example:**
 ``` go
 router.Route("POST", "/product", product.Store).Validate(product.StoreRequest).Middleware(middleware.Trim)
-```
-
-### Global middleware
-
-<p><Badge text="Since v4.0.0"/></p>
-
-Global middleware are executed for every requests including when the request doesn't match any route ("Not Found") or if it results in "Method Not Allowed". These middleware are global to the main Router: they will also be executed for subrouters. **Global Middleware are always executed first.**
-
-The typical use-case for global middleware is [logging](../advanced/logging.html). If you don't use the logging middleware globally, requests that don't match a route won't be logged because regular middleware are only executed when a route is matched.
-
-#### Router.GlobalMiddleware
-
-GlobalMiddleware apply one or more global middleware.
-
-| Parameters                        | Return |
-|-----------------------------------|--------|
-| `middleware ...goyave.Middleware` | `void` |
-
-**Example:**
-``` go
-router.GlobalMiddleware(middleware.Trim)
 ```
 
 ## Groups and sub-routers
@@ -466,50 +445,6 @@ subrouter.Get("/{id:[0-9]+}", handler)
 
 router.Get("/product/{id:[0-9]+}", handler) // This route will never match
 router.Get("/product/category", handler)    // This one neither
-```
-
-## URL generation
-
-Using a route's [`BuildURI()`](#route-builduri) and [`BuildURL()`](#route-buildurl), you can generate a path or full URL to this route:
-
-```go
-route.BuildURI("42") // "/product/42"
-route.BuildURL("42") // "http://localhost:8080/product/42"
-```
-
-### BaseURL
-
-You can generate the base URL to your application using `goyave.BaseURL()`:
-
-```go
-goyave.BaseURL() // "http://localhost:8080"
-```
-
-This function uses configuration. If `server.domain` is set, it will be used instead of `server.host`. If the port matches the standard port for the protocol (`80` for HTTP, `443` for HTTPS), it won't be added to the resulting string.
-
-### ProxyBaseURL
-
-<p><Badge text="Since v4.0.0"/></p>
-
-If you are running your application behind a reverse proxy (such as nginx or apache), you may need to generate a URL that does not directly points to your application, but one that points to your proxy instead. Use `goyave.ProxyBaseURL()` for this.
-
-Example with the following config:
-```json
-{
-    "server": {
-        ...
-        "proxy": {
-            "protocol": "https",
-            "host": "myproxydomain.example.com",
-            "port": 443,
-            "base": "/basepath"
-        }
-    }
-}
-```
-``` go
-goyave.ProxyBaseURL() // "https://myproxydomain.example.com/basepath"
-fmt.Println(goyave.ProxyBaseURL() + route.BuildURI("42")) // "https://myproxydomain.example.com/basepath/product/42"
 ```
 
 ## Serve static resources

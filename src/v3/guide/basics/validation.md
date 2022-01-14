@@ -31,7 +31,7 @@ You can customize the validation error messages by editing `resources/lang/<lang
 The following features require the `validation` package to be imported.
 
 ``` go
-import "goyave.dev/goyave/v4/validation"
+import "goyave.dev/goyave/v3/validation"
 ```
 
 ## Rules sets
@@ -41,73 +41,25 @@ Rule sets are defined in the same package as the controller, typically in a sepa
 **Example:** (`http/controller/product/request.go`)
 ``` go
 var (
-	StoreRequest = validation.RuleSet{
-		"name":  validation.List{"required", "string", "between:3,50"},
-		"price": validation.List{"required", "numeric", "min:0.01"},
-		"image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
-	}
-
-	// ...
+    StoreRequest = validation.RuleSet{
+        "name":  {"required", "string", "between:3,50"},
+        "price": {"required", "numeric", "min:0.01"},
+        "image": {"nullable", "file", "image", "max:2048", "count:1"},
+    }
+    
+    // ...
 )
 ```
 
 ::: warning
-If a field is not **required** and is missing from the request, **no rules are checked**.
+**The order in which you assign rules is important**, as rules are executed in this order. The rules checking for the type of the data should **always be first**, or after `required` and `nullable`.
+
+If a field is not **required** and is missing from the request, **no rules are checked**!
 :::
 
-### Alternative syntax
-
-<p><Badge text="Since v4.0.0"/></p>
-
-To cover special cases (for example where you would have a comma in your rule parameters), a slightly more verbose syntax exists as an alternative. It can be used in combination with the shorter one.
-
-**Example:** (`http/controller/product/request.go`)
-``` go
-var (
-	StoreRequest = validation.RuleSet{
-		"name": validation.StructList{
-			{Name: "required"},
-			{Name: "string"},
-			{Name: "between", Params: []string{"3", "50"}},
-		},
-		"price": validation.List{"required", "numeric", "min:0.01"},
-		"image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
-	}
-
-	// ...
-)
-```
-
-### Composition
-
-You use the composition principle on your rule sets:
-
-```go
-var (
-	UserRequest = validation.RuleSet{
-		validation.CurrentElement: validation.List{"required", "object"},
-		"name":                    validation.List{"string", "max:128"},
-		"email":                   validation.List{"required", "email", "max:128"},
-	}
-
-	SubscribeRequest = validation.RuleSet{
-		"user":     UserRequest,
-		"magazine": validation.List{"required", "integer", "exists:magazines"},
-	}
-)
-
-// Is the same as:
-var (
-	SubscribeRequest = validation.RuleSet{
-		"user":       validation.List{"required", "object"},
-		"user.name":  validation.List{"string", "max:128"},
-		"user.email": validation.List{"required", "email", "max:128"},
-		"magazine":   validation.List{"required", "integer", "exists:magazines"},
-	}
-)
-```
-
-Using composition is useful to reduce redundancy and re-use the same rules multiple times in different sets without duplicating them.
+::: tip
+`validation.RuleSet` is an alias for `map[string][]string`.
+:::
 
 ---
 
@@ -157,6 +109,7 @@ router.Post("/product", product.Store).Validate(product.StoreRequest)
 [Bool](#bool)
 [Same](#same-field)
 [Different](#different-field)
+[Confirmed](#confirmed)
 [File](#file)
 [MIME](#mime-foo)
 [Image](#image)
@@ -172,8 +125,6 @@ router.Post("/product", product.Store).Validate(product.StoreRequest)
 [After or equal](#after-equal-date)
 [Date equals](#date-equals-date)
 [Date between](#date-between-date1-date2)
-[Before Now](#before-now)
-[After Now](#after-now)
 [Object](#object)
 [Unique](#unique-table-column)
 [Exists](#exists-table-column)
@@ -183,7 +134,7 @@ router.Post("/product", product.Store).Validate(product.StoreRequest)
 
 The field under validation must be present.
 
-If a field is `null` and has the `nullable` rule, the `required` rules passes. As non-nullable fields are removed if they have a `null` value, the `required` rule doesn't pass if a field is `null` and doesn't have the `nullable` rule.
+If the field is a string, the string must not be empty. If a field is `null` and has the `nullable` rule, the `required` rules passes. As non-nullable fields are removed if they have a `null` value, the `required` rule doesn't pass if a field is `null` and doesn't have the `nullable` rule.
 
 #### nullable
 
@@ -408,6 +359,12 @@ The field under validation must have a different value from the given `field`. F
 
 The two fields must have the same type. Files are not checked.
 
+#### confirmed
+
+The field under validation must have a matching `foo_confirmation`. This rule validate equality in the same way as the [`same`](#same-field) rule.
+
+For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
+
 #### file
 
 The field under validation must be a file. Multi-files are supported.
@@ -495,18 +452,6 @@ The field under validation must be a value between or equal to the given dates. 
 
 If the name of another field is given as a date, then all the fields must be a date and the field under validation must be between or equal to given fields.
 
-#### before_now
-
-<p><Badge text="Since v4.0.0"/></p>
-
-The field under validation must be a date in the past.
-
-#### after_now
-
-<p><Badge text="Since v4.0.0"/></p>
-
-The field under validation must be a date in the future.
-
 #### object
 
 The field under validation must be an object (`map[string]interface{}`).
@@ -573,9 +518,9 @@ You would use the following rule set:
 ```go
 var (
     StoreRequest = validation.RuleSet{
-        "user":       validation.List{"required", "object"},
-        "user.name":  validation.List{"required", "string", "between:3,50"},
-        "user.email": validation.List{"required", "email"},
+        "user":       {"required", "object"},
+        "user.name":  {"required", "string", "between:3,50"},
+        "user.email": {"required", "email"},
     }
 )
 ```
@@ -585,27 +530,27 @@ Since `v3.9.0`, you can specify a dot-separated path to rules comparing the valu
 ```go
 var (
     BirthdayRequest = validation.RuleSet{
-        "user":          validation.List{"required", "object"},
-        "user.birthday": validation.List{"required", "date", "before:dates.today"},
-        "dates":         validation.List{"required", "object"},
-        "dates.today":   validation.List{"required", "date"},
+        "user":          {"required", "object"},
+        "user.birthday": {"required", "date", "before:dates.today"},
+        "dates":         {"required", "object"},
+        "dates.today":   {"required", "date"},
     }
 )
 ```
 
 ## Validating arrays
 
-Validating arrays is easy. All the validation rules, **except the file-related rules**, can be applied to array values using the following syntax:
+<p><Badge text="Since v2.1.0"/></p>
 
+Validating arrays is easy. All the validation rules, **except the file-related rules and the `confirmed` rule**, can be applied to array values using the prefix `>`. When array values are validated, **all of them** must pass the validation.
+
+**Example:**
 ``` go
 var arrayValidation = validation.RuleSet{
-    "array":   validation.List{"required", "array:string", "between:1,5"},
-    "array[]": validation.List{"email", "max:128"},
+    "array": {"required", "array:string", "between:1,5", ">email", ">max:128"},
 }
 ```
 In this example, we are validating an array of one to five email addresses, which can't be longer than 128 characters.
-
-When array values are validated, **all of them** must pass the validation.
 
 ### N-dimensional arrays
 
@@ -614,47 +559,15 @@ You can validate n-dimensional arrays.
 **Example:**
 ``` go
 var arrayValidation = RuleSet{
-	"values":       validation.List{"required", "array"},
-	"values[]":     validation.List{"array", "max:3"},
-	"values[][]":   validation.List{"array:numeric"},
-	"values[][][]": validation.List{"numeric", "max:4"},
+    "array": {"required", "array", ">array", ">>array:numeric", ">max:3", ">>>max:4"},
 }
 ```
-In this example, we are validating a three-dimensional array of numeric values. The first dimension must be made of arrays with a size of 3 or less. The second dimension must be made of arrays containing numbers. The third dimension must be numbers inferior or equal to 4. The following JSON input passes the validation:
+In this example, we are validating a three-dimensional array of numeric values. The first dimension must be made of arrays with a size of 3 or less (`>array` and `>max:3`). The second dimension must be made of arrays containing numbers (`>>array:numeric`). The third dimension must be numbers inferior or equal to 4 (`>>>max:4`). The following JSON input passes the validation:
 ```json
 {
     "array": [
         [[0.5, 1.42], [0.6, 4, 3]],
         [[0.6, 1.43], [], [2]]
-    ]
-}
-```
-
-### Arrays of objects
-
-You can validate objects inside arrays.
-
-**Example:**
-```go
-var arrayValidation = validation.RuleSet{
-	"people":           validation.List{"required", "array:object"},
-	"people[].name":    validation.List{"string", "max:128"},
-	"people[].email":   validation.List{"required", "email", "max:128"},
-}
-```
-
-In this example, we are validating an array of people. The following JSON input passes the validation:
-```json
-{
-    "people": [
-        {
-            "name": "John",
-            "email": "john@example.org",
-        },
-        {
-            "name": "Zoe",
-            "email": "zoe@example.com",
-        },
     ]
 }
 ```
@@ -666,20 +579,20 @@ If none of the available validation rules satisfy your needs, you can implement 
 Rules definition shouldn't be exported, and start with `validate`. A rule returns a `bool`, indicating if the validation passed or not.
 
 ``` go
-func validateCustomFormat(ctx *validation.Context) bool {
-	str, ok := ctx.Value.(string)
+func validateCustomFormat(field string, value interface{}, parameters []string, form map[string]interface{}) bool {
+    str, ok := value.(string)
 
-	if ok { // The data under validation is a string
-		return regexp.MustCompile(ctx.Rule.Params[0]).MatchString(str)
-	}
+    if ok { // The data under validation is a string
+        return regexp.MustCompile(parameters[0]).MatchString(str)
+    }
 
-	return false // Cannot validate this field
+    return false // Cannot validate this field
 }
 ```
 ::: tip
-- `validation.RuleFunc` is an alias for `func(*validation.Context) bool`
-- If your rule modifies the value of the field under validation, it must re-assign `ctx.Value`. This is useful for converting rules such as `date`, which converts the input data to `time.Time`.
-- The custom rule in the example above validates a string using a regex. If you need this kind of validation, prefer the built-in `regex` validation rule.
+- `validation.RuleFunc` is an alias for `func(string, interface{}, []string, map[string]interface{}) bool`
+- The `form` parameter lets you access the whole form data, and modify it if needed.
+- The custom rule in the example above validates a string using a regex. If you need this kind of validation, prefer the included `regex` validation rule.
 :::
 
 Now that your rule behavior is defined, you need to **register** your rule. Do this in an `init()` function in your `validation.go` file.
@@ -712,32 +625,32 @@ The **RuleDefinition** struct is defined as follows:
 ```go
 type RuleDefinition struct {
 
-	// The Function field is the function that will be executed
-	Function RuleFunc
+    // The Function field is the function that will be executed
+    Function RuleFunc
 
-	// The minimum amount of parameters
-	RequiredParameters int
+    // The minimum amount of parameters
+    RequiredParameters int
 
-	// A type rule is a rule that checks if a field has a certain type
-	// and can convert the raw value to a value fitting. For example, the UUID
-	// rule is a type rule because it takes a string as input, checks if it's a
-	// valid UUID and converts it to a "uuid.UUID".
-	// The "array" rule is an exception. It does convert the value to a new slice of
-	// the correct type if provided, but is not considered a type rule to avoid being
-	// able to be used as parameter for itself ("array:array").
-	IsType bool
+    // A type rule is a rule that checks if a field has a certain type
+    // and can convert the raw value to a value fitting. For example, the UUID
+    // rule is a type rule because it takes a string as input, checks if it's a
+    // valid UUID and converts it to a "uuid.UUID".
+    // The "array" rule is an exception. It does convert the value to a new slice of
+    // the correct type if provided, but is not considered a type rule to avoid being
+    // able to be used as parameter for itself ("array:array").
+    IsType bool
 
-	// Type-dependent rules are rules that can be used with different field types
-	// (numeric, string, arrays and files) and have a different validation messages
-	// depending on the type.
-	// The language entry used will be "validation.rules.rulename.type"
-	IsTypeDependent bool
+    // Type-dependent rules are rules that can be used with different field types
+    // (numeric, string, arrays and files) and have a different validation messages
+    // depending on the type.
+    // The language entry used will be "validation.rules.rulename.type"
+    IsTypeDependent bool
 
-	// ComparesFields is true when the rule compares the value of the field under
-	// validation with another field. A field containing at least one rule with
-	// ComparesFields = true will be executed later in the validation process to
-	// ensure conversions are properly executed prior.
-	ComparesFields bool
+    // ComparesFields is true when the rule compares the value of the field under
+    // validation with another field. A field containing at least one rule with
+    // ComparesFields = true will be executed later in the validation process to
+    // ensure conversions are properly executed prior.
+    ComparesFields bool
 }
 ```
 
@@ -803,8 +716,8 @@ Placeholders are **replacer functions**. In fact, `validation.Placeholder` is an
 
 **Example:**
 ``` go
-func simpleParameterPlaceholder(field string, language string, ctx *validation.Context) string {
-    return ctx.Rule.Params[0]
+func simpleParameterPlaceholder(field string, rule string, parameters []string, language string) string {
+    return parameters[0]
 }
 ```
 
@@ -826,8 +739,8 @@ If a placeholder with this name already exists, the latter will be overridden.
 
 **Example:**
 ``` go
-validation.SetPlaceholder("min", func(field string, language string, ctx *validation.Context) string {
-    return ctx.Rule.Params[0] // Replace ":min" by the first parameter in the rule definition
+validation.SetPlaceholder("min", func(field string, rule string, parameters []string, language string) string {
+    return parameters[0] // Replace ":min" by the first parameter in the rule definition
 })
 ```
 
@@ -886,7 +799,7 @@ You may need to validate some data manually as part of your business logic. You 
 
 #### validation.Validate
 
-Validate the given data with the given rule set. If all validation rules pass, returns `nil`.
+Validate the given data with the given rule set. If all validation rules pass, returns an empty `validation.Errors`.
 
 The third parameter (`isJSON`) tells the function if the data comes from a JSON request. This is used to return the correct message if the given data is `nil` and to correctly handle arrays in url-encoded requests.
 
@@ -900,6 +813,7 @@ The last parameter (`language`) sets the language of the validation error messag
 | `language string`             |                     |
 
 ::: tip
+- `validation.Errors` is an alias for `map[string][]string`. The key represents the field name and the associated slice contains all already translated validation error messages for this field.
 - `validation.Ruler` is an interface that both `validation.RuleSet` and `validation.Rules` implement.
 :::
 
@@ -912,8 +826,8 @@ func Store(response *goyave.Response, request *goyave.Request) {
     }
 
     errors := validation.Validate(data, validation.RuleSet{
-        "string": validation.List{"required", "string"},
-        "number": validation.List{"required", "numeric", "min:10"},
+        "string": {"required", "string"},
+        "number": {"required", "numeric", "min:10"},
     }, true, request.Lang)
 
     if len(errors) > 0 {
@@ -925,3 +839,53 @@ func Store(response *goyave.Response, request *goyave.Request) {
     // ...
 }
 ```
+
+## Alternative syntax
+
+<p><Badge text="Since v3.0.0"/></p>
+
+Internally, `validation.RuleSet` is parsed and replaced with a more complex structure the first time it is used: `validation.Rules`. This avoids having to parse rules everytime a request is received. Both `validation.RuleSet` and `validation.Rules` can be used when calling `validation.Validate()`, as they both implement the `validation.Ruler` interface. The syntax for `validation.Rules` is significantly more verbose and harder to read, but more practical for use with code.
+
+Here is an example of rule definition using `validation.Rules` instead of `validation.RuleSet`:
+
+```go
+rules := &validation.Rules{
+    Fields: validation.FieldMap{
+        "email": {
+            Rules: []*validation.Rule{
+                {Name: "required"},
+                {Name: "string"},
+                {Name: "between", Params: []string{"3", "125"}},
+                {Name: "email"},
+            },
+        },
+        "password": {
+            Rules: []*validation.Rule{
+                {Name: "required"},
+                {Name: "string"},
+                {Name: "between", Params: []string{"6", "64"}},
+                {Name: "confirmed"},
+            },
+        },
+        "info": {
+            Rules: []*validation.Rule{
+                {Name: "nullable"},
+                {Name: "array", Params: []string{"string"}},
+                {Name: "min", Params: []string{"2"}, ArrayDimension: 1},
+            },
+        },
+    },
+}
+
+// Is the same as:
+set := validation.RuleSet{
+    "email":    {"required", "string", "between:3,125", "email"},
+    "password": {"required", "string", "between:6,64", "confirmed"},
+    "info":     {"nullable", "array:string", ">min:2"},
+}
+```
+
+::: tip
+- `validation.FieldMap` is an alias for `map[string]*validation.Field`
+- You can use this syntax if you need commas to be part of the values of a rule parameters.
+:::

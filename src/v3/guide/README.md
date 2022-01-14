@@ -39,7 +39,6 @@ Come and learn about the framework, stay updated on the progress, be notified wh
 - Ben Hyrman
 - Massimiliano Bertinetti
 - ethicnology
-- Yariya
 
 ## Contributors
 
@@ -49,9 +48,8 @@ A big "Thank you" to the Goyave contributors:
 - [Alexandre GV.](https://github.com/alexandregv) (Install script MacOS compatibility)
 - [jRimbault](https://github.com/jRimbault) (CI and code analysis)
 - [Guillermo Galvan](https://github.com/gmgalvan) (Request extra data)
-- [Albert Shirima](https://github.com/agbaraka) (Rate limiting and various contributions)
+- [Albert Shirima](https://github.com/agbaraka) (Rate limiting)
 - [Łukasz Sowa](https://github.com/Morishiri) (Custom claims in JWT)
 - [Zao SOULA](https://github.com/zaosoula) (Custom GORM.Config{} in config file)
 - [Ajtene Kurtaliqi](https://github.com/akurtaliqi) (Documentation landing page)
 - [Louis Laurent](https://github.com/ulphidius) ([`gyv`](https://github.com/go-goyave/gyv) productivity CLI)
-- [Clement3](https://github.com/Clement3) (`search` feature on [`goyave.dev/filter`](https://github.com/go-goyave/filter))

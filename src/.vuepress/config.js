@@ -25,6 +25,9 @@ module.exports = {
         ['meta', { property: 'og:image', content: `https://goyave.dev/goyave_banner.png` }],
         ['meta', { property: 'og:site_name', content: "Goyave" }],
     ],
+    plugins: [
+        ['sitemap', { hostname: 'https://goyave.dev' }] 
+    ],
     themeConfig: {
         repo: 'go-goyave/goyave',
         editLinks: true,
@@ -41,20 +44,81 @@ module.exports = {
                 lastUpdated: 'Last Updated',
                 nav: require('./nav/en'),
                 sidebar: {
-                    '/guide/': getGuideSidebar(),
+                    '/guide/': getV4GuideSidebar(),
+                    '/v3/guide/': getV3GuideSidebar(),
                 }
             }
         },
         becomeSponsorLink: "https://github.com/sponsors/System-Glitch/",
-        sponsors: []
+        sponsors: [],
+        algolia: {
+            apiKey: '3be87813b101bae6e0262355fcb91382',
+            appId: 'VC27MERM2G',
+            indexName: 'goyave'
+        }
     },
     extraWatchFiles: [
         '.vuepress/nav/en.js',
     ]
-    
 }
 
-function getGuideSidebar () {
+function getV4GuideSidebar () {
+    return [
+        {
+            title: 'Guide',
+            collapsable: true,
+            children: [
+                '',
+                'changelog',
+                'installation',
+                'upgrade-guide',
+                'configuration',
+                'architecture-concepts',
+                'deployment',
+                'contribution-guide',
+            ]
+        },
+        {
+            title: 'The Basics',
+            collapsable: true,
+            children: [
+                'basics/routing',
+                'basics/middleware',
+                'basics/requests',
+                'basics/controllers',
+                'basics/responses',
+                'basics/database',
+                'basics/validation',
+            ]
+        },
+        {
+            title: 'Advanced',
+            collapsable: true,
+            children: [
+                'advanced/utilities',
+                'advanced/authentication',
+                'advanced/localization',
+                'advanced/testing',
+                'advanced/multi-services',
+                'advanced/cors',
+                'advanced/status-handlers',
+                'advanced/logging',
+                'advanced/rate-limiting',
+                'advanced/websocket',
+            ]
+        },
+        {
+            title: 'Libraries',
+            collapsable: true,
+            children: [
+                'libraries/openapi',
+                'libraries/filter',
+            ]
+        }
+    ]
+}
+
+function getV3GuideSidebar () {
     return [
         {
             title: 'Guide',

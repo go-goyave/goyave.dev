@@ -40,7 +40,7 @@ As said earlier, status handlers are regular handlers. The only difference is th
 ``` go
 package status
 
-import "goyave.dev/goyave/v4"
+import "goyave.dev/goyave/v3"
 
 func NotFound(response *goyave.Response, request *goyave.Request) {
     if err := response.RenderHTML(response.GetStatus(), "errors/404.html", nil); err != nil {

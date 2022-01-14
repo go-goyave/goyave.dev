@@ -40,4 +40,4 @@ You can support me on Github Sponsor or Patreon.
 
 <iframe src="https://github.com/sponsors/System-Glitch/button" title="Sponsor System-Glitch" height="35" width="116" style="border: 0;"></iframe>
 
-<a href="https://www.patreon.com/bePatron?u=25997573">Become a Patron!</a>
+<a href="https://www.patreon.com/bePatron?u=25997573" data-patreon-widget-type="become-patron-button">Become a Patron!</a>

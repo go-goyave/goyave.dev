@@ -14,7 +14,7 @@ This guide will walk you through the installation process. The rest of the guide
 
 ## Requirements
 
-- Go 1.16+
+- Go 1.13+
 - Go modules
 
 ## Template project
@@ -59,7 +59,7 @@ In a terminal, run:
 ```
 $ mkdir myproject && cd myproject
 $ go mod init github.com/username/projectname
-$ go get -u goyave.dev/goyave/v4
+$ go get -u goyave.dev/goyave/v3
 ```
 
 Now that your project directory is set up and the dependencies are installed, let's start with the program entry point, `main.go`:
@@ -68,7 +68,7 @@ package main
 
 import (
     "github.com/username/projectname/http/route"
-    "goyave.dev/goyave/v4"
+    "goyave.dev/goyave/v3"
 )
 
 func main() {
@@ -92,7 +92,7 @@ Create `http/route/route.go`:
 ``` go
 package routes
 
-import "goyave.dev/goyave/v4"
+import "goyave.dev/goyave/v3"
 
 // Register all the routes
 func Register(router *goyave.Router) {

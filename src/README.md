@@ -50,7 +50,7 @@ Goyave is a progressive and accessible web application framework focused on REST
         </a>
         </span>
     </div>
-    <p>Do you want to be featured here? <a href="https://github.com/go-goyave/goyave/issues/new" target="_blank" rel="nofollow">Open an issue</a>.</p>
+    <p>Do you want to be featured here? <a href="https://github.com/go-goyave/goyave/issues/new?template=used_by.md" target="_blank" rel="nofollow">Open an issue</a>.</p>
 </div>
 
 ---
@@ -58,7 +58,7 @@ Goyave is a progressive and accessible web application framework focused on REST
 ## Hello world from scratch
 
 ```go
-import "goyave.dev/goyave/v3"
+import "goyave.dev/goyave/v4"
 
 func registerRoutes(router *goyave.Router) {
     router.Get("/hello", func(response *goyave.Response, request *goyave.Request) {
@@ -221,7 +221,7 @@ func main() {
   ```go
   package status
 
-  import "goyave.dev/goyave/v3"
+  import "goyave.dev/goyave/v4"
 
   func NotFound(response *goyave.Response, request *goyave.Request) {
       if err := response.RenderHTML(response.GetStatus(), "errors/404.html", nil); err != nil {
@@ -266,7 +266,7 @@ func main() {
       "debug": true,
       "defaultLanguage": "en-US"
     },
-      "server": {
+    "server": {
       "host": "127.0.0.1",
       "maintenance": false,
       "protocol": "http",
@@ -274,9 +274,13 @@ func main() {
       "port": 8080,
       "httpsPort": 8081,
       "timeout": 10,
-      "maxUploadSize": 10
+      "maxUploadSize": 10,
+      "tls": {
+        "cert": "/path/to/cert",
+        "key": "/path/to/key"
+      }
     },
-      "database": {
+    "database": {
       "connection": "mysql",
       "host": "127.0.0.1",
       "port": 3306,
@@ -287,7 +291,16 @@ func main() {
       "maxOpenConnections": 20,
       "maxIdleConnections": 20,
       "maxLifetime": 300,
-      "autoMigrate": false
+      "autoMigrate": false,
+      "config": {
+        "skipDefaultTransaction": false,
+        "dryRun": false,
+        "prepareStmt": true,
+        "disableNestedTransaction": false,
+        "allowGlobalUpdate": false,
+        "disableAutomaticPing": false,
+        "disableForeignKeyConstraintWhenMigrating": false
+      }
     }
   }
   ```
@@ -337,7 +350,7 @@ func main() {
   </template>
   <template #slot-desc-2>
 
-  Validating arrays is easy. All the validation rules, can be applied to array values using the prefix `>`. When array values are validated, all of them must pass the validation.
+  Validating arrays is easy. All the validation rules can be applied to array values. When array values are validated, all of them must pass the validation.
 
   [Learn more](./guide/basics/validation.html#validating-arrays)
 
@@ -354,9 +367,9 @@ func main() {
   ```go
   var (
       StoreRequest validation.RuleSet = validation.RuleSet{
-          "name":  {"required", "string", "between:3,50"},
-          "price": {"required", "numeric", "min:0.01"},
-          "image": {"nullable", "file", "image", "max:2048", "count:1"},
+          "name":  validation.List{"required", "string", "between:3,50"},
+          "price": validation.List{"required", "numeric", "min:0.01"},
+          "image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
       }
   )
 
@@ -371,9 +384,9 @@ func main() {
   ```go
   var (
       StoreRequest validation.RuleSet = validation.RuleSet{
-          "name":  {"required", "string", "between:3,50"},
-          "price": {"required", "numeric", "min:0.01"},
-          "image": {"nullable", "file", "image", "max:2048", "count:1"},
+          "name":  validation.List{"required", "string", "between:3,50"},
+          "price": validation.List{"required", "numeric", "min:0.01"},
+          "image": validation.List{"nullable", "file", "image", "max:2048", "count:1"},
       }
   )
 
@@ -387,11 +400,15 @@ func main() {
   
   ```go
   var arrayValidation = validation.RuleSet{
-      "array": {"required", "array:string", "between:1,5", ">email", ">max:128"},
+      "array":   validation.List{"required", "array:string", "between:1,5"},
+      "array[]": validation.List{"email", "max:128"}
   }
 
   var nDimensionalArrayValidation = RuleSet{
-    "array": {"required", "array", ">array", ">>array:numeric", ">max:3", ">>>max:4"},
+      "array":       validation.List{"required", "array"},
+      "array[]":     validation.List{"array", "max:3"},
+      "array[][]":   validation.List{"array:numeric"},
+      "array[][][]": validation.List{"numeric", "max:4"},
   }
 
   ```
@@ -402,9 +419,9 @@ func main() {
   ```go
   var (
       StoreRequest = validation.RuleSet{
-          "user":       {"required", "object"},
-          "user.name":  {"required", "string", "between:3,50"},
-          "user.email": {"required", "email"},
+          "user":       validation.List{"required", "object"},
+          "user.name":  validation.List{"required", "string", "between:3,50"},
+          "user.email": validation.List{"required", "email"},
       }
   )
 
@@ -474,11 +491,11 @@ func main() {
       Age          sql.NullInt64
       Birthday     *time.Time
       Email        string  `gorm:"type:varchar(100);uniqueIndex"`
-      Role         string  `gorm:"size:255"` // set field size to 255
+      Role         string  `gorm:"size:255"`        // set field size to 255
       MemberNumber *string `gorm:"unique;not null"` // set member number to unique and not null
-      Num          int     `gorm:"autoIncrement"` // set num to auto incrementable
-      Address      string  `gorm:"index:addr"` // create index with name `addr` for address
-      IgnoreMe     int     `gorm:"-"` // ignore this field
+      Num          int     `gorm:"autoIncrement"`   // set num to auto incrementable
+      Address      string  `gorm:"index:addr"`      // create index with name `addr` for address
+      IgnoreMe     int     `gorm:"-"`               // ignore this field
   }
   ```
 
@@ -500,7 +517,7 @@ func main() {
       tx := database.Conn()
 
       if request.Has("search") {
-          search := helper.EscapeLike(request.String("search"))
+          search := sqlutil.EscapeLike(request.String("search"))
           tx = tx.Where("title LIKE ?", "%"+search+"%")
       }
 
@@ -573,7 +590,7 @@ func main() {
   ```go
   import (
       "github.com/username/projectname/http/route"
-      "goyave.dev/goyave/v3"
+      "goyave.dev/goyave/v4"
   )
 
   type CustomTestSuite struct {
