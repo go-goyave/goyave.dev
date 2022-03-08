@@ -229,6 +229,20 @@ Remove all database connection initializer functions.
 |------------|--------|
 |            | `void` |
 
+### Replacing the connection
+
+<p><Badge text="Since v4.1.0"/></p>
+
+You may need to replace or setup a connection manually, for example when using database mock libraries for testing. You can use `database.SetConnection()` for this purpose. Using this function is not recommended outside of tests. Prefer using a [custom dialect](#database-registerdialect) instead. 
+
+#### database.SetConnection
+
+Manually replace the automatic DB connection. If a connection already exists, closes it before discarding it.
+
+| Parameters                 | Return     |
+|----------------------------|------------|
+| `dialector gorm.Dialector` | `*gorm.DB` |
+|                            | `error`    |
 
 ## Models
 
@@ -379,12 +393,12 @@ Create a new `Paginator`.
 
 Given DB transaction can contain clauses already, such as WHERE, if you want to filter results.
 
-| Parameters         | Return       |
-|--------------------|--------------|
-| `db *gorm.DB`      | `*Paginator` |
-| `page int`         |              |
-| `pageSize int`     |              |
-| `dest interface{}` |              |
+| Parameters         | Return                |
+|--------------------|-----------------------|
+| `db *gorm.DB`      | `*database.Paginator` |
+| `page int`         |                       |
+| `pageSize int`     |                       |
+| `dest interface{}` |                       |
 
 **`Paginator` definition:**
 ```go
@@ -404,6 +418,31 @@ Find requests page information (total records and max page) and executes the tra
 | Parameters | Return     |
 |------------|------------|
 |            | `*gorm.DB` |
+
+### Paginating raw queries
+
+<p><Badge text="Since v4.1.0"/></p>
+
+By default, the paginator uses the model given when calling `NewPaginator` and automatically builds the query. But this is not flexible enough for some use-cases involving more specific queries. You would then need to use a raw query.
+
+#### paginator.Raw
+
+The Paginator will execute the raw queries instead of automatically creating them. The raw query should not contain the "LIMIT" and "OFFSET" clauses, they will be added automatically. The count query should return a single number (`COUNT(*)` for example). Returns the same Paginator instance.
+
+| Parameters                | Return                |
+|---------------------------|-----------------------|
+| `query string`            | `*database.Paginator` |
+| `vars []interface{}`      |                       |
+| `countQuery string`       |                       |
+| `countVars []interface{}` |                       |
+
+**Example:**
+```go
+rawQuery := "SELECT * FROM articles WHERE title LIKE ?"
+rawCountQuery := "SELECT COUNT(*) FROM articles WHERE title LIKE ?"
+vars := []interface{}{"%" + sqlutil.EscapeLike("interesting") + "%"}
+paginator := NewPaginator(db, 1, 5, &results).Raw(rawQuery, vars, rawCountQuery, vars)
+```
 
 ## Setting up SSL/TLS
 
