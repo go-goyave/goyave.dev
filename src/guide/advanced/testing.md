@@ -204,7 +204,7 @@ rawRequest.Header.Set("Content-Type", "application/json")
 request := suite.CreateTestRequest(rawRequest)
 request.Data = map[string]interface{}{"text": "  \n  test  \t"}
 
-result := suite.Middleware(middleware.Trim, request, func(response *Response, request *Request) {
+result := suite.Middleware(middleware.Trim, request, func(response *goyave.Response, request *goyave.Request) {
     suite.Equal("application/json", request.Header().Get("Content-Type"))
     suite.Equal("test", request.String("text"))
 })
@@ -216,7 +216,7 @@ If you want to test a blocking middleware, flag the test as failed in the test p
 
 ``` go
 request := suite.CreateTestRequest(nil)
-suite.Middleware(middleware.Auth, request, func(response *Response, request *Request) {
+suite.Middleware(middleware.Auth, request, func(response *goyave.Response, request *goyave.Request) {
     suite.Fail("Auth middleware passed")
 })
 ```
