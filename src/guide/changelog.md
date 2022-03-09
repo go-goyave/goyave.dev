@@ -12,6 +12,11 @@ meta:
 
 [[toc]]
 
+## v4.1.0
+
+- Added `database.SetConnection()`.
+- Added support for raw queries in `database.Paginator`.
+
 ## v4.0.0
 
 - Only the last two major versions of Go will be supported, starting with this release.
