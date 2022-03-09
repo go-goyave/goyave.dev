@@ -208,6 +208,7 @@ result := suite.Middleware(middleware.Trim, request, func(response *goyave.Respo
     suite.Equal("application/json", request.Header().Get("Content-Type"))
     suite.Equal("test", request.String("text"))
 })
+defer result.Body.Close()
 
 suite.Equal(200, result.StatusCode)
 ```
