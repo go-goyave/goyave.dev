@@ -12,7 +12,13 @@ meta:
 
 [[toc]]
 
-## v4.1.0
+## v4.1.x
+
+### v4.1.1
+
+- Fixed `database.Paginator` error on count query when using `Preload` and the latest version of gorm.
+
+### v4.1.0
 
 - Added `database.SetConnection()`.
 - Added support for raw queries in `database.Paginator`.
