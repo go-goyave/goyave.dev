@@ -8,7 +8,9 @@ meta:
     content: "CORS - Goyave"
 ---
 
-# CORS <Badge text="Since v2.3.0"/>
+# CORS
+
+<Badge text="Since v2.3.0"/>
 
 [[toc]]
 

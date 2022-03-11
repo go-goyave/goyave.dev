@@ -8,7 +8,9 @@ meta:
     content: "Websocket - Goyave"
 ---
 
-# Websocket <Badge text="Since v3.7.0"/>
+# Websocket
+
+<Badge text="Since v3.7.0"/>
 
 [[toc]]
 

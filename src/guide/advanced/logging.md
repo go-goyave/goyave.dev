@@ -8,7 +8,9 @@ meta:
     content: "Logging - Goyave"
 ---
 
-# Logging <Badge text="Since v2.8.0"/>
+# Logging
+
+<Badge text="Since v2.8.0"/>
 
 [[toc]]
 

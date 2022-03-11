@@ -8,7 +8,9 @@ meta:
     content: "Authentication - Goyave"
 ---
 
-# Authentication <Badge text="Since v2.5.0"/>
+# Authentication 
+
+<Badge text="Since v2.5.0"/>
 
 [[toc]]
 

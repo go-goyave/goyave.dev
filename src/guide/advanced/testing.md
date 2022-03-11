@@ -8,7 +8,9 @@ meta:
     content: "Testing - Goyave"
 ---
 
-# Testing <Badge text="Since v2.2.0"/>
+# Testing
+
+<Badge text="Since v2.2.0"/>
 
 [[toc]]
 

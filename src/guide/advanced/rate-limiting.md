@@ -8,7 +8,9 @@ meta:
     content: "Rate Limiting - Goyave"
 ---
 
-# Rate Limiting <Badge text="Since v3.5.0"/>
+# Rate Limiting
+
+<Badge text="Since v3.5.0"/>
 
 [[toc]]
 

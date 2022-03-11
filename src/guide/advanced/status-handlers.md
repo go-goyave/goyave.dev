@@ -8,7 +8,9 @@ meta:
     content: "Status Handlers - Goyave"
 ---
 
-# Status Handlers <Badge text="Since v2.4.0"/>
+# Status Handlers
+
+<Badge text="Since v2.4.0"/>
 
 [[toc]]
 
