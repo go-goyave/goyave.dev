@@ -12,6 +12,11 @@ meta:
 
 [[toc]]
 
+## v4.2.0
+
+- Added [`database.IView`](./basics/database.html#views).
+- Don't force the `GOYAVE_ENV` to be `test` in `TestSuite`. Only sets it to `test` if the `GOYAVE_ENV` environment variable is not already set.
+
 ## v4.1.x
 
 ### v4.1.1

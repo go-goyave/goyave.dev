@@ -471,7 +471,7 @@ Drop all tables. This function only clears the tables of registered models.
 
 #### goyave.RunTest
 
-Run a test suite with prior initialization of a test environment. The `GOYAVE_ENV` environment variable is automatically set to "test" and restored to its original value at the end of the test run.
+Run a test suite with prior initialization of a test environment. The `GOYAVE_ENV` environment variable is automatically set to "test" if it's not provided.
 
 All tests are run using your project's root as working directory. This directory is determined by the presence of a `go.mod` file.
 

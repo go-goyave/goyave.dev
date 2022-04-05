@@ -326,6 +326,22 @@ Automatic migrations create tables, missing foreign keys, constraints, columns a
 
 If you would like to know more about migrations using Gorm, read their [documentation](https://gorm.io/docs/migration.html).
 
+### Views
+
+<p><Badge text="Since v4.2.0"/></p>
+
+If you define a model that represents a SQL view, you may want to make it implement `database.IView` so it can be identified as a view. This is especially useful in `TestSuite` so `ClearDatabase()` doesn't try (and fail) to delete records of that model.
+
+You can use composition and `database.View` to easily make your models implement the `database.IView` interface.
+
+```go
+type Model struct{
+    database.View
+    ID int
+    //...
+}
+```
+
 ## Pagination
 
 <p><Badge text="Since v3.4.0"/></p>
