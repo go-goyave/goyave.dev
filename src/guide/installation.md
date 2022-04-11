@@ -14,7 +14,7 @@ This guide will walk you through the installation process. The rest of the guide
 
 ## Requirements
 
-- Go 1.16+
+- Go 1.17+
 - Go modules
 
 ## Template project
