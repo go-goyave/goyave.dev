@@ -45,8 +45,8 @@ Goyave is a progressive and accessible web application framework focused on REST
     <h2>Used By</h2>
     <div>
         <span class="used-by-company">
-        <a href="https://adagio.io" target="_blank" rel="nofollow">
-            <img src="usedby/adagio.webp" alt="Adagio.io"/>
+        <a href="https://adagio.io" target="_blank" rel="nofollow" style="display: flex">
+            <img src="usedby/adagio.webp" width="100" height="90" alt="Adagio.io" style="background-color: #fff"/>
         </a>
         </span>
     </div>
