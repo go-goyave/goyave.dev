@@ -12,7 +12,14 @@ meta:
 
 [[toc]]
 
-## v4.2.0
+## v4.2.x
+
+### v4.2.1
+
+- Fixed the test `TestClearDatabaseView` that was failing if run multiple times.
+- Fixed a validation crash when a nullable field doesn't pass validation.
+
+### v4.2.0
 
 - Added [`database.IView`](./basics/database.html#views).
 - Don't force the `GOYAVE_ENV` to be `test` in `TestSuite`. Only sets it to `test` if the `GOYAVE_ENV` environment variable is not already set.
