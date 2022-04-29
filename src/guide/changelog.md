@@ -12,6 +12,10 @@ meta:
 
 [[toc]]
 
+## v4.3.0
+
+- Added [post validation hooks](./basics/validation.html#post-validation-hooks).
+
 ## v4.2.x
 
 ### v4.2.1

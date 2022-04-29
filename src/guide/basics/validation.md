@@ -785,6 +785,32 @@ validation.GetFieldType([]int{1,2}) // "array"
 validation.GetFieldType(map[string]int{"hello": 1, "world": "!"}) // "object"
 ```
 
+## Post validation hooks
+
+<p><Badge text="Since v4.3.0"/></p>
+
+Post validation hooks are functions executed after the validation process is over, no matter if the validation passes or not. A post validation hook can process additional checks on the data and alter the resulting `validation.Errors` as needed. These hooks always return a `validation.Errors`, typically the same as the one they received as a paramater, but it is possible to return an entirely different instance of `validation.Errors`.
+
+Because it is a more advanced feature, you must use `*validation.Rules` instead of `validation.RuleSet`.
+
+**Example**
+```go
+var (
+	CreateRequest = validation.RuleSet{
+		"text": validation.List{"required", "string"},
+	}.AsRules()
+)
+
+func init() {
+	hook := func(data map[string]interface{}, errors validation.Errors, now time.Time) Errors {
+		// ...
+		return errors
+	}
+
+	CreateRequest.PostValidationHooks = append(CreateRequest.PostValidationHooks, hook)
+}
+```
+
 ## Placeholders
 
 Validation messages can use placeholders to inject dynamic values in the validation error message. For example, in the `rules.json` language file:
