@@ -12,6 +12,11 @@ meta:
 
 [[toc]]
 
+## v4.4.0
+
+- Added [`validation.ValidateWithExtra`](./basics/validation.html#validation-validatewithextra).
+- The validation middleware now provides the `*goyave.Request` to validation rules as an extra.
+
 ## v4.3.0
 
 - Added [post validation hooks](./basics/validation.html#post-validation-hooks).

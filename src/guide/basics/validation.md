@@ -682,6 +682,10 @@ func validateCustomFormat(ctx *validation.Context) bool {
 - The custom rule in the example above validates a string using a regex. If you need this kind of validation, prefer the built-in `regex` validation rule.
 :::
 
+::: tip
+You can access the `*goyave.Request` from the given validation context: `ctx.Extra["request"].(*goyave.Request)`. Make sure the value is available before using it, since the validation system can also be used manually, outside of an HTTP request context.
+:::
+
 Now that your rule behavior is defined, you need to **register** your rule. Do this in an `init()` function in your `validation.go` file.
 
 #### validation.AddRule
@@ -951,3 +955,17 @@ func Store(response *goyave.Response, request *goyave.Request) {
     // ...
 }
 ```
+
+#### validation.ValidateWithExtra
+
+<p><Badge text="Since v4.4.0"/></p>
+
+This function allows to validate just like `validation.Validate` but with the added ability to provide extra information to validation rules via `validation.Context.Extra`. The given map is copied for each validation rule. One copy of the extra map is therefore scoped to a single validation rule function call and the resulting validation error message / placeholder.
+
+| Parameters                     | Return              |
+|--------------------------------|---------------------|
+| `data map[string]interface{}`  | `validation.Errors` |
+| `rules validation.Ruler`       |                     |
+| `isJSON bool`                  |                     |
+| `language string`              |                     |
+| `extra map[string]interface{}` |                     |
