@@ -411,7 +411,7 @@ The two fields must have the same type. Files are not checked.
 #### file
 
 The field under validation must be a file. Multi-files are supported.
-This rule converts the field to `[]filesystem.File` if it passes.
+This rule converts the field to `[]fsutil.File` if it passes.
 
 #### mime:foo,...
 
@@ -772,7 +772,7 @@ for validation or not and is especially useful for type-dependent rules.
 - `numeric` if the value is an int, uint or a float
 - `string` if the value is a string
 - `array` if the value is a slice
-- `file` if the value is a slice of `filesystem.File`
+- `file` if the value is a slice of `fsutil.File`
 - `object` if the value is a `map[string]interface{}`
 - `unsupported` otherwise
 

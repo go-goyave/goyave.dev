@@ -357,9 +357,9 @@ fmt.Println(request.Bool("EULA")) // true
 
 Get a file field from the request data. Panics if the field is not a file or doesn't exist.
 
-| Parameters     | Return              |
-|----------------|---------------------|
-| `field string` | `[]filesystem.File` |
+| Parameters     | Return          |
+|----------------|-----------------|
+| `field string` | `[]fsutil.File` |
 
 **Example:**
 ``` go

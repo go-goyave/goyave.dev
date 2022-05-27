@@ -371,11 +371,11 @@ Read the whole body of a response and decode it as JSON. If read or decode faile
 
 #### TestSuite.CreateTestFiles
 
-Create a slice of `filesystem.File` from the given paths. Files are passed to a temporary http request and parsed as Multipart form, to reproduce the way files are obtained in real scenarios.
+Create a slice of `fsutil.File` from the given paths. Files are passed to a temporary http request and parsed as Multipart form, to reproduce the way files are obtained in real scenarios.
 
-| Parameters        | Return              |
-|-------------------|---------------------|
-| `paths ...string` | `[]filesystem.File` |
+| Parameters        | Return          |
+|-------------------|-----------------|
+| `paths ...string` | `[]fsutil.File` |
 
 #### TestSuite.CreateTestRequest
 
