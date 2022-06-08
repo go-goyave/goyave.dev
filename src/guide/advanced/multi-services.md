@@ -59,7 +59,7 @@ goyave.ClearStartupHooks()
 Shutdown hooks are functions executed when the server stops. This is especially useful when you want to stop other services when the server stops.
 
 ::: warning
-Bear in mind that shutdown hooks are blocking operations during the shutdown process and there is no timeout mechanism. It is your responsability that your code doesn't end up deadlocking. 
+Bear in mind that shutdown hooks are blocking operations during the shutdown process and there is no timeout mechanism. It is your responsibility that your code doesn't end up deadlocking. 
 :::
 
 #### goyave.RegisterShutdownHook
