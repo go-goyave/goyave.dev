@@ -12,7 +12,14 @@ meta:
 
 [[toc]]
 
-## v4.4.0
+## v4.4.x
+
+### v4.4.1
+
+- In debug mode, `reponse.Error()` doesn't override previously defined status anymore.
+- `TestSuite.RunServer` now clears shutdown hooks too. 
+
+### v4.4.0
 
 - Added [`validation.ValidateWithExtra`](./basics/validation.html#validation-validatewithextra).
 - The validation middleware now provides the `*goyave.Request` to validation rules as an extra.
