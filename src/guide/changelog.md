@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.2
+
+- "object" validation rule now also accepts JSON strings. This is useful when you expect an object but the field is given via a query param.
+
 ### v4.4.1
 
 - In debug mode, `reponse.Error()` doesn't override previously defined status anymore.

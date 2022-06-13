@@ -509,7 +509,7 @@ The field under validation must be a date in the future.
 
 #### object
 
-The field under validation must be an object (`map[string]interface{}`).
+The field under validation must be an object (`map[string]interface{}`) or a valid JSON object string. If the field is a JSON string, it will be converted to `map[string]interface{}` automatically.
 
 #### unique:table,[column]
 
