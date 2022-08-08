@@ -40,6 +40,7 @@ Come and learn about the framework, stay updated on the progress, be notified wh
 - Massimiliano Bertinetti
 - ethicnology
 - Yariya
+- sebastien-d-me
 
 ## Contributors
 
