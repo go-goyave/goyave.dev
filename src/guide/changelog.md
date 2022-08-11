@@ -14,6 +14,11 @@ meta:
 
 ## v4.4.x
 
+### v4.4.3
+
+- Removed usage of `io/ioutil` as it is deprecated.
+- Fixed the validation error message for the "in" rule when used on array elements.
+
 ### v4.4.2
 
 - "object" validation rule now also accepts JSON strings. This is useful when you expect an object but the field is given via a query param.
