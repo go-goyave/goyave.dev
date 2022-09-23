@@ -481,16 +481,16 @@ func init() {
 
 ### Server category
 
-| Entry         | Type      | Accepted values | Default     | Note                                                                      |
-|---------------|-----------|-----------------|-------------|---------------------------------------------------------------------------|
-| host          | `string`  | any             | "127.0.0.1" |                                                                           |
-| domain        | `string`  | any             | ""          | Used for URL generation. Leave empty to use IP instead.                   |
-| protocol      | `string`  | "http", "https" | "http"      | See the [HTTPS](#setting-up-https) section                                |
-| port          | `int`     | any             | `8080`      |                                                                           |
-| httpsPort     | `int`     | any             | `8081`      |                                                                           |
-| timeout       | `int`     | any             | `10`        | Timeout in seconds                                                        |
-| maxUploadSize | `float64` | any             | `10`        | Maximum size of the request, in MiB                                       |
-| maintenance   | `bool`    | any             | `false`     | If `true`, start the server in maintenance mode. (Always return HTTP 503) |
+| Entry         | Type      | Accepted values | Default     | Note                                                                          |
+|---------------|-----------|-----------------|-------------|-------------------------------------------------------------------------------|
+| host          | `string`  | any             | "127.0.0.1" |                                                                               |
+| domain        | `string`  | any             | ""          | Used for URL generation. Leave empty to use IP instead.                       |
+| protocol      | `string`  | "http", "https" | "http"      | See the [HTTPS](#setting-up-https) section                                    |
+| port          | `int`     | any             | `8080`      |                                                                               |
+| httpsPort     | `int`     | any             | `8081`      |                                                                               |
+| timeout       | `int`     | any             | `10`        | `*http.Server`'s `WriteTimeout`, `ReadTimeout` and `IdleTimeout` (in seconds) |
+| maxUploadSize | `float64` | any             | `10`        | Maximum size of the request, in MiB                                           |
+| maintenance   | `bool`    | any             | `false`     | If `true`, start the server in maintenance mode. (Always return HTTP 503)     |
 
 #### TLS sub-category
 
