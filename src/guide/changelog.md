@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.4
+
+- Fixed an issue in validation removing the parent element of non-nullable elements from the body when the parent didn't have the expected type.
+
 ### v4.4.3
 
 - Removed usage of `io/ioutil` as it is deprecated.
