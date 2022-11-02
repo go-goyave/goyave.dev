@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.5
+
+- Fixed a compilation error when using the latest version of Gorm.
+
 ### v4.4.4
 
 - Fixed an issue in validation removing the parent element of non-nullable elements from the body when the parent didn't have the expected type.
