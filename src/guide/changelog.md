@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.6
+
+- The recovery middleware always gathers the stacktrace, even if debugging is not enabled. This will help getting more information from applications deployed in production and using error tracking platforms.
+
 ### v4.4.5
 
 - Fixed a compilation error when using the latest version of Gorm.
