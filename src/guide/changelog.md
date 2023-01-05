@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.8
+
+- Fixed a bug in validation placeholders that allowed users to inject other placeholders into the original message and potentially create panics.
+
 ### v4.4.7
 
 - Fixed an issue with `database.Paginator`'s raw count query not using the provided vars.
