@@ -14,6 +14,19 @@ meta:
 
 [[toc]]
 
+::: warning
+**DEPRECATED**: This implementation couldn't be used in a realistic production environment and didn't cover critical aspects of a real application.
+
+- Slow because of too many mutex locks
+- Memory hungry
+- Completely resets if the application restarts (which is very common when deployed on a cloud service)
+- Not distributed (meaning it is impossible to use when working with multiple instances and load balancing)
+- Weak policy (simple time window) whereas more efficient policies such as the leaky bucket could be used
+- Outdated because based on an older IETF draft
+
+For these reasons, this package will be **removed in v5** to avoid developers relying on it. It is recommended to use better alternatives such as [`redis_rate`](https://github.com/go-redis/redis_rate).
+:::
+
 ## Introduction
 
 Rate limiting is a crucial part of public API development. If you want to protect your data from being crawled, protect yourself from DDOS attacks, or provide different tiers of access to your API, you can do it using Goyave's built-in rate limiting middleware.
