@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.9
+
+- Fixed interface compatibility with Testify v1.8.2. Thanks to contributor [@imuni4fun](https://github.com/imuni4fun)
+
 ### v4.4.8
 
 - Fixed a bug in validation placeholders that allowed users to inject other placeholders into the original message and potentially create panics.
