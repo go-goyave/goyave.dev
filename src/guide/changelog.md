@@ -14,6 +14,12 @@ meta:
 
 ## v4.4.x
 
+### v4.4.10
+
+- Fixed potential SQL errors when using the `unique`/`exists` validation rules 
+- Updated dependencies
+- Dropped support for go 1.17
+
 ### v4.4.9
 
 - Fixed interface compatibility with Testify v1.8.2. Thanks to contributor [@imuni4fun](https://github.com/imuni4fun)
