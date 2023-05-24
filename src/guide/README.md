@@ -41,6 +41,7 @@ Come and learn about the framework, stay updated on the progress, be notified wh
 - ethicnology
 - Yariya
 - sebastien-d-me
+- Nebojša Koturović
 
 ## Contributors
 
