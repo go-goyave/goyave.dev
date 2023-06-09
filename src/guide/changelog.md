@@ -14,6 +14,10 @@ meta:
 
 ## v4.4.x
 
+### v4.4.11
+
+- Fixed panic when parsing a multipart form containing an empty file.
+
 ### v4.4.10
 
 - Fixed potential SQL errors when using the `unique`/`exists` validation rules 
