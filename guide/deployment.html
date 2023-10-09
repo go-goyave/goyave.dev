@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deployment | Goyave</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    <link rel="icon" type="image/png" sizes="16x16" href="/goyave_16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/goyave_32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/goyave_64.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="/goyave_128.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="/goyave_256.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/goyave_512.png">
+    <meta name="description" content="Goyave is a Golang REST API framework aiming at cleanliness, fast development and power.">
+    <meta name="og:title" content="Deployment - Goyave">
+    <meta name="twitter:title" content="Deployment - Goyave">
+    <meta name="title" content="Deployment - Goyave">
+    <meta property="twitter:description" content="Goyave is a Golang REST API framework aiming at cleanliness, fast development and power.">
+    <meta property="twitter:image:src" content="https://goyave.dev/goyave_banner.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Goyave is a Golang REST API framework aiming at cleanliness, fast development and power.">
+    <meta property="og:image" content="https://goyave.dev/goyave_banner.png">
+    <meta property="og:site_name" content="Goyave">
+    
+    <link rel="preload" href="/assets/css/0.styles.2cae8c41.css" as="style"><link rel="preload" href="/assets/js/app.5aed32b7.js" as="script"><link rel="preload" href="/assets/js/5.d6713bf3.js" as="script"><link rel="preload" href="/assets/js/1.2ac9e5d6.js" as="script"><link rel="preload" href="/assets/js/33.a350fa99.js" as="script"><link rel="prefetch" href="/assets/js/10.16fdcc2c.js"><link rel="prefetch" href="/assets/js/11.6c786db6.js"><link rel="prefetch" href="/assets/js/12.0f9aa496.js"><link rel="prefetch" href="/assets/js/13.f1389684.js"><link rel="prefetch" href="/assets/js/14.55f4cbf8.js"><link rel="prefetch" href="/assets/js/15.f40bb3e9.js"><link rel="prefetch" href="/assets/js/16.c2daae7b.js"><link rel="prefetch" href="/assets/js/17.6f6cc523.js"><link rel="prefetch" href="/assets/js/18.4ed91609.js"><link rel="prefetch" href="/assets/js/19.31b9d1c1.js"><link rel="prefetch" href="/assets/js/20.4ff8b44c.js"><link rel="prefetch" href="/assets/js/21.f1958782.js"><link rel="prefetch" href="/assets/js/22.205e6224.js"><link rel="prefetch" href="/assets/js/23.9db8ce51.js"><link rel="prefetch" href="/assets/js/24.484bfecf.js"><link rel="prefetch" href="/assets/js/25.1877d02d.js"><link rel="prefetch" href="/assets/js/26.f6740a42.js"><link rel="prefetch" href="/assets/js/27.81e1dbc3.js"><link rel="prefetch" href="/assets/js/28.aa58e8b4.js"><link rel="prefetch" href="/assets/js/29.b9756d72.js"><link rel="prefetch" href="/assets/js/30.c0686e39.js"><link rel="prefetch" href="/assets/js/31.699bb4b9.js"><link rel="prefetch" href="/assets/js/32.0524baa6.js"><link rel="prefetch" href="/assets/js/34.fcbc7446.js"><link rel="prefetch" href="/assets/js/35.02510780.js"><link rel="prefetch" href="/assets/js/36.931f2473.js"><link rel="prefetch" href="/assets/js/37.a5ace87f.js"><link rel="prefetch" href="/assets/js/38.08502c07.js"><link rel="prefetch" href="/assets/js/39.5dbf5c82.js"><link rel="prefetch" href="/assets/js/4.8bfad796.js"><link rel="prefetch" href="/assets/js/40.4d76f3e9.js"><link rel="prefetch" href="/assets/js/41.f035cde6.js"><link rel="prefetch" href="/assets/js/42.74315ece.js"><link rel="prefetch" href="/assets/js/43.21dbc494.js"><link rel="prefetch" href="/assets/js/44.ffc0673c.js"><link rel="prefetch" href="/assets/js/45.a4bd8a6e.js"><link rel="prefetch" href="/assets/js/46.9406f908.js"><link rel="prefetch" href="/assets/js/47.07f8b6e6.js"><link rel="prefetch" href="/assets/js/48.52e35179.js"><link rel="prefetch" href="/assets/js/49.b20c41df.js"><link rel="prefetch" href="/assets/js/50.b0fc0567.js"><link rel="prefetch" href="/assets/js/51.66107fea.js"><link rel="prefetch" href="/assets/js/52.c5c70515.js"><link rel="prefetch" href="/assets/js/53.1db2917b.js"><link rel="prefetch" href="/assets/js/54.96a4a5c8.js"><link rel="prefetch" href="/assets/js/55.f1e62a95.js"><link rel="prefetch" href="/assets/js/56.f58f1824.js"><link rel="prefetch" href="/assets/js/57.3383ea92.js"><link rel="prefetch" href="/assets/js/58.73790343.js"><link rel="prefetch" href="/assets/js/59.f12c8b52.js"><link rel="prefetch" href="/assets/js/6.77c10c3d.js"><link rel="prefetch" href="/assets/js/60.a1b5b4b2.js"><link rel="prefetch" href="/assets/js/61.781820a4.js"><link rel="prefetch" href="/assets/js/62.30ab9edb.js"><link rel="prefetch" href="/assets/js/7.430f8aab.js"><link rel="prefetch" href="/assets/js/8.a426a322.js"><link rel="prefetch" href="/assets/js/9.12348937.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.12ec6bfe.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.2cae8c41.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-3fedb5af><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/goyave_64.png" alt="Goyave" class="logo"> <span class="site-name can-hide">Goyave</span></a> <div class="links"><div class="user-settings"><a title="Dark theme" href="#" class="settings-button"><svg aria-hidden="true" data-prefix="fas" data-icon="cog" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="svg-inline--fa fa-cog fa-w-16 settings-icon"><path fill="currentColor" d="M8 0c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM8 15c-3.9 0-7-3.1-7-7 0-2.4 1.2-4.6 3.2-5.9-0.1 0.6-0.2 1.3-0.2 1.9 0 4.9 4 8.9 8.9 9-1.3 1.3-3 2-4.9 2z"></path></svg></a></div> <form id="search-form" role="search" class="algolia-search-wrapper search-box"><input id="algolia-search-input" class="search-query"></form> <nav class="nav-links can-hide"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Guide Menu" class="dropdown-title"><span class="title">Guide</span> <span class="arrow down"></span></button> <button type="button" aria-label="Guide Menu" class="mobile-dropdown-title"><span class="title">Guide</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/" class="nav-link router-link-active">
+  v4
+</a></li><li class="dropdown-item"><!----> <a href="/v3/guide/" class="nav-link">
+  v3
+</a></li></ul></div></div><div class="nav-item"><a href="https://pkg.go.dev/goyave.dev/goyave/v4" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  pkg.go.dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/go-goyave/goyave" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Guide Menu" class="dropdown-title"><span class="title">Guide</span> <span class="arrow down"></span></button> <button type="button" aria-label="Guide Menu" class="mobile-dropdown-title"><span class="title">Guide</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/guide/" class="nav-link router-link-active">
+  v4
+</a></li><li class="dropdown-item"><!----> <a href="/v3/guide/" class="nav-link">
+  v3
+</a></li></ul></div></div><div class="nav-item"><a href="https://pkg.go.dev/goyave.dev/goyave/v4" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  pkg.go.dev
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/go-goyave/goyave" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav> <div class="sponsors" data-v-094edf48><!----> <a href="https://github.com/sponsors/System-Glitch/" rel="nofollow" target="_blank" class="become-backer" data-v-094edf48>
+    Become a Sponsor
+  </a></div> <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/" aria-current="page" class="sidebar-link">Introduction</a></li><li><a href="/guide/changelog.html" class="sidebar-link">Changelog</a></li><li><a href="/guide/installation.html" class="sidebar-link">Installation</a></li><li><a href="/guide/upgrade-guide.html" class="sidebar-link">Upgrade Guide</a></li><li><a href="/guide/configuration.html" class="sidebar-link">Configuration</a></li><li><a href="/guide/architecture-concepts.html" class="sidebar-link">Architecture Concepts</a></li><li><a href="/guide/deployment.html" aria-current="page" class="active sidebar-link">Deployment</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/deployment.html#introduction" class="sidebar-link">Introduction</a></li><li class="sidebar-sub-header"><a href="/guide/deployment.html#application-configuration" class="sidebar-link">Application configuration</a></li><li class="sidebar-sub-header"><a href="/guide/deployment.html#build" class="sidebar-link">Build</a></li><li class="sidebar-sub-header"><a href="/guide/deployment.html#deamon" class="sidebar-link">Deamon</a></li></ul></li><li><a href="/guide/contribution-guide.html" class="sidebar-link">Contributing to Goyave</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>The Basics</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Advanced</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Libraries</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="deployment"><a href="#deployment" class="header-anchor">#</a> Deployment</h1> <p></p><div class="table-of-contents"><ul><li><a href="#introduction">Introduction</a></li><li><a href="#application-configuration">Application configuration</a></li><li><a href="#build">Build</a></li><li><a href="#deamon">Deamon</a><ul><li><a href="#systemd">Systemd</a></li></ul></li></ul></div><p></p> <h2 id="introduction"><a href="#introduction" class="header-anchor">#</a> Introduction</h2> <p>There are some important details to think about before deploying your Goyave application to production. We are going to cover them in this section of the guide, and make sure your applications are deployed properly.</p> <h2 id="application-configuration"><a href="#application-configuration" class="header-anchor">#</a> Application configuration</h2> <p>Be sure to deploy your application with a <code>config.production.json</code> config file containing the correct values for your production environment and <strong>set the <code>GOYAVE_ENV</code> environment variable to <code>production</code>.</strong></p> <ol><li>Ensure that the <code>app.environment</code> entry is <code>production</code>.</li> <li>The <code>server.host</code> entry should be <code>0.0.0.0</code> if you want to open access to your service from anywhere. If you're using Apache or Nginx as a proxy on the same machine, keep it at <code>127.0.0.1</code> so the server will only be accessible through the proxy.</li> <li>Change the <code>server.domain</code> entry to your domain name, if you use one.</li> <li>The <code>server.port</code> and <code>server.httpsPort</code> will very likely require a change. Most of the time, you need <code>80</code> and <code>443</code> respectively.</li> <li>If you use <code>https</code>, be sure to provide the paths to your <code>server.tls.cert</code> and <code>server.tls.key</code>. Learn more <a href="/guide/configuration.html#setting-up-https">here</a>.</li> <li><code>server.debug</code> <strong>must</strong> be set do <code>false</code>. You don't want anyone to get important information about your internal errors and therefore your code when an error occurs.</li> <li>Change your database connection credentials. <code>database.autoMigrate</code> should be set to <code>false</code>.</li></ol> <h2 id="build"><a href="#build" class="header-anchor">#</a> Build</h2> <p>Of course, don't run your application with <code>go run</code> in production. Build your application using <code>go build</code> and deploy the executable, alongside the config files and resources directory.</p> <p>The following Dockerfile is an example of a goyave application called <code>docker-goyave</code>:</p> <div class="language-docker extra-class"><pre class="language-docker"><code><span class="token instruction"><span class="token keyword">FROM</span> golang:alpine <span class="token keyword">as</span> builder</span>
+
+<span class="token instruction"><span class="token keyword">WORKDIR</span> /app</span>
+
+<span class="token instruction"><span class="token keyword">COPY</span> . .</span>
+
+<span class="token instruction"><span class="token keyword">RUN</span> go build -ldflags <span class="token string">&quot;-w -s&quot;</span></span>
+
+<span class="token instruction"><span class="token keyword">FROM</span> alpine:latest</span>
+
+<span class="token instruction"><span class="token keyword">WORKDIR</span> /app</span>
+
+<span class="token instruction"><span class="token keyword">COPY</span> <span class="token options"><span class="token property">--from</span><span class="token punctuation">=</span><span class="token string">builder</span></span> /app/docker-goyave ./docker-goyave</span>
+<span class="token instruction"><span class="token keyword">COPY</span> resources /app/resources</span>
+<span class="token instruction"><span class="token keyword">COPY</span> config.production.json ./config.production.json</span>
+
+<span class="token instruction"><span class="token keyword">RUN</span> useradd -r -U go-exec -M -d /app -s /bin/false</span>
+<span class="token instruction"><span class="token keyword">RUN</span> chown -R go-exec /app</span>
+
+<span class="token instruction"><span class="token keyword">USER</span> go-exec</span>
+
+<span class="token instruction"><span class="token keyword">EXPOSE</span> 80</span>
+<span class="token instruction"><span class="token keyword">ENV</span> GOYAVE_ENV=production</span>
+
+<span class="token instruction"><span class="token keyword">ENTRYPOINT</span> [ <span class="token string">&quot;./docker-goyave&quot;</span> ]</span>
+</code></pre></div><h2 id="deamon"><a href="#deamon" class="header-anchor">#</a> Deamon</h2> <p>Goyave applications are standalone and don't require any web server (such as Apache or Nginx) to function. However, this also means that you will need some additional installation steps on your production server.</p> <p>When running a web service, it is important that it stays online. Creating a <strong>deamon</strong> is necessary so your server can run in the background, have the correct filesystem permissions, and restart automatically after a crash or a reboot.</p> <p>You can achieve this with any supervisor program, but in this guide, we will use systemd as it's the most common one.</p> <h3 id="systemd"><a href="#systemd" class="header-anchor">#</a> Systemd</h3> <p>First, we need to create a user and its group for our application:</p> <div class="language- extra-class"><pre class="language-text"><code>sudo addgroup goyave
+sudo useradd -r -s /bin/false goyave
+sudo usermod -a -G goyave goyave
+</code></pre></div><p>You may use the following systemd unit file to deploy your Goyave application:</p> <p><code>/etc/systemd/system/my-goyave-application.service</code>:</p> <div class="language- extra-class"><pre class="language-text"><code>[Unit]
+Description=Goyave application deamon
+
+# If you are using a database, mysql for example, make sure the application
+# service starts AFTER the database service.
+# After=mysqld.service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Environment=GOYAVE_ENV=production
+WorkingDirectory=/path/to/goyave-application
+ExecStart=/path/to/goyave-application/executable
+
+# Process management
+####################
+
+Type=simple
+
+# Can be changed to &quot;on-failure&quot;
+Restart=always
+RestartSec=1
+TimeoutStopSec=600
+
+# Run as goyave:goyave
+User=goyave
+Group=goyave
+
+# Hardening measures
+####################
+
+# Provide a private /tmp and /var/tmp.
+PrivateTmp=true
+
+# Mount /usr, /boot/ and /etc read-only for the process.
+ProtectSystem=full
+
+# Deny access to /home, /root and /run/user
+ProtectHome=true
+
+# Disallow the process and all of its children to gain
+# new privileges through execve().
+NoNewPrivileges=true
+
+# Use a new /dev namespace only populated with API pseudo devices
+# such as /dev/null, /dev/zero and /dev/random.
+PrivateDevices=true
+
+# Deny the creation of writable and executable memory mappings.
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div><div class="custom-block warning"><p class="custom-block-title">WARNING</p> <p>Replace <code>my-goyave-application</code> with the name of your application and <code>/path/to/goyave-application</code> with the <strong>absolute</strong> path to your application. This is important to have unique application names in case you run multiple goyave applications on the same server. You should also create a separate user and group for each application.</p></div> <p>Now let's run the service and enable it on system startup:</p> <div class="language- extra-class"><pre class="language-text"><code>sudo systemctl start my-goyave-application
+sudo systemctl enable my-goyave-application
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/go-goyave/goyave.dev/edit/master/src/guide/deployment.md" target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/architecture-concepts.html" class="prev">
+        Architecture Concepts
+      </a></span> <span class="next"><a href="/guide/contribution-guide.html">
+        Contributing to Goyave
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.5aed32b7.js" defer></script><script src="/assets/js/5.d6713bf3.js" defer></script><script src="/assets/js/1.2ac9e5d6.js" defer></script><script src="/assets/js/33.a350fa99.js" defer></script>
+  </body>
+</html>
