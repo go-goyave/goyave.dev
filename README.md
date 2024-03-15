@@ -1,6 +1,6 @@
 # Goyave's official website
 
-This website is built with [Vuepress](https://vuepress.vuejs.org/) and contains the framework's documentation.
+This website is built with [Vitepress](https://vitepress.dev/) and contains the framework's documentation.
 
 ## Development
 

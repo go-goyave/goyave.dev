@@ -1,5 +1,4 @@
 node_modules/
-docs/
-src/.vuepress/.cache
-src/.vuepress/.temp
+.vitepress/dist
+.vitepress/cache
 .vscode
