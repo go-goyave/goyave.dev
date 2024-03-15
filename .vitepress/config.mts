@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { HeadConfig, defineConfig } from 'vitepress'
 import { monoContainerPlugin } from './plugins/mono_container';
 
 const title = 'Goyave'
@@ -40,6 +40,21 @@ export default defineConfig({
     hostname: 'https://goyave.dev'
   },
 
+  transformHead: ({ pageData }) => {
+    const head: HeadConfig[] = []
+
+    const title = pageData.frontmatter.title || 'Goyave'
+    const desc = pageData.frontmatter.description || description
+
+    head.push(['meta', { property: 'og:title', content: title + ' | Goyave' }])
+    head.push(['meta', { property: 'og:description',  content: desc }])
+    head.push(['meta', { property: 'twitter:title', content: title + ' | Goyave' }])
+    head.push(['meta', { property: 'twitter:description', content: desc }])
+    head.push(['meta', { name: 'title', content: title }])
+
+    return head
+  },
+
   themeConfig: {
 
     logo: '/goyave_64.png',
@@ -53,8 +68,8 @@ export default defineConfig({
       {
         text: 'Guide',
         items: [
+          { text: 'Introduction', link: '/basics/introduction' },
           { text: 'Getting started', link: '/basics/getting-started' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
       {
