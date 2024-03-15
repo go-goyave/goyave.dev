@@ -43,7 +43,11 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
  :root {
+  --vp-c-text-0: #2c3e50;
+
   --vp-c-blue-0: #00a3cc;
   --vp-c-blue-1: #00aed8;
   --vp-c-blue-2: #6ce2ff;
@@ -83,8 +87,13 @@
   --vp-c-sidebar-item-active: var(--vp-c-brand-1);
 
   --vp-c-highlight-link: var(--vp-c-brand-1);
+
+  --vp-font-family-goyave: 'Montserrat', 'Inter var', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  --vp-nav-logo-height: 2.2rem; 
 }
 .dark {
+  --vp-c-text-0: #f3f3f3;
   --vp-code-color: var(--vp-c-blue-3);
 
   --vp-sidebar-item-active-bg: var(--vp-c-brand-2);
@@ -93,6 +102,38 @@
 
   --vp-c-highlight-link: var(--vp-c-brand-2);
 }
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-soft) !important;
+}
+
+.dark .vp-doc a {
+  color: var(--vp-c-brand-2) !important;
+}
+
+.dark .vp-doc a:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+/**
+ * Component: Navbar
+ * -------------------------------------------------------------------------- */
+
+.VPNavBarTitle .title {
+  font-family: var(--vp-font-family-goyave) !important;
+  color: var(--vp-c-text-0) !important;
+  font-weight: 600 !important;
+  font-size: 1.3rem;
+}
+
+.VPNavBarTitle .logo {
+  margin-right: 0.8rem;
+}
+
+.dark .outline-marker {
+  background-color: var(--vp-c-brand-2) !important;
+}
+
 
 /**
  * Component: Button
