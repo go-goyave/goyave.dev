@@ -66,10 +66,52 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Guide',
+        text: "Prologue",
         items: [
-          { text: 'Introduction', link: '/basics/introduction' },
-          { text: 'Getting started', link: '/basics/getting-started' },
+          { text: 'Introduction', link: '/introduction' },
+          { text: 'Changelog', link: '/changelog' },
+          { text: 'Upgrade guide', link: '/upgrade-guide' },
+          { text: 'Contributing', link: '/contributing' },
+        ]
+      },
+      {
+        text: 'Getting started',
+        items: [
+          { text: 'Installation', link: '/getting-started/installation' },
+          { text: 'Configuration', link: '/getting-started/configuration' },
+          { text: 'Architecture', link: '/getting-started/architecture' },
+          { text: 'Deployment', link: '/getting-started/deployment' },
+        ]
+      },
+      {
+        text: 'Basics',
+        items: [
+          { text: 'Server', link: '/basics/server' },
+          { text: 'Routing', link: '/basics/routing' },
+          { text: 'Controllers', link: '/basics/controllers' },
+          { text: 'Response', link: '/basics/response' },
+          { text: 'Middleware', link: '/basics/middleware' },
+          { text: 'Database', link: '/basics/database' },
+          { text: 'Services', link: '/basics/services' },
+          { text: 'Repositories', link: '/basics/repositories' },
+          { text: 'Validation', link: '/basics/validation' },
+        ]
+      },
+      {
+        text: 'Advanced',
+        items: [
+          { text: 'DTO and model mapping', link: '/advanced/dto-and-model-mapping' },
+          { text: 'Error handling', link: '/advanced/error-handling' },
+          { text: 'Status handlers', link: '/advanced/status-handlers' },
+          { text: 'Logging', link: '/advanced/logging' },
+          { text: 'Authentication', link: '/advanced/authentication' },
+          { text: 'Localization', link: '/advanced/localization' },
+          { text: 'Transactions', link: '/advanced/transactions' },
+          { text: 'Testing', link: '/advanced/testing' },
+          { text: 'CORS', link: '/advanced/cors' },
+          { text: 'Websockets', link: '/advanced/websockets' },
+          { text: 'Utilities', link: '/advanced/utilities' },
+          // { text: 'Rate limiting', link: '/advanced/rate-limiting' },
         ]
       },
       {

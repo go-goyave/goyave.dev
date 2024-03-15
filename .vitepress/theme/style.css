@@ -141,6 +141,7 @@
   --vp-code-link-hover-color: var(--vp-c-brand-1) !important;
 }
 
+
 /**
  * Component: Navbar
  * -------------------------------------------------------------------------- */
@@ -176,6 +177,20 @@
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
 }
 
+.dark .NotFound .link {
+  --vp-button-brand-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-1)
+}
+
+.NotFound .link {
+  border: 1px solid var(--vp-button-brand-bg) !important;
+  color: var(--vp-button-brand-bg) !important;
+}
+
+.NotFound .link:hover {
+  border: 1px solid var(--vp-button-brand-hover-bg) !important;
+  color: var(--vp-button-brand-hover-bg) !important;
+} 
 
 /**
  * Component: Home
