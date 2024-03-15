@@ -4,9 +4,10 @@ This website is built with [Vitepress](https://vitepress.dev/) and contains the 
 
 ## Development
 
-This project doesn't work with node v17+. Use node v16 maximum.
+This project uses node v20+.
 
 ```
+nvm use
 npm install
 npm run dev
 ```
