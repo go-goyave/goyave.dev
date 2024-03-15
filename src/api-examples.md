@@ -14,6 +14,106 @@ router.Route("GET", "/hello", func(response *goyave.Response, r *goyave.Request)
 })
 ```
 
+[`code with link`](https://goyave.dev)  
+[link](https://goyave.dev)
+
+::: info Note
+Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/go-goyave/goyave/issues/new/choose) with the proposal template. `code snippet`.
+
+[`code with link`](https://goyave.dev)  
+[link](https://goyave.dev)
+
+```go
+router.Route("GET", "/hello", func(response *goyave.Response, r *goyave.Request) {
+    response.String(http.StatusOK, "Hi!")
+})
+```
+:::
+
+::: tip Note
+Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/go-goyave/goyave/issues/new/choose) with the proposal template. `code snippet`.
+
+[`code with link`](https://goyave.dev)  
+[link](https://goyave.dev)
+
+```go
+router.Route("GET", "/hello", func(response *goyave.Response, r *goyave.Request) {
+    response.String(http.StatusOK, "Hi!")
+})
+```
+:::
+
+::: warning Note
+Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/go-goyave/goyave/issues/new/choose) with the proposal template. `code snippet`.
+
+[`code with link`](https://goyave.dev)  
+[link](https://goyave.dev)
+
+```go
+router.Route("GET", "/hello", func(response *goyave.Response, r *goyave.Request) {
+    response.String(http.StatusOK, "Hi!")
+})
+```
+:::
+
+::: danger Note
+Please feel free to sudgest changes, ask for more details, report grammar errors, or notice of uncovered scenarios by [creating an issue](https://github.com/go-goyave/goyave/issues/new/choose) with the proposal template. `code snippet`.
+
+[`code with link`](https://goyave.dev)  
+[link](https://goyave.dev)
+
+```go
+router.Route("GET", "/hello", func(response *goyave.Response, r *goyave.Request) {
+    response.String(http.StatusOK, "Hi!")
+})
+```
+:::
+
+
+<Badge type="info" text="badge" />
+<Badge type="tip" text="badge" />
+<Badge type="warning" text="badge" />
+<Badge type="danger" text="badge" />
+<Badge type="brand" text="badge" />
+
+:::mono
+.
+├── database
+│   ├── model
+│   |   └── *...*
+│   └── seeder
+│       └── *...*
+├── http
+│   ├── controller
+│   │   └── *...*
+│   ├── middleware
+│   │   └── *...*
+│   ├── validation (*optional*)
+│   │   ├── placeholder.go (*optional*)
+│   │   └── validation.go (*optional*)
+│   └── route
+│       └── route.go
+│
+├── resources
+│   ├── lang
+│   │   └── en-US (*language name*)
+│   │       ├── fields.json (*optional*)
+│   │       ├── locale.json (*optional*)
+│   │       └── rules.json (*optional*)
+│   ├── img (*optional*)
+│   │   └── *...*
+|   └── template (*optional*)
+|       └── *...*
+│
+├── test
+|   └── *...*
+|
+├── .gitignore
+├── config.json
+├── go.mod
+└── main.go
+:::
+
 ```md
 <script setup>
 import { useData } from 'vitepress'

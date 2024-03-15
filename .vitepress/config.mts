@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { monoContainerPlugin } from './plugins/mono_container';
 
 const title = 'Goyave'
 const description = 'Description TODO'
@@ -8,6 +9,12 @@ export default defineConfig({
   title: "Goyave",
   description: "The enterprise Golang REST API framework",
   srcDir: 'src',
+
+  markdown: {
+    config: (md) => {
+      md.use(monoContainerPlugin)
+    }
+  },
 
   head: [
     ['link', { rel: 'icon', type: "image/png", sizes: "16x16", href: `/goyave_16.png` }],
