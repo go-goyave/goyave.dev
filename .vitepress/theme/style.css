@@ -317,6 +317,19 @@
   color: var(--vp-c-mono-block-em) !important;
 }
 
+.used-by {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.used-by > a {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: white;
+}
+
 /**
  * Component: Algolia
  * -------------------------------------------------------------------------- */
