@@ -1,11 +1,13 @@
 ---
 title: "Installation"
-description: "Installation description"
+description: "This guide will walk you through the installation process. You can either bootstrap your project using the Goyave template project as explained below, or manually set it up."
 ---
 
 # Installation
 
 This guide will walk you through the installation process. You can either bootstrap your project using the Goyave template project as explained below, or manually set it up.
+
+[[toc]]
 
 ## Template project
 
