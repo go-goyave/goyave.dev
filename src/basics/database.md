@@ -4,3 +4,5 @@ description: "Database description"
 ---
 
 # Database
+
+## Migrations
