@@ -1,8 +1,9 @@
 import { HeadConfig, defineConfig } from 'vitepress'
-import { monoContainerPlugin } from './plugins/mono_container';
+import { monoContainerPlugin } from './plugins/mono_container'
+import { alignContainerPlugin } from './plugins/align_container'
 
 const title = 'Goyave'
-const description = 'Description TODO'
+const description = 'Elegant Golang REST API framework'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -13,6 +14,10 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(monoContainerPlugin)
+      md.use(alignContainerPlugin)
+    },
+		image: {
+      lazyLoading: true
     }
   },
 

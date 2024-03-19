@@ -141,6 +141,13 @@
   --vp-code-link-hover-color: var(--vp-c-brand-1) !important;
 }
 
+.medium-zoom-overlay {
+	z-index: 30;
+}
+  
+.medium-zoom-image {
+	z-index: 31;
+}
 
 /**
  * Component: Navbar
@@ -315,6 +322,12 @@
 
 .custom-block.mono > pre > code > p > em {
   color: var(--vp-c-mono-block-em) !important;
+}
+
+.custom-block.center {
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 .used-by {
