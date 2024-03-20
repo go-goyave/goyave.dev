@@ -175,17 +175,17 @@ See the [reference](https://pkg.go.dev/goyave.dev/goyave/v5/config#Config).
 ### Server
 
 
-| Entry                        | Type      | Default       | Note                                                        |
-|------------------------------|-----------|---------------|-------------------------------------------------------------|
-| server.host                  | `string`  | `"127.0.0.1"` |                                                             |
-| server.domain                | `string`  | `""`          | Used for URL generation. Leave empty to use IP instead.     |
-| server.port                  | `int`     | `8080`        |                                                             |
-| server.writeTimeout          | `int`     | `10`          | `*http.Server`'s `WriteTimeout` (in seconds)                |
-| server.readTimeout           | `int`     | `10`          | `*http.Server`'s `ReadTimeout` (in seconds)                 |
-| server.readHeaderTimeout     | `int`     | `10`          | `*http.Server`'s `ReadHeaderTimeout` (in seconds)           |
-| server.idleTimeout           | `int`     | `20`          | `*http.Server`'s `IdleTimeout` (in seconds)                 |
-| server.websocketCloseTimeout | `int`     | `10`          | Maximum time for the websocket close handshake (in seconds) |
-| server.maxUploadSize         | `float64` | `10`          | Maximum size of the request, in MiB                         |
+| Entry                        | Type      | Default       | Note                                                                                                                                                       |
+|------------------------------|-----------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| server.host                  | `string`  | `"127.0.0.1"` |                                                                                                                                                            |
+| server.domain                | `string`  | `""`          | Used for URL generation. Leave empty to use IP instead.                                                                                                    |
+| server.port                  | `int`     | `8080`        | If set to `0`, a port number is automatically chosen and can be retrieved with `server.Port()`. The chosen port is **not** reflected in the configuration. |
+| server.writeTimeout          | `int`     | `10`          | `*http.Server`'s `WriteTimeout` (in seconds)                                                                                                               |
+| server.readTimeout           | `int`     | `10`          | `*http.Server`'s `ReadTimeout` (in seconds)                                                                                                                |
+| server.readHeaderTimeout     | `int`     | `10`          | `*http.Server`'s `ReadHeaderTimeout` (in seconds)                                                                                                          |
+| server.idleTimeout           | `int`     | `20`          | `*http.Server`'s `IdleTimeout` (in seconds)                                                                                                                |
+| server.websocketCloseTimeout | `int`     | `10`          | Maximum time for the websocket close handshake (in seconds)                                                                                                |
+| server.maxUploadSize         | `float64` | `10`          | Maximum size of the request, in MiB                                                                                                                        |
 
 ### Proxy
 
