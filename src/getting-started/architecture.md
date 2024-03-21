@@ -5,11 +5,11 @@ description: "Architecture description"
 
 # Architecture
 
+[[toc]]
+
 ## Introduction
 
 Understanding your development tools and knowing what happens in the background is crucial. Mastering your tools and environment incredibly decreases the risk of errors, eases debugging and helps making your code work in harmony with the framework. The goal of this section is to give you an overview of the general functioning and design of the framework, to make you more comfortable and confident using it.
-
-[[toc]]
 
 ## Terminology
 

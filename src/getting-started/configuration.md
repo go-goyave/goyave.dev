@@ -59,6 +59,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	opts := goyave.Options{
+		Config: cfg,
+	}
+
 	//...
 }
 ```
@@ -81,6 +85,10 @@ func main() {
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.(*errors.Error).String())
 		os.Exit(1)
+	}
+
+	opts := goyave.Options{
+		Config: cfg,
 	}
 
 	//...
@@ -112,9 +120,45 @@ func main() {
 		os.Exit(1)
 	}
 
+	opts := goyave.Options{
+		Config: cfg,
+	}
+
 	//...
 }
 ```
+
+:::tip
+You can make use of [**build constraints**](https://pkg.go.dev/cmd/go#hdr-Build_constraints) to load a different config file per environment. Create one `config_<env>.go` file per environment.
+
+**config_local.go**
+```go
+//go:build !production && !staging
+
+package main
+
+import _ "embed"
+
+//go:embed config.json
+var cfgJSON string
+
+```
+
+**config_production.go**
+```go
+//go:build production
+
+package main
+
+import _ "embed"
+
+//go:embed config.production.json
+var cfgJSON string
+
+```
+
+Then use the build tag: `go run -tags production` or `go build -tags production`.
+:::
 
 ## Validation
 
