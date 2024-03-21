@@ -130,10 +130,6 @@ The server stops when `server.Stop()` is called, when the OS signal handler (if 
 
 `server.Start()` returns after the execution of all **shutdown hooks** in the order of registration. Shutdown hooks are executed in the same goroutine as the one that called `server.Start()`. If there is any, the database connection is cleanly closed as well.
 
-:::tip
-You should always make sure that your program exits **after** `server.Start()` returns for a graceful shutdown.
-:::
-
 ## Overview
 
 This section will explain the general **architecture of a Goyave application**. The application is split in **three distinct layers**:
@@ -189,7 +185,7 @@ The services can take advantage of the [session mechanism](/advanced/transaction
 A transaction is an operation made of multiple steps. The final result is validated and written to the database only if all the steps succeed. In this case, we say the transaction is **committed**. If one of step fails, the transaction is **rolled back**.
 :::
 
-Therefore, the repositories, explained in the next section, do not need to worry about working from inside a transaction or not. This way, services can call multiple repository operations, in any order, and potentially from mutliple different repositories or even from other services, while keeping control on their own business transaction.
+Therefore, the repositories, explained in the next section, do not need to worry about working from inside a transaction or not. This way, services can call multiple repository operations, in any order, and potentially from multiple different repositories or even from other services, while keeping control on their own business transaction.
 
 ### Data layer
 
