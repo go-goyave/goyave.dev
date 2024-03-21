@@ -1,6 +1,6 @@
 ---
 title: "Architecture"
-description: "Architecture description"
+description: "Overview of the general functioning and design of the framework"
 ---
 
 # Architecture

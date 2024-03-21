@@ -1,6 +1,6 @@
 ---
 title: "Deployment"
-description: "Deployment description"
+description: "This guide covers the important things to know before deploying a Goyave application"
 ---
 
 # Deployment
