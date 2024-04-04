@@ -139,6 +139,10 @@ export default defineConfig({
         apiKey: '1e317c1609e981ea87b837780b98204e',
         indexName: 'goyave'
       }
-    }
+    },
+
+		notFound: {
+			quote: 'The page you are looking for does not exist.'
+		}
   }
 })
