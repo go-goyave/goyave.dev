@@ -1,6 +1,6 @@
 ---
 title: "Server"
-description: "Server description"
+description: "The server is the central component of the presentation layer of a Goyave application."
 ---
 
 # Server
