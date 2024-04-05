@@ -193,11 +193,11 @@ resourceAuth.Patch("/{id:[0-9]+}", func(response *goyave.Response, request *goya
 Controllers can register routes themselves if they implement the `goyave.Registrer` interface:
 
 ```go
-type UserController struct {
+type Controller struct {
 	goyave.Component
 }
 
-func (ctrl *UserController) RegisterRoutes(router *goyave.Router) {
+func (ctrl *Controller) RegisterRoutes(router *goyave.Router) {
 	subrouter := router.Subrouter("/users")
 
 	subrouter.Get("/{userID:[0-9+]}", ctrl.Show)
@@ -207,7 +207,7 @@ func (ctrl *UserController) RegisterRoutes(router *goyave.Router) {
 Controllers implementing this interface can then be used in `router.Controller()`:
 ```go
 func Register(_ *goyave.Server, router *goyave.Router) {
-	router.Controller(&user.UserController{})
+	router.Controller(&user.Controller{})
 }
 ```
 
