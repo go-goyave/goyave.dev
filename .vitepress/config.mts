@@ -18,7 +18,11 @@ export default defineConfig({
     },
 		image: {
       lazyLoading: true
-    }
+    },
+		theme: {
+			dark: 'dark-plus',
+			light: 'dark-plus',
+		}
   },
 
   head: [
@@ -143,6 +147,6 @@ export default defineConfig({
 
 		notFound: {
 			quote: 'The page you are looking for does not exist.'
-		}
+		},
   }
 })
