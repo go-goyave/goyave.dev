@@ -370,8 +370,34 @@ router.GlobalMiddleware(&parse.Middleware{})
 
 ## Validation
 
+You can define [validation](/basics/validation.html) rules for a route for the data sent by the client in the query and the body of the request. 
+
+When calling `ValidateBody()` or `ValidateQuery()`, the built-in validation middleware is automatically added if not already present on this route. Keep this in mind when applying middleware on your routes so they are executed in the order you want them to. Generally, it is advised to **validate last**.
+
+```go
+router.Get("/", ctrl.Index).ValidateQuery(IndexRequest)
+router.Post("/", ctrl.Create).ValidateBody(CreateRequest)
+```
+
+`ValidateBody()` and `ValidateQuery()` accept a `goyave.RuleSetFunc` (`func(func(*goyave.Request) validation.RuleSet)`) as parameter. Here is an example of a rule set function:
+```go
+import (
+	"goyave.dev/goyave/v5"
+	v "goyave.dev/goyave/v5/validation"
+)
+
+func IndexRequest(_ *goyave.Request) v.RuleSet {
+	return v.RuleSet{
+		{Path: "page", Rules: v.List{v.Int(), v.Min(1)}},
+		{Path: "perPage", Rules: v.List{v.Int(), v.Between(1, 100)}},
+	}
+}
+```
+
 :::tip
-Learn more about **validation** in the [dedicated section](/basics/validation.html).
+- You can use the `*goyave.Request` parameter to return different rule sets depending on some aspects of the request.
+- The rule sets are not meant for re-use. The rule set functions must return newly initialized non-global rule sets.
+- Learn more about **validation** in the [dedicated section](/basics/validation.html).
 :::
 
 ## URL generation
