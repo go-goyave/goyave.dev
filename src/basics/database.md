@@ -1,6 +1,6 @@
 ---
 title: "Database"
-description: ""
+description: "Goyave is built with relational databases in mind, and use the awesome Gorm ORM."
 ---
 
 # Database
