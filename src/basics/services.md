@@ -34,7 +34,9 @@ const (
 Defining the service names in constants in a dedicated package helps not creating strong dependencies between packages.
 :::
 
-Once done, you can implement your service. Its dependencies should be defined with interfaces and accepted as constructor parameters. A service can depend on a repository but also on other services, also defined by an interface.
+Once done, you can implement your service. Each service should have its own package in `service`, named after the resource it is using, in singular form.
+
+Its dependencies should be defined with interfaces and accepted as constructor parameters. A service can depend on a repository but also on other services, also defined by an interface.
 
 **Full example:**
 ```go
