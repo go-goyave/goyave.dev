@@ -42,7 +42,14 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Email     string         `gorm:"uniqueIndex"`
 }
+
+func (User) TableName() string {
+	return "users"
+}
 ```
+:::info
+It is recommended to always define a `TableName()` method.
+:::
 
 :::tip
 Learn more about model definition on [Gorm's documentation](https://gorm.io/docs/models.html).
