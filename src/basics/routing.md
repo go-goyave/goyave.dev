@@ -358,7 +358,7 @@ Global middleware are like regular middleware but are stored only inside the mai
 
 As shown in the stack diagram in the previous section, the global middleware are executed first, **in order of registration**.
 
-Typical use-cases for global middleware are parsing, [logging](/advanced/logging.html) or rate limiting. If you don't use the logging middleware globally, requests that don't match a route won't be logged because regular middleware are only executed when a non-special route is matched.
+Typical use-cases for global middleware are parsing, [access logging](/basics/middleware#access-logs) or rate limiting. If you don't use the logging middleware globally, requests that don't match a route won't be logged because regular middleware are only executed when a non-special route is matched.
 
 ```go
 import "goyave.dev/goyave/v5/middleware/parse"
