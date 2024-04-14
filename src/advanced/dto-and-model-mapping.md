@@ -1,6 +1,6 @@
 ---
 title: "DTO and model mapping"
-description: "DTO and model mapping description"
+description: "Goyave provides tools and guidelines to streamline the entire DTO conversion and model mapping process and make it painless."
 ---
 
 # DTO and model mapping
@@ -17,7 +17,7 @@ To make data transfer between the client and the internal layers of the applicat
 
 Using such structures is inconvenient in a typical project though, as it hard, verbose and very cumbersome to convert data structures of different types several times and pass them around in the application. Unmarshalling raw user input into a structure directly is not a good solution neither, as it wouldn't allow the incredible type flexibility and granularity provided by the [validation system](/basics/validation.html). When designing the framework, a choice has been made: start to work with raw untyped data, validate and sanitize it first before converting it to a struct so the very dynamic nature of the web is preserved and works harmoniously with the strict typing of Go.
 
-Goyave provides tools and guidelines to streamline the entire **DTO conversion** and **model mapping** process to make it painless.
+Goyave provides tools and guidelines to streamline the entire **DTO conversion** and **model mapping** process and make it painless.
 
 ## DTO definition
 
