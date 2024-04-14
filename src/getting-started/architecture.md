@@ -69,6 +69,10 @@ The very first step of the application lifecycle is about loading resources and 
 
 This section will explain the lifecycle of an incoming HTTP request.
 
+:::info
+Each request is handled in its own **goroutine**.
+:::
+
 #### Routing
 
 When a request is received, the router's `ServeHTTP()` method is called. The router tries to **match** it with a registered route using the request's URI and method. At the same time, it parses the potential route parameters and stores them for future use by the handlers. The router matching algorithm is explained in more details in the [routing documentation](/basics/routing.html).
