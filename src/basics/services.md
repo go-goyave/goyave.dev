@@ -105,4 +105,12 @@ func registerServices(server *goyave.Server) {
 }
 ```
 
-Controllers depending on this service can then retrieve it as explained [here](/basics/controllers.html#using-the-service-container).
+Dependents on this service can then retrieve it using the `Service()` accessor and type-asserting the result:
+```go
+server.Service(service.User).(MyServiceInterface)
+```
+
+The `LookupService()` accessor provides a safer way to retrieve a service that may not be registered:
+```go
+userService, ok := server.LookupService(service.User)
+```
