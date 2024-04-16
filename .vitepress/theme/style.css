@@ -58,7 +58,7 @@
   --vp-c-blue-3: #78e5ff;
   --vp-c-blue-soft: #476582;
 
-  --vp-code-color: #476582;
+  --vp-code-color: var(--vp-c-blue-dark);
 
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
