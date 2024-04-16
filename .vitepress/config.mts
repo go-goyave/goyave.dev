@@ -118,6 +118,7 @@ export default defineConfig({
           { text: 'Transactions', link: '/advanced/transactions' },
           { text: 'Testing', link: '/advanced/testing' },
           { text: 'CORS', link: '/advanced/cors' },
+          { text: 'File systems', link: '/advanced/file-systems' },
           { text: 'Websockets', link: '/advanced/websockets' },
           { text: 'Utilities', link: '/advanced/utilities' },
           // { text: 'Rate limiting', link: '/advanced/rate-limiting' },
