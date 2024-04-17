@@ -186,7 +186,7 @@ It is important that the domain layer never leaks models!
 The services can take advantage of the [session mechanism](/advanced/transactions.html) provided by the framework. This system is creating an abstraction of a transaction system (be it a database or not) so the services can define and control business transactions without directly interacting with the database.
 
 :::info
-A transaction is an operation made of multiple steps. The final result is validated and written to the database only if all the steps succeed. In this case, we say the transaction is **committed**. If one of step fails, the transaction is **rolled back**.
+A transaction is a sequence of one or multiple operations executed as a single unit of work. The final result is validated and written to the database only if all the steps succeed. In this case, we say the transaction is **committed**. If one of step fails, the transaction is **rolled back**.
 :::
 
 Therefore, the repositories, explained in the next section, do not need to worry about working from inside a transaction or not. This way, services can call multiple repository operations, in any order, and potentially from multiple different repositories or even from other services, while keeping control on their own business transaction.

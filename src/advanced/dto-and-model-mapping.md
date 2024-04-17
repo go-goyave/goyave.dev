@@ -216,3 +216,7 @@ func (r *User) Update(ctx context.Context, user *model.User) (*model.User, error
 	return user, errors.New(db.Error)
 }
 ```
+
+:::info
+Learn more about the `session` mechanism [here](/advanced/transactions.html).
+:::
