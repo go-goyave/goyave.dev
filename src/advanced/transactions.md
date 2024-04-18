@@ -1,6 +1,6 @@
 ---
 title: "Transactions"
-description: "Transactions description"
+description: "A transaction is a sequence of one or multiple operations executed as a single unit of work. This allows rollbacks when something fails during the transaction, effectively cancelling all modifications. If all operations complete successfully, the transaction is committed and changes are applied."
 ---
 
 # Transactions
