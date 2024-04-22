@@ -259,7 +259,7 @@ This section is used for URL generation ([`server.ProxyBaseURL()`](https://pkg.g
 | database.defaultReadQueryTimeout  | `int`    | `20000`       | The maximum execution time for read queries (in ms)         |
 | database.defaultWriteQueryTimeout | `int`    | `40000`       | The maximum execution time for write queries (in ms)        |
 
-### GORM config
+### Gorm config
 
 | Entry                                                    | Type   | Default |
 |----------------------------------------------------------|--------|---------|
@@ -272,7 +272,7 @@ This section is used for URL generation ([`server.ProxyBaseURL()`](https://pkg.g
 | database.config.disableForeignKeyConstraintWhenMigrating | `bool` | `false` |
 
 ::: tip
-See [GORM's documentation](https://gorm.io/docs/gorm_config.html) for more details.
+See [Gorm's documentation](https://gorm.io/docs/gorm_config.html) for more details.
 :::
 
 ## Custom configuration entries
