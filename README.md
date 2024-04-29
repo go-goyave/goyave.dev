@@ -4,8 +4,6 @@ This website is built with [Vitepress](https://vitepress.dev/) and contains the 
 
 ## Development
 
-This project uses node v20+.
-
 ```
 nvm use
 npm install
