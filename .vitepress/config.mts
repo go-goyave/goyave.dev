@@ -120,8 +120,6 @@ export default defineConfig({
           { text: 'CORS', link: '/advanced/cors' },
           { text: 'File systems', link: '/advanced/file-systems' },
           { text: 'Websockets', link: '/advanced/websockets' },
-          { text: 'Utilities', link: '/advanced/utilities' },
-          // { text: 'Rate limiting', link: '/advanced/rate-limiting' },
         ]
       },
       {
