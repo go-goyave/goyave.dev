@@ -11,7 +11,7 @@ This guide will walk you through the installation process. You can either bootst
 
 ## Template project
 
-The [Goyave template project](https://github.com/go-goyave/goyave-template) will help you get started in a few seconds. It provides a complete directory structure and scaffolding so you can start building right away. 🚀
+The [Goyave template project](https://github.com/go-goyave/goyave-template) will help you get started in a few seconds. It provides a complete directory structure and scaffolding so you can start building right away. It contains a minimal setup so you won't have to clean up things you don't need.
 
 ### Linux / MacOS
 
@@ -33,21 +33,21 @@ Replace `github.com/username/projectname` with your module's name.
 
 ---
 
-Run `go run .` in your project's directory to start the server, then try to request the `hello` route.
+Run `go run .` in your project's directory to start the server. The server should start without error.
+
+However, no route is registered. You can add a simple "hello world" route like so:
+
+```go
+// http/route/route.go
+router.Get("/hello", func(response *goyave.Response, _ *goyave.Request) {
+	response.String(http.StatusOK, "Hello world")
+})
+```
+
+Restart your server, then try to request the `hello` route. Learn more about routing [here](/basics/routing.html).
 ```sh
 $ curl http://localhost:8080/hello
-Hi!
 ```
-
-There is also an `echo` route, with basic validation of the request body.
-```sh
-$ curl -H "Content-Type: application/json" -X POST -d '{"text":"abc 123"}' http://localhost:8080/echo
-abc 123
-```
-
-Finally, the user controller, service and repository showcase the [architecture](/getting-started/architecture.html) for a usual resource.
-
-Note that by default, this template uses an in-memory SQLite database. The user model is auto migrated using GORM's auto migrations in `database/seed/seed.go`. Using auto migrations is **discouraged**. Learn more in the [database documentation](/basics/database.html#migrations).
 
 Now that your project is ready, let's start customizing it with the [configuration](/getting-started/configuration.html).
 
@@ -80,7 +80,6 @@ import (
 )
 
 func main() {
-
 	opts := goyave.Options{}
 
 	server, err := goyave.New(opts)
@@ -93,7 +92,7 @@ func main() {
 	server.RegisterSignalHook()
 
 	server.RegisterStartupHook(func(s *goyave.Server) {
-		server.Logger.Info("Server is listening", "host", s.Host())
+		s.Logger.Info("Server is listening", "host", s.Host())
 	})
 
 	server.RegisterShutdownHook(func(s *goyave.Server) {
@@ -134,7 +133,7 @@ func Register(_ *goyave.Server, router *goyave.Router) {
 }
 ```
 
-Here we registered a very simple route displaying "Hi!". Learn more about routing [here](/basics/routing.html).
+Here we registered a very simple route displaying "Hello world". Learn more about routing [here](/basics/routing.html).
 
 Finally, create a blank config file `config.json` containing an empty JSON object: `{}`. You can find more information about configuration in the next page.
 
@@ -146,5 +145,4 @@ $ go run .
 In another terminal:
 ```sh
 $ curl http://localhost:8080/hello
-Hello world
 ```
