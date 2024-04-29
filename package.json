@@ -6,7 +6,7 @@
     "@types/markdown-it-container": "^2.0.10",
     "markdown-it-container": "^4.0.0",
     "medium-zoom": "^1.1.0",
-    "vitepress": "^1.1.0",
+    "vitepress": "^1.1.4",
     "vue": "^3.4.21"
   },
   "author": "Jérémy LAMBERT (System-Glitch)",
