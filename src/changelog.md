@@ -88,6 +88,45 @@ However, there are some important evolutions in the general direction of the fra
 
 ### Validation
 
+### Structure conversion and mapping
+
+The use of **DTO** (Data Transfer Object) and **model mapping** is now encouraged. This mechanism will help separate the data layer, reduce the risk of sensitive information leaks, and ease the communication between the different layers of your application. Working with strongly-typed structures 
+
+In short:
+- Services will receive and return DTOs only.
+- Repositories will receive and return models only.
+- There will be one DTO defined for each operation. (eg. CreateUser, UpdateUser, etc).
+- Models should not be partially updated to avoid temporal inconsistencies. Each update should retrieve the entire record, use model mapping to change the necessary fields, and save the model.
+
+**Changes:**
+- `request.ToStruct()` was removed.
+- The `reflectutil` package was removed.
+- `typeutil.ToFloat64()` and `typeutil.ToString()` were removed.
+- `typeutil.Convert()` new function converts anything into the desired type using JSON marshaling and unmarshaling. This allows raw validated request data to be safely converted to a DTO, or a model to be converted to a DTO.
+- `typeutil.MustConvert()` does the same but panics in case of error.
+- `typeutil.Copy()` new function deep-copies a DTO's non-zero fields into the given model. It is used for **model mapping**.
+
+**Examples**:
+```go
+// Raw request data to DTO
+requestDTO := typeutil.MustConvert[*dto.RegisterUser](request.Data)
+
+// Model to DTO
+userDTO := typeutil.MustConvert[*dto.User](user)
+
+// Model mapping
+userModel = typeutil.Copy(userModel, userDTO)
+```
+
+- The new type `typeutil.Undefined` is a utility type wrapping a generic value that can be used to differentiate between the absence of a field and its zero value, without using pointers. This handy type will help you easily handle optional fields in requests, because "undefined" is different from `nil`, which is also different from the zero-value of a type. All fields that are not required in a validated request should use this type in their corresponding DTO. A field that wasn't provided by the user in their request will not be copied by model mapping.
+
+```go
+type UpdateUser struct {
+	Email typeutil.Undefined[string] `json:"email"`
+	Name  typeutil.Undefined[string] `json:"name"`
+}
+```
+
 ### Error handling
 
 ### Authentication
@@ -107,8 +146,6 @@ However, there are some important evolutions in the general direction of the fra
 ### File systems
 
 ### Tests
-
-### Structure conversion and mapping
 
 ### Raw data exploration
 
