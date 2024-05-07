@@ -150,6 +150,28 @@ type UpdateUser struct {
 
 ### Authentication
 
+Authentication was one of those features in Goyave that was using a bit too much magic and unnecessary reflection. After re-designing the architecture with layer separation in mind, it became clear that authentication wasn't meeting the new criteria. Indeed, authentication is part of the HTTP layer, but it was using the database, and made it impossible to detach this logic and move it to a repository. The package was therefore redesigned to respect the new requirements.
+
+- `auth.Authenticator` and the authentication middleware now take a generic parameter representing the authenticated user's DTO.
+- Authentication should now work with a user DTO instead of the user model. This way the model doesn't leak into other layers.
+- Authenticators now depend on a service implementing the `UserService[T]` interface. This service should implement a method that fetches the user by it's "username". This allows moving the database logic to repositories and keeping the single responsibility of authenticators correctly scoped to their own layer. Struct tags `auth:"username"` and `auth:"password"` are not used anymore and can be removed.
+- Authenticators' `Authenticate()` method now return a `*T` instead of taking a model as parameter and updating it in place.
+- `auth.FindColumns` was removed.
+- JWT generation was moved inside a new service `*auth.JWTService`, identified by the name `auth.JWTServiceName`.
+	- This service is able to use file systems for signing keys.
+	- This service is automatically registered if not already registered when using the `JWTAuthenticator` or `JWTController`.
+	- Key storage is now exported so you can use it as well.
+- The `JWTAuthenticator` now stores a valid token's claims in `request.Extra[auth.ExtraJWTClaims{}]`.
+- The authentication middleware now checks for the `auth.MetaAuth` route meta to know if the route matched requires authentication. This means the authentication middleware can be used as a global middleware and you have easy fine control over which route or subrouter requires or doesn't require authentication. 
+- Support for password-protected RSA keys has been dropped.
+- `auth.JWTController`:
+	- The controller now has a generic parameter represention the authenticated user's DTO.
+	- This parameter is also used in `auth.TokenFunc` instead of a user of type `any`.
+	- `UsernameField` and `PasswordField` were renamed to `UsernameRequestField` and `PasswordRequestField` respectively.
+	- A new field named `PasswordField` defines the name of the `T`'s struct field that holds the user's hashed password.
+	- `auth.JWTRoutes()` was removed. The `auth.JWTController` implements `RegisterRoutes()` to make the login route register automatically.
+	- The response body in case of invalid credentials now has a key "error" instead of "validationError".
+
 ### Database
 
 ### Localization
