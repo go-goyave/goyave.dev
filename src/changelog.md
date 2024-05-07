@@ -125,7 +125,26 @@ Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has rece
 
 ### Websocket
 
+- The connection close timeout is now configured by the `server.websocketCloseTimeout` entry.
+- `websocket.Conn.CloseWithError()` doesn't change the returned message to the error message if debug is enabled. The message will always be "Internal Server Error".
+- The connection close timeout is now shared between the close control message and the connection close handler. Previously, the timeout was reset after writing the close control message, effectively allowing double the value of the configured timeout.
+- Websockets now use controllers implementing `websocket.Controller` instead of lone handlers. Controllers must implement a method `Serve(*websocket.Conn, *goyave.Request) error`. This way, websocket handlers also benefit from the fact they are components.
+- Controllers can implement the `websocket.Registrer` interface to manually register the upgrade route if they want to.
+- Upgraders are now created with `websocket.New(controller)`.
+- Options `UpgradeErrorHandler`, `ErrorHandler`, `CheckOrigin`, `Headers` are replaced with interfaces that can be implemented by the controller.
+
 ### Filters
+
+- `filter.Settings`, `filter.Scope()`, `filter.ScopeUnpaginated()` now take a generic parameter representing the model being filtered.
+- `filter.Settings.CaseInsensitiveSort` new option wraps the sort values in `LOWER()` if the column is a string, resulting in `ORDER BY LOWER(column)`.
+- `filter.Settings.DefaultSort` new option allows to define a list of sorts to be used if the user request didn't contain any sort. 
+- `filter.Settings.Scope()`, `filter.Settings.ScopeUnpaginated()`, `filter.Scope()`, `filter.ScopeUnpaginated()` now take a `*filter.Request` instead of a `*goyave.Request`. This request can be created from a HTTP query with the new function `filter.NewRequest(query)`.
+- `filter.Settings.Scope()` and `filter.Scope()` now return an `error` instead of a `*gorm.DB`.
+- `filter.Filter.Scope()`, `filter.Join.Scope()`, `filter.Sort.Scope()` now take a `filter.Blacklist` instead of `*filter.Settings`.
+- `filter.Validation` is now a `goyave.RuleSetFunc`, and should be used with `route.ValidateQuery()`.
+- The field `fields` in a request validated with `filter.Validation` will now always be a `[]string`.
+- The page info and records SQL queries are now executed inside a transaction.
+- Validation error messages names had a "goyave-filter-" prefix added. 
 
 ### Miscellaneous
 

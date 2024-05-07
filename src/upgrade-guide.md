@@ -638,6 +638,7 @@ defer response.Body.Close()
 	- `Scope()` now use a `*filter.Request` instead of reading directory from the HTTP request. Use `filter.NewRequest(request.Query)` to create one.
 	- `Scope()` now returns an error instead of the database instance result.
 	- `filter` query field is now always a `[]string` slice (not `string`).
+	- Validation error messages names had a "goyave-filter-" prefix added. If you overrode those messages, make sure to update the names of the entries.
 - `fsutil.File.Data` was removed. You should open and read the `fsutil.File.Header.Open()` instead.
 - Functions from the `fsutil` package now take a file system as parameter.
 - `util/walk`

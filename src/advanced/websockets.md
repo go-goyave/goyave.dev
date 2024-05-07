@@ -41,7 +41,7 @@ The `request` parameter contains the original upgraded HTTP request.
 
 To keep the connection alive, these handlers should run an infinite for loop that can return on error or exit in a predictable manner. They also can start goroutines for reads and writes, but shouldn't return before both of them do. The handler is responsible of synchronizing the goroutines it started, and ensure no reader nor writer are still active when it returns.
 
-If the websocket handler returns `nil`, it means that everything went fine and the connection can be closed normally. On the other hand, the websocket handler can return an error, such as a write error, to indicate that the connection should not be closed normally. It is equivalent to `response.Error()` in a regular handler.
+If the websocket handler returns `nil`, it means that everything went fine and the connection can be closed normally. On the other hand, the websocket handler can return an error, such as a write error, to indicate that the connection should not be closed normally.
 
 By default, the server shutdown doesn't wait for hijacked connections to be closed gracefully. It is advised to register a shutdown hook blocking until all the connections are gracefully closed using `*websocket.Conn.CloseNormal()`.
 
