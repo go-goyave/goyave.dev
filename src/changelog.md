@@ -141,6 +141,19 @@ type UpdateUser struct {
 
 ### Request parsing
 
+- Request parsing is **not** a core middleware automatically executed on all requests anymore. If you want.
+- This change allows more fine-grained control over request parsing. This middleware prevents upload streaming. Now that it can be removed, this use-case isn't blocked anymore.
+- The request's body reader is not reset anymore after the parse middleware is executed.
+- The max upload size can now be configured from the middleware (using `MaxUploadSize`) if you need to locally override the configuration entry `server.maxUploadSize`.
+- The parse middleware now accepts any type of root element if the request body is JSON. It previously only accepted objects.
+```go
+router.GlobalMiddleware(&parse.Middleware{})
+```
+
+- The request's parsed body and query are not grouped in the same place anymore. They are now respectively stored in `request.Data` and `request.Query`.
+- `request.Data` is now `any`. It previously always was an object (`map[string]any`).
+- `request.Query` is a `map[string]any`.
+
 ### Compression
 
 - `middleware.Gzip()` was replaced by the new `goyave.dev/goyave/v5/middleware/compress` package.
