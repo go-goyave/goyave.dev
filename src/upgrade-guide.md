@@ -293,7 +293,7 @@ if err := server.Start(); err != nil {
 The following configuration entries changes may affect your application:
 - `server.protocol`, `server.httpsPort` and `server.tls` were **removed**: protocol is only `http` as TLS/HTTPS support has been removed because Goyave applications are most of the time deployed behind a proxy.
 - `server.timeout` has been **split**: `server.writeTimeout`, `server.readTimeout`, `server.idleTimeout`, `server.readHeaderTimeout`, `server.websocketCloseTimeout`.
-- `server.maintenance`
+- `server.maintenance` was **removed**.
 - `database` entries do not have a default value anymore. They were previously using default values for MySQL.
 - New entries `database.defaultReadQueryTimeout` and `database.defaultWriteQueryTimeout` add a timeout mechanism to your database operations. If you have long queries, increase their values. Set to `0` to disable the timeouts.
 - `auth.jwt.rsa.password` was **removed**.

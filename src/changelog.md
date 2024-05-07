@@ -101,6 +101,20 @@ Thanks to file systems, static resources can be embedded into the compiled execu
 
 ### Configuration
 
+Apart from moving from global to scoped in a structure, the configuration system didn't receive a lot of changes. Many configuration entries and defaults changed though.
+
+- Configuration is now a struct: `*config.Config`.
+- Configuration loading functions now take a file system as parameter. Configuration can be embedded if needed.
+- Configuration is not protected for race conditions anymore for better performance. Don't modify the config after the server started. `config.Set()` should only be used right after the config was loaded or inside tests.
+- `config.LoadDefault()` new function loads the default configuration without.
+- A manually loaded configuration can be used in the server `Options` with the `options.Config` field.
+- `server.protocol`, `server.httpsPort` and `server.tls` were removed: protocol is only `http` as TLS/HTTPS support has been removed because Goyave applications are most of the time deployed behind a proxy.
+- `server.timeout` has been split: `server.writeTimeout`, `server.readTimeout`, `server.idleTimeout`, `server.readHeaderTimeout`, `server.websocketCloseTimeout`.
+- `server.maintenance` was removed.
+- `database` entries do not have a default value anymore. They were previously using default values for MySQL.
+- New entries `database.defaultReadQueryTimeout` and `database.defaultWriteQueryTimeout` add a timeout mechanism to your database operations. If you have long queries, increase their values. Set to `0` to disable the timeouts.
+- `auth.jwt.rsa.password` was removed.
+
 ### Routing
 
 ### Requests
