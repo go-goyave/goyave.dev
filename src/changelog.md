@@ -105,7 +105,31 @@ Thanks to file systems, static resources can be embedded into the compiled execu
 
 ### Requests
 
+- `request.ToStruct()` was removed, use `typeutil.Convert()` instead.
+- `request.Data` is now `any` instead of `map[string]any`. You should use safe type assertions before use.
+- Query data is not in `request.Data` anymore, it is now split in `request.Query`.
+- The request's context is now accessible through `request.Context()`. The context can be **replaced** with `request.WithContext()`.
+- `request.URI()` was renamed `request.URL()`.
+- Request accessors such as `Has()`, `String()`, `Numeric()`, etc were all removed.
+- `request.CORSOptions()` was removed. You can access CORS options via the route meta: `request.Route.Meta[goyave.MetaCORS].(*cors.Options)`.
+- `request.Lang` is now of type `*lang.Language` instead of `string`. See the localization section below for more details.
+- `request.Now` is a new field indicating the time at which the request was received (after routing).
+- `request.Extra` is now a `map[any]any`. You are encouraged to use empty struct keys instead of literals.
+- `request.Params` was renamed `request.RouteParams`.
+- `request.Route` is now exported. It is not a method anymore.
+- `request.Body()` new method returns the request's body reader.
+
 ### Responses
+
+- `goyave.NewResponse()` is now exported to make testing easier.
+- `response.HandleDatabaseError(db)` was removed and replaced by `response.WriteDBError(err)`
+	- `WriteDBError()` returns `true` if there is an error and that you should `return`. This is the **opposite** of `HandleDatabaseError`.
+- `response.Error()`, `response.JSON()`, `response.String()` etc do not return an error anymore.
+- `response.Redirect()` was removed. You can replace by `http.Redirect(response, request.Request(), url, http.StatusPermanentRedirect)`.
+- Template rendering was removed. `response.Render()` and `response.RenderHTML()` are not available anymore.
+- `response.GetError()` now returns `*errors.Error` instead of `any`. See the error handling section below for more details.
+- `response.GetStacktrace()` was removed. You can now access the stacktrace from the error itself.
+- `response.File()` and `response.Download()` now take a file system as first parameter.
 
 ### Validation
 
@@ -165,7 +189,7 @@ Authentication was one of those features in Goyave that was using a bit too much
 - The authentication middleware now checks for the `auth.MetaAuth` route meta to know if the route matched requires authentication. This means the authentication middleware can be used as a global middleware and you have easy fine control over which route or subrouter requires or doesn't require authentication. 
 - Support for password-protected RSA keys has been dropped.
 - `auth.JWTController`:
-	- The controller now has a generic parameter represention the authenticated user's DTO.
+	- The controller now has a generic parameter representing the authenticated user's DTO.
 	- This parameter is also used in `auth.TokenFunc` instead of a user of type `any`.
 	- `UsernameField` and `PasswordField` were renamed to `UsernameRequestField` and `PasswordRequestField` respectively.
 	- A new field named `PasswordField` defines the name of the `T`'s struct field that holds the user's hashed password.
