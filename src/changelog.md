@@ -148,8 +148,6 @@ type UpdateUser struct {
 }
 ```
 
-### Error handling
-
 ### Authentication
 
 ### Database
@@ -159,6 +157,24 @@ type UpdateUser struct {
 - `request.Lang` is now a `*lang.Language` instead of a `string`.
 
 ### Logging
+
+- All logs are written to `os.Stderr` by default.
+
+### Error handling
+
+In previous versions, error handling was relying on `panic`. This had the advantage of centralizing error handling in the recovery middleware and getting precise stack traces. However, this approach wasn't very sane and not idiomatic. Going forward, the solution will be more idiomatic, easier to test and won't compromise on code quality, while improving the DX even more.
+
+Developers are now encouraged to return errors all the way up the call stack. At the highest level, the HTTP handlers will report errors with `response.Error()`. Error handling will still be centralized in a status handler to make error reporting easier.
+
+A new **error wrapping** mechanism was added. `goyave.dev/goyave/v5/util/errors` brings the `*errors.Error` type, which provide a convenient way to enrich errors with information useful for debugging and error reporting:
+- Caller frames are collected when the error happens. The stack traces will always precisely point to the exact origin of the error.
+- Any error **reason** can be used, be it a `string`, a `struct`, another `error`, `map`, `[]error`, `[]any`, etc.
+- Multiple errors can be wrapped into one single error. Nested errors are also supported.
+- `*errors.Error` is handled by the structured logger, which results in more detailed logs.
+
+:::center
+![Error wrapping diagram](/diagrams/error_handling.webp){data-zoomable}
+:::
 
 ### Request parsing
 
