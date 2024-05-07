@@ -19,7 +19,7 @@ You can be notified of new releases by enabling notifications on Github or by jo
 
 **Goyave v5** has been in the oven for over two years. With the first production applications deployed, a ton of issues and flaws revealed themselves, preventing real long-lived projects from cleanly evolving. The initial goals of the framework started to weaken the more the applications were developed and changed: the strong basis it promised to provide wasn't actually that strong. From this invaluable experience, I decided to go back to the drawing board and redesign the framework.
 
-This new major version is an almost entire **rewrite** of the framework.
+This new major version is an almost entire **rewrite** of the framework. In order to limit the frequency of releases containing breaking changes, all accumulated ideas for reworks and improvements that would introduce those were grouped in v5. This new major version doesn't only aims at fixing the outstanding issues and design flaws, but also improve on existing features by upgrading them to the latest available technology. Expect v5 to feel modern and to neatly integrate with all the new language features such as generics, file systems, structured logging, and more.
 
 These release notes will be organized in categories. They will explain the overall change of direction for each area of the framework as well as shortly showcase the new or improved features. The list of changes may be incomplete as many features were rewritten entirely.
 
@@ -158,7 +158,22 @@ type UpdateUser struct {
 
 ### Logging
 
+Way before Goyave v5 was being designed, the question of better logs was already there for the framework. Instead of several basic loggers, a **unified** logger with **levels** would bring many benefits. At the time, many popular logging libraries existed but none of them aligned on a single interface. Go 1.21 introduced `log/slog`, a standard for **structured logging**. The choice of using this new standard and integrate it into the framework was made.
+
+Thanks to structured logging, logs will be easier to read both in development and in production. The framework comes with a custom `slog` handler for development, which formats the logs in a human-readable way. In production, the logs will be output in the JSON format, which is very easy to parse by cloud service providers, making your logs easily readable and filterable.
+
+All logs in Goyave v5 are now **unified** and can take full advantage of log levels (`DEBUG`, `INFO`, `WARN`, `ERROR`). This means that Gorm also uses the same logger as the rest of the application. The format will now be consistent across your entire application.
+
 - All logs are written to `os.Stderr` by default.
+- Logging is not global anymore. Logger instances are now passed around, mostly through components or dependencies. You also have the option to pass logger instances through the `context.Context`.
+- `goyave.Logger`, `goyave.ErrLogger` and `goyave.AccessLogger` were removed.
+- `goyave.dev/goyave/v5/slog` defines `*slog.Logger`, a wrapper around the standard `*log/slog.Logger`. This wrapper helps gracefully handle errors and print them with more details.
+- When debug mode (configuration `app.debug`) is disabled, the minimum log level is bumped to `Info` and the Gorm logger is disabled.
+- The common and combined access logs middleware were changed:
+	- `log.Formatter` now takes a `*log.Context` instead of many parameters.
+	- `log.Formatter` now returns a message and a `[]slog.Attr` slice instead of just a message.
+	- The access log writer now writes to the structured logger at the `Info` level. The message will remain the same, but `slog` attributes will be added to make the log richer.
+	- These attributes won't be printed in debug mode to avoid clutter.
 
 ### Error handling
 
