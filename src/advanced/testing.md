@@ -162,6 +162,10 @@ func TestShowUser(t *testing.T) {
 }
 ```
 
+:::tip
+You can use `testutil.ToJSON()` to quickly marshal anything and create a reader from the result that can be used as your test request's body.
+:::
+
 ### JSON responses
 
 To make testing JSON response easier, `testutil.ReadJSONBody[T](io.Reader)` helps you unmarshal a response's body into the type of your choice in a neat one-liner:

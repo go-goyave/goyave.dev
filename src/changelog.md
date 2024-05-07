@@ -175,6 +175,30 @@ router.Middleware(compress)
 
 ### Tests
 
+- Testing has been completely overhauled, and is now carefully considered in the design decisions.
+- Test utilities are designed with parallelism in mind for better efficiency.
+- Testing is now agnostic. You can use the testing library of your choice. You are not forced to use testify anymore.
+- The working directory is not set to the projects root directory anymore.
+- The `GOYAVE_ENV` environment variable is not set automatically anymore.
+- The `goyave.TestSuite` and other testing utilities were removed. The remaining ones were moved to the `testutil` package.
+- The new `testutil` package contains the new testing utilities.
+	- You can easily create a test server with `testutil.NewTestServer` or `testutil.NewTestServerWithOptions`.
+	- Tests servers are wrappers around `*goyave.Server`. They expose useful methods that allows you to test a request without starting the server and listening to a port or test a middleware. It can be passed around as the parent server for all your components.
+	- When using a test server, the logs are automatically redirected to the test logs (`t.Log()`).
+	- Test servers automatically close their database connection when their parent test ends.
+- A `*goyave.Server` can run in transaction mode with `server.Transaction()`. All the SQL queries will be executed from inside a transaction that can be rolled back. Tests involving the database should use this feature to isolate each test and avoid conflicts or race conditions at the database level.
+- The database can be **mocked** using `server.ReplaceDB()`.
+- `testutil.ReadJSONBody()` new function helps reading and unmarshalling a test response body.
+- `testutil.ToJSON()` new function is a shortcut to marshal anything and create a reader from the result. It can be used for HTTP request tests.
+- Creating test requests and responses is easier and less restricted than before since more fields are exported and you don't require a test suite anymore.
+- Multipart forms for file uploads as well as `testutil.CreateTestFiles` now take a file system as parameter, allowing to use embedded files or mocked file systems.
+- Factories were updated.
+	- Factories now take a generic parameter representing the type of the model they will generate;
+	- The generator function is now expected to return a type matching the generic type of the factory instead of returning `any`.
+	- As a result, type assertions are not required anymore with the results of `Save()` and `Generate()`.
+	- Overrides now use the same copying mechanism as model mapping instead of relying on `mergo`.
+- HTTP tests now simply use a `http.Request` generated with the standard `httptest` package instead of multiple custom methods (`Get()`, `Post()`, etc).
+
 ### Raw data exploration
 
 Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has received **minor changes**:
@@ -215,7 +239,5 @@ Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has rece
 
 - Minimum Go version will always be the second-to-latest version. At the time of release, this is 1.21.
 - The template project has been simplified as much as possible to removed all the unnecessary code. When you start a project, the first thing you do shouldn't be to remove things you don't need.
-- The `util/reflectutil` package was removed.
 - The `util/sliceutil` package was removed. Use [`samber/lo`](https://github.com/samber/lo) instead.
-- `util/typeutil`'s functions `ToFloat64()` and `ToString()` were removed.
-- `goyave.EnableMaintenance()`, `goyave.DisableMaintenance()` and `goyave.IsMaintenanceEnabled()` were removed.
+- `goyave.EnableMaintenance()`, `goyave.DisableMaintenance()` and `goyave.IsMaintenanceEnabled()` were removed. Their use-case was rare. They were removed to reduce bloat. This kind of maintenance mode should be handled by the proxy, not the application.
