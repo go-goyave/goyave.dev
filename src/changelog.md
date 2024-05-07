@@ -21,7 +21,7 @@ You can be notified of new releases by enabling notifications on Github or by jo
 
 This new major version is an almost entire **rewrite** of the framework.
 
-These release notes will be organized in categories and won't list every single change compared to v4. Instead, they will explain the overall change of direction for each area of the framework as well as shortly showcase the new or improved features.
+These release notes will be organized in categories. They will explain the overall change of direction for each area of the framework as well as shortly showcase the new or improved features. The list of changes may be incomplete as many features were rewritten entirely.
 
 ### Motivations
 
@@ -141,7 +141,9 @@ type UpdateUser struct {
 
 ### Request parsing
 
-- Request parsing is **not** a core middleware automatically executed on all requests anymore. If you want.
+Request parsing was one of the rigid features that were convenient in simple cases, but hard to work around for advanced usage. In its redesign, the focus was put on allowing finer control over it. 
+
+- Request parsing is **not** a core middleware automatically executed on all requests anymore.
 - This change allows more fine-grained control over request parsing. This middleware prevents upload streaming. Now that it can be removed, this use-case isn't blocked anymore.
 - The request's body reader is not reset anymore after the parse middleware is executed.
 - The max upload size can now be configured from the middleware (using `MaxUploadSize`) if you need to locally override the configuration entry `server.maxUploadSize`.
@@ -175,6 +177,8 @@ router.Middleware(compress)
 
 ### Tests
 
+As explained earlier in the release notes, tests were suffering from many flaws making them incredibly inconvenient, slow, hard to maintain. Proper unitary tests were not possible neither because of all the dependencies imposed by the previous versions of the framework.
+
 - Testing has been completely overhauled, and is now carefully considered in the design decisions.
 - Test utilities are designed with parallelism in mind for better efficiency.
 - Testing is now agnostic. You can use the testing library of your choice. You are not forced to use testify anymore.
@@ -201,6 +205,8 @@ router.Middleware(compress)
 
 ### Raw data exploration
 
+Raw data exploration is mainly used in validation. The framework now allows any type of data to be sent as the root element of a request, so this mechanism had to be slightly changed to support that. On top of that, many methods were added to make exploration and comparison more convenient in validators, where they will be used more frequently with the revamp.
+
 Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has received **minor changes**:
 - `*Path.Name` is now a `*string` instead of `string` to better handle elements that don't have a name (such as array elements).
 - Paths can now explore array root elements (paths such as `[]` or `[].field`).
@@ -214,6 +220,8 @@ Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has rece
 
 ### Websocket
 
+The new architectural changes were an opportunity to make websockets more in line with how regular controllers would be implemented.
+
 - The connection close timeout is now configured by the `server.websocketCloseTimeout` entry.
 - `websocket.Conn.CloseWithError()` doesn't change the returned message to the error message if debug is enabled. The message will always be "Internal Server Error".
 - The connection close timeout is now shared between the close control message and the connection close handler. Previously, the timeout was reset after writing the close control message, effectively allowing double the value of the configured timeout.
@@ -223,6 +231,8 @@ Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has rece
 - Options `UpgradeErrorHandler`, `ErrorHandler`, `CheckOrigin`, `Headers` are replaced with interfaces that can be implemented by the controller.
 
 ### Filters
+
+The filters library didn't allow decoupling of the HTTP layer and the data layer because of its dependency to the `*goyave.Request`. It was therefore impossible to move its uses to a repository, where they belongs. By creating a DTO for this specific use and changing the error handling, filters can now be properly integrated in the new architecture. They were also upgraded to take advantage of the generics.
 
 - `filter.Settings`, `filter.Scope()`, `filter.ScopeUnpaginated()` now take a generic parameter representing the model being filtered.
 - `filter.Settings.CaseInsensitiveSort` new option wraps the sort values in `LOWER()` if the column is a string, resulting in `ORDER BY LOWER(column)`.
