@@ -154,7 +154,20 @@ type UpdateUser struct {
 
 ### Localization
 
-- `request.Lang` is now a `*lang.Language` instead of a `string`.
+The simple localization system in Goyave already works for most cases so it didn't went through a big overhaul. It was mostly refactored for easier use and greater openness.
+
+- The language system is now structured with two important elements:
+	- `*lang.Languages` contains multiple loaded languages and defines a default language.
+	- `*lang.Language` represents a single language and contains the translated text.
+	- You can get a translated line directly from a `*lang.Language` or as before through `*lang.Languages` by specifying the language name.
+- Language loading methods now take a file system as parameter. This allows the language files to be **embedded**.
+- `request.Lang` is now a `*lang.Language` instead of a `string`. This means you can get a language line directly from the request language:
+```go
+request.Lang.Get("custom-line")
+```
+- The validation message keys for array elements were changed. Replace `.array` with `.element`.
+- Type-dependent validators can also support the `object` type now.
+- `fields.json` is now a `map[string]string`. There is no object with "name" nor "rules" anymore.
 
 ### Logging
 

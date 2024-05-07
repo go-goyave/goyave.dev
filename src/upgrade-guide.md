@@ -347,7 +347,7 @@ The following configuration entries changes may affect your application:
 ## Localization
 
 - The validation message keys for array elements were changed. Replace `.array` with `.element`.
-- Type-dependent validators can also support `object` now.
+- Type-dependent validators can also support the `object` type now.
 - `lang.Get(request.Lang)` becomes `request.Lang.Get` or `component.Lang().Get()`
 - `fields.json` is now a `map[string]string`. There is no object with "name" nor "rules" anymore.
 
