@@ -78,6 +78,27 @@ However, there are some important evolutions in the general direction of the fra
 
 ### Server
 
+### File systems
+
+Go 1.16 introduced the `io/fs` package as well as support for embedded files and directories. These additions add a number of important benefits ranging from distribution packaging to storage abstraction. As v5 was already going to contain many breaking changes, the opportunity to integrate these new systems into the framework was taken. Every system or feature interacting with files in any way should now use file system interfaces. This allows developer maximum flexibility when working with files and makes it easier to write tests.
+
+Thanks to file systems, static resources can be embedded into the compiled executable and external resources or storage can be seemlessly used.
+
+- New interfaces:
+	- `fsutil.FS`: combines `fs.ReadDirFS` and `fs.StatFS`. This is used to require versatile read-only file systems.
+	- `fsutil.WorkingDirFS`: a file system that has a working directory for relative paths, get by the `Getwd()` method.
+	- `fsutil.MkdirFS`: a writable file system able to create directories.
+	- `fsutil.WritableFS`: a writable file system with an `OpenFile()` method.
+	- `fsutil.RemoveFS`: a writable file system supporting file or directory deletion.
+- `osfs.FS` is a complete implementation of the above interfaces for the local OS file system. 
+- `fsutil.Embed` is a wrapper around `fs.ReadDirFS` used to enrich the `embed.FS` file system so they also implement `fs.StatFS` and `Sub()`. This is useful for serving embedded static resources, loading embedded language files, etc.
+- `fsutil.GetMIMEType()` now takes a `fs.FS` as parameter and returns an error instead of panicking.
+- `fsutil.FileExists()` and `fsutil.IsDirectory()` now take a `fs.StatFS` as parameter.
+- `fsutil.File.Data` was removed. You now have to open the `File.Header` yourself.
+- `fsutil.File.Save()` now takes a `fsutil.WritableFS` as parameter and returns an error instead of panicking.
+- `fsutil.ParseMultipartFiles()` now takes a `[]*multipart.FileHeader` instead of a `*http.Request`.
+- By default, configuration, language files and JWT keys are loaded with the `osfs.FS`, but options are available in all these features if you want to use a different file system.
+
 ### Configuration
 
 ### Routing
@@ -172,8 +193,6 @@ compress := &compress.Middleware{
 }
 router.Middleware(compress)
 ```
-
-### File systems
 
 ### Tests
 
