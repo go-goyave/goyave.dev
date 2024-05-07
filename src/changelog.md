@@ -212,6 +212,26 @@ Authentication was one of those features in Goyave that was using a bit too much
 
 ### Database
 
+Database is an important component that can be used in many places. It was important to make sure this dependency was not global anymore. It has been decided to remove some of its features to incentivise developers to use better and more sustainable solutions.
+
+- `database.GetConnection()`, `database.Conn()`, `database.Close()` and `database.SetConnection()` were removed.
+- `database.Migrate()` was removed. Using automatic migrations is now **discouraged**.
+- `database.RegisterModel()`, `database.GetRegisteredModels()`, `ClearRegisteredModels()` were removed. Registering models was only useful for auto-migrations and the test suite, which was also removed in favor of better solutions.
+- `database.View` was removed because it isn't of any use anymore after the testing changes.
+- Database initializers (`database.AddInitializer()` and `database.ClearInitializers()`) were removed.
+- `database.New()` creates a new database instance using the given `*config.Config`.
+- `database.NewFromDialector()` creates a new database instance using a custom dialector. This can be used when writing tests involving database mocking.
+- The Gorm logger now prints to the structured logger using the same format and colors as the rest of the logs.
+- `database.TimeoutPlugin` is a new plugin added by default. It defines a timeout for Gorm operations. It can be configured with the `database.defaultReadQueryTimeout` and `database.defaultWriteQueryTimeout` configuration entries. Using a timeout context for the query will override the default timeout.
+- It is now encouraged to use the request's `context.Context` for database queries execution.
+- `database.Paginator`:
+	- Paginators now take a generic parameter representing the model to paginate and can be created with `database.NewPaginator()`.
+	- `database.PaginatorDTO[T]` is a new structure that can be used to write a pagination response. `database.Paginator` can be converted to a `database.PaginatorDTO` easily with `typeutil.Convert()`.
+	- `paginator.Find()` now returns an `error` instead of a `*gorm.DB`.
+	- `paginator.UpdatePageInfo()` now returns an `error`.
+	- The page info and records query are now executed together inside a transaction to avoid possible temporal inconsistencies.
+- The database-related validation rules have been moved to the validation package.
+
 ### Localization
 
 The simple localization system in Goyave already works for most cases so it didn't went through a big overhaul. It was mostly refactored for easier use and greater openness.
