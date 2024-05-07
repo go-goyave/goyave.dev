@@ -143,6 +143,21 @@ type UpdateUser struct {
 
 ### Compression
 
+- `middleware.Gzip()` was replaced by the new `goyave.dev/goyave/v5/middleware/compress` package.
+- The new `compress.Middleware` provides a generic basis for all types of compression and accepts multiple encoders. The encoder will be chosen depending on the request's `Accept-Encoding` header.
+- Out-of-the-box, only the gzip encoder is available. It is however very easy to implement a custom encoder for other compression algorithms.
+
+```go
+compress := &compress.Middleware{
+	Encoders: []compress.Encoder{
+		&compress.Gzip{
+			Level: gzip.BestCompression,
+		},
+	},
+}
+router.Middleware(compress)
+```
+
 ### File systems
 
 ### Tests
