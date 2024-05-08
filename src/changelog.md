@@ -76,7 +76,11 @@ However, there are some important evolutions in the general direction of the fra
 
 ### Architecture
 
+TODO
+
 ### Server
+
+TODO
 
 ### File systems
 
@@ -98,6 +102,7 @@ Thanks to file systems, static resources can be embedded into the compiled execu
 - `fsutil.File.Save()` now takes a `fsutil.WritableFS` as parameter and returns an error instead of panicking.
 - `fsutil.ParseMultipartFiles()` now takes a `[]*multipart.FileHeader` instead of a `*http.Request`.
 - By default, configuration, language files and JWT keys are loaded with the `osfs.FS`, but options are available in all these features if you want to use a different file system.
+- `fsutil.Delete(path)` was removed. Use `osfs.FS.Remove()` instead.
 
 ### Configuration
 
@@ -114,8 +119,37 @@ Apart from moving from global to scoped in a structure, the configuration system
 - `database` entries do not have a default value anymore. They were previously using default values for MySQL.
 - New entries `database.defaultReadQueryTimeout` and `database.defaultWriteQueryTimeout` add a timeout mechanism to your database operations. If you have long queries, increase their values. Set to `0` to disable the timeouts.
 - `auth.jwt.rsa.password` was removed.
+- Setting `server.port` to `0` will now assign an automatically chosen port that is available. The actual port used can be retrieved with `server.Host()` or `server.Port()`.
 
 ### Routing
+
+Without dramatically changing how routing works, the simple addition of **metadata** assigned to routers and routes opened up a lot of possibilities and helped smooth out the route definition. It is now much easier to control middleware settings with the greatest granularity. Without this feature in previous versions, developers were limited in their API design and sometimes had to either sacrifice the consistency of their route tree, or duplicate a ton of code for fine-grained control.
+
+- Routes and routers now have `Meta`. Metadata are string-identified and can be inherited from parents thanks to the `LookupMeta()` method.
+	- Metadata can be defined by directly accessing the `Meta` map, or using `SetMeta()` / `RemoveMeta()`.
+	- Metadata is now used by many middleware to store CORS configuration, tell if a route should require authentication, etc.
+	- There are two options both having their use-case:
+		- Define the middleware settings in the component structure as fields. This is used for validation for example.
+		- Define the middleware settings in the router or route metadata. This is more suited for global middleware and allows fine-grained control over settings for each individual route or group, while using the same middleware instance. 
+- CORS options can now be applied on individual routes. It was previously only possible to define CORS settings at the router level.
+- `route.BuildProxyURL()` new method builds a full URL pointing to this route using the proxy base URL.
+- `route.GetParent()` and `router.GetParent()` new methods returns the parent router.
+- `route.GetValidationRules()` was removed. Validation rules are now stored in struct fields of the validation middleware.
+- As body and query data were split, `route.Validate()` was replaced by `route.ValidateBody()` and `route.ValidateQuery()`.
+	- These two methods take a `goyave.RuleSetFunc` as parameter. Rule sets are now generated per-request.
+- Changed the subrouter matching so it doesn't work with prefix only. This will remove conflicts between two subrouters having a prefix starting with the same characters (e.g.: `/test` and `/test-2` won't conflict anymore)
+- The router won't turn back and explore other branches if the subrouter matches but none of its routes do. This will fix some false matches.
+- Fixed `/` route defined at the main router being matched if a subrouter matches but none of its routes do and a trailing slash is present in the request URI.
+- The special "not found" and "method not allowed" routes are now named so you can identify them from middleware and status handlers.
+- Status handlers are now components instead of simple functions. They must implement the `goyave.StatusHandler` interface.
+- `goyave.GetRoute()` was removed. Use the new method `router.GetRoute()` instead. Route naming is global to a main router. If you can `GetRoute()` from a subrouter, it will be able to return routes registered in a parent router.
+- Routes can be registered by controllers if they implement the `goyave.Registrer` interface, using the new method `router.Controller()`. This is encouraged so route definition for a feature will be located in the same package as the feature itself. This makes things cleaner and helps group related code together.
+- `router.Route()` now takes a slice of methods instead of a pipe-separated string.
+- Static file serving now uses file systems. `router.Static()` doesn't take a variadic slice of middleware as last parameter and now returns a `*Route`. You can then apply middleware, a name, meta, etc to that route as usual.
+- `request.Params` becomes `request.RouteParams`.
+- `request.Route()` becomes `request.Route`.
+- The main route registrer now takes server as parameter: `func Register(server *goyave.Server, router *goyave.Router)`.
+- Routes are registered using `server.RegisterRoutes()` instead of passing the main route registrer on server start.
 
 ### Requests
 
@@ -146,6 +180,8 @@ Apart from moving from global to scoped in a structure, the configuration system
 - `response.File()` and `response.Download()` now take a file system as first parameter.
 
 ### Validation
+
+TODO
 
 ### Structure conversion and mapping
 
@@ -248,6 +284,7 @@ request.Lang.Get("custom-line")
 - The validation message keys for array elements were changed. Replace `.array` with `.element`.
 - Type-dependent validators can also support the `object` type now.
 - `fields.json` is now a `map[string]string`. There is no object with "name" nor "rules" anymore.
+- Improved language files unmarshal error messages.
 
 ### Logging
 
@@ -394,3 +431,7 @@ The filters library didn't allow decoupling of the HTTP layer and the data layer
 - The template project has been simplified as much as possible to removed all the unnecessary code. When you start a project, the first thing you do shouldn't be to remove things you don't need.
 - The `util/sliceutil` package was removed. Use [`samber/lo`](https://github.com/samber/lo) instead.
 - `goyave.EnableMaintenance()`, `goyave.DisableMaintenance()` and `goyave.IsMaintenanceEnabled()` were removed. Their use-case was rare. They were removed to reduce bloat. This kind of maintenance mode should be handled by the proxy, not the application.
+- `utils.Map` was removed.
+- The `ratelimit` package was removed. This implementation couldn't be used in a realistic production environment and didn't cover critical aspects of a real application.
+- Fixed panic status handler attempting to write to hijacked connections.
+- The recovery middleware now forces override of the HTTP status to 500. This prevents empty 200 responses if an error occurs before writing the body (such as trying to JSON marshal an unsupported type).
