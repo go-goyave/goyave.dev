@@ -78,9 +78,32 @@ However, there are some important evolutions in the general direction of the fra
 
 TODO
 
+- The entire framework now takes full advantage of the standard `context` API.
+
 ### Server
 
-TODO
+Changing all global resources to non-global required a central element that would hold them all. A **server** contains all the base resources for an application: the HTTP server,  the router, configuration, language, the database pool, services, etc. It is the parent of all **components**. Previous versions were a bit too focused on how short the code could be. It was detrimental to its flexibility. A typical `main()` function for v5 will be longer than before but will offer more ways for developers to tweak and configure their application as they see fit, without adding a lot of complexity. 
+
+- A server is created with `goyave.New(options)`. The server doesn't start listening on the network right away, which is different from the previous version's `goyave.Start()`.
+- A server starts listening and serving requests only when `server.Start()` is called.
+- Now that nothing is global anymore, multiple servers can be created simultaneously. This use-case, outside of tests, should be marginal.
+- `goyave.Options` is a structure containing new settings allowing to use manually loaded config, a custom logger, and more. It also allows to set options on the underlying `net/http.Server` that were previously not available, such as `ConnState()`, `BaseContext()`, `ConnContext()` and `MaxHeaderBytes`.
+- The server's concurrency safety and synchronization has been improved.
+- The underlying `net/http.Server`'s logger is now unified with the Goyave logger.
+- The server instance is always injected as a context value in the server's base context and can be retrieved with `goyave.ServerFromContext(ctx)`.
+- Global
+- The server has a **service container** that holds services and allows controllers to easily inject them as dependencies. Goyave doesn't use anything complex for dependency injection, only native Go and no code generation.
+- Services are initialized and registered in `main.go`.
+- `server.Host()` and `server.Port()` new methods return the hostname and port the server is running on.
+- `BaseURL()` and `ProxyBaseURL()` are now methods of `*Server`.
+- Startup hooks and shutdown hooks now take a `*Server` as parameter.
+- Startup hooks are not execued if the server fails to start before their goroutine started.
+- Startup hooks now all share the same goroutine and are executed in the order of registration. Each startup hooks was using their own goroutine before.
+- The shutdown signal hook is now optional. It can be added with `server.RegisterSignalHook()`.
+- Routes are registered using `server.RegisterRoutes()` instead of passing the main route registrer on `Start()`.
+- The main router can be retrieved with `server.Router()`.
+- `server.Stop()` doesn't attempt to stop the server a second time if it was already stopped.
+- `server.Stop()` won't attempt to close the signal channel again if the server has already been stopped. This method can this be called several times safely now.
 
 ### File systems
 
@@ -435,3 +458,4 @@ The filters library didn't allow decoupling of the HTTP layer and the data layer
 - The `ratelimit` package was removed. This implementation couldn't be used in a realistic production environment and didn't cover critical aspects of a real application.
 - Fixed panic status handler attempting to write to hijacked connections.
 - The recovery middleware now forces override of the HTTP status to 500. This prevents empty 200 responses if an error occurs before writing the body (such as trying to JSON marshal an unsupported type).
+- All tests were re-written not only to be more extensive, but also easier to read and maintain. The stability and reliability of the framework has been tested in production over a long period.  
