@@ -208,6 +208,17 @@ func CreateRequest(_ *goyave.Request) v.RuleSet {
 }
 ```
 
+You can use a wildcard `*` to match all properties of an object without knowing their names. The following rule set will ensure all properties of the "object" are objects that have a "id" property.
+```go
+func WildcardValidation(r *goyave.Request) v.RuleSet {
+    return v.RuleSet{
+        "object.*": v.List{v.Object()},
+        "object.*.id": v.List{v.Required(), v.Int()},
+    }
+}
+```
+
+
 ### Arrays
 
 Validating arrays is just as easy. You can use the `[]` syntax to identify array elements:

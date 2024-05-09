@@ -137,7 +137,7 @@ The server stops when `server.Stop()` is called, when the OS signal handler (if 
 ## Overview
 
 This section will explain the general **architecture of a Goyave application**. The application is split in **three distinct layers**:
-- **Presentation**: HTTP/REST layer, it's your application's facade.
+- **Presentation**: HTTP/REST layer, it's your application's facade
 - **Domain/Business**: contains **services**
 - **Data**: interacts with the database with **repositories** and contains the models
 

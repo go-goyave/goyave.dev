@@ -13,9 +13,7 @@ You can be notified of new releases by enabling notifications on Github or by jo
 
 [[toc]]
 
-## v5.0.0
-
-### Introduction
+## Introduction
 
 **Goyave v5** has been in the oven for over two years. With the first production applications deployed, a ton of issues and flaws revealed themselves, preventing real long-lived projects from cleanly evolving. The initial goals of the framework started to weaken the more the applications were developed and changed: the strong basis it promised to provide wasn't actually that strong. From this invaluable experience, I decided to go back to the drawing board and redesign the framework.
 
@@ -23,11 +21,11 @@ This new major version is an almost entire **rewrite** of the framework. In orde
 
 These release notes will be organized in categories. They will explain the overall change of direction for each area of the framework as well as shortly showcase the new or improved features. The list of changes may be incomplete as many features were rewritten entirely.
 
-### Motivations
+## Motivations
 
 Among the many aspects that needed to be reworked, some of them stood out and fueled the initial drive to rewrite the framework.
 
-#### Dependency coupling
+### Dependency coupling
 
 Every layer and components of a v4 application had **strong dependency coupling**. The HTTP, business and database layers were all mixed up together. The framework was systematically imposing a dependency to itself, direct or indirect. Its locked-up architecture, entirely based on globals was hindering the more business-oriented applications. Those struggled to detach their domains from the rest of the application, and encountered obstacles every time they needed to handle more complex business logic.
 
@@ -35,7 +33,7 @@ For example: to access the database, you were forced to use the framework, which
 
 On top of that, the all-global architecture required a ton of **synchronization**, which were detrimental to the overall performance of the application.
 
-#### Locked architecture
+### Locked architecture
 
 All components of the framework were strongly linked together and quite opaque, despite an initial effort made to make the framework flexible and hackable. In the end, many **non-elegant workarounds** had to be made in real-world scenarios. This made it harder to adapt an application to the constraints often encountered by companies developing their ecosystem and trying to solve real-world issues that needed deeper access to the inner-workings.
 
@@ -43,13 +41,13 @@ The validation system was one of the biggest, if not the biggest, culprit. It wa
 
 The framework was also a bit too reliant on **magic** in some aspects. Many functions were using weak typing (`any`) and **reflection**, or even **string identifiers**, all for the sake of conciseness. But this came at a cost: no compile-time checks, hard code navigation, no completion, the need to rely on documentation all the time, etc. In the end, by trying to be concise for a better DX (developer experience), the framework sacrificed code cleanliness, reliability, readability, maintainability and actually ruined its DX this way.
 
-#### Testing
+### Testing
 
 All these issues accumulate and become a huge pain the moment you start trying to add tests to your project. They were very difficult to write, which is the exact opposite of what you want. Tests should be painless and as easy to read and maintain as possible. Also suffering from the locked architecture and mandatory dependency to the framework, they couldn't even be run in parallel. Almost nothing could be mocked because of the dependency coupling. This was in turn forcing you to use the database for your tests, which made tests even slower and complicated.
 
 In short, the design of the framework prior to v5 treated tests as an after-thought despite how important they are.
 
-#### Streamlining
+### Streamlining
 
 There were many smaller and non-blocking issues as well. Together they made the entire development flow **awkward** by moments, like there was a missing piece to make the whole process fluid from start to finish.
 
@@ -63,7 +61,7 @@ The last major one was the low **interoperability and control**, notably with th
 
 The overall philosophy of the framework stays the same. Goyave remains an opinionated framework, focused on DX (developer experience) by enabling quick and enjoyable development by being expressive, reliable and complete. **The goal is to make business logic development as painless as possible by handling as many recurring things for developers as possible so they can focus on implementing what actually creates value for their company.**
 
-#### New direction
+### New direction
 
 However, there are some important evolutions in the general direction of the framework:
 - v5 takes architecture and utilities one step further. At first glance, a typical application will be less simple to grasp. Therefore, **the "progessive" nature of the framework is no more.**
@@ -74,13 +72,35 @@ However, there are some important evolutions in the general direction of the fra
 - The framework and documentation will expand even more on **architecture recommendations and good practices** to cover more questions developers could have when working on their project. The goal of an opinionated framework is to save time to its users, while giving them all the tools they need to do produce the best possible quality software.
 - The open-source process has been revised to make contributions easier. Gathering and taking care of **a strong community** has always been very important. More efforts will be made in this direction.
 
-### Architecture
+## Architecture
 
-TODO
+The framework goes even further than before when it comes to architecture recommendations for your projects. The goal is to answer more of the questions any team will inevitably encounter when setting up their project. By providing tools that will works seemlessly with this architecture, the frameworks aims at saving you a lot of time and make the development process as fluid as possible.
 
-- The entire framework now takes full advantage of the standard `context` API.
+A project build with Goyave v5 will be split in **three distinct layers**:
+- **Presentation**: HTTP/REST layer, it's your application's facade
+- **Domain/Business**: contains **services**
+- **Data**: interacts with the database with **repositories** and contains the models
 
-### Server
+Each layer **doesn't directly depend** on the others because they define **interfaces** representing their own needs. The following chart describes the usual flow of a request into a Goyave application.
+
+:::center
+![Architecture overview diagram](/diagrams/architecture_overview.webp){data-zoomable}
+:::
+
+This architecture has several advantages:
+- Good separation of concerns and no direct dependency
+- Easily testable
+- The data layer doesn't leak into the business layer even if there are transactions involved
+- Lowers the risk of exposing information that is not meant to be public
+- Easily readable, explorable and maintainable
+
+In Goyave v5, **nothing is global** anymore. The costly need for goroutine synchronization is eliminated. The overall design is now **interface-focused**. On top of that, the entire framework now takes full advantage of the standard `context` API and encourages it use.
+
+### Components
+
+Because nothing is global, a mechanism is necessary so the server's essential resources (such as the configuration, logger, etc) can be distributed to every component of the server. This mechanism is actually called **Components**, and described by the interface `goyave.Composable`. Most structures in the presentation layer actually are Goyave components: controllers, middleware, validators, etc.
+
+## Server
 
 Changing all global resources to non-global required a central element that would hold them all. A **server** contains all the base resources for an application: the HTTP server,  the router, configuration, language, the database pool, services, etc. It is the parent of all **components**. Previous versions were a bit too focused on how short the code could be. It was detrimental to its flexibility. A typical `main()` function for v5 will be longer than before but will offer more ways for developers to tweak and configure their application as they see fit, without adding a lot of complexity. 
 
@@ -105,7 +125,7 @@ Changing all global resources to non-global required a central element that woul
 - `server.Stop()` doesn't attempt to stop the server a second time if it was already stopped.
 - `server.Stop()` won't attempt to close the signal channel again if the server has already been stopped. This method can this be called several times safely now.
 
-### File systems
+## File systems
 
 Go 1.16 introduced the `io/fs` package as well as support for embedded files and directories. These additions add a number of important benefits ranging from distribution packaging to storage abstraction. As v5 was already going to contain many breaking changes, the opportunity to integrate these new systems into the framework was taken. Every system or feature interacting with files in any way should now use file system interfaces. This allows developer maximum flexibility when working with files and makes it easier to write tests.
 
@@ -127,7 +147,7 @@ Thanks to file systems, static resources can be embedded into the compiled execu
 - By default, configuration, language files and JWT keys are loaded with the `osfs.FS`, but options are available in all these features if you want to use a different file system.
 - `fsutil.Delete(path)` was removed. Use `osfs.FS.Remove()` instead.
 
-### Configuration
+## Configuration
 
 Apart from moving from global to scoped in a structure, the configuration system didn't receive a lot of changes. Many configuration entries and defaults changed though.
 
@@ -143,8 +163,9 @@ Apart from moving from global to scoped in a structure, the configuration system
 - New entries `database.defaultReadQueryTimeout` and `database.defaultWriteQueryTimeout` add a timeout mechanism to your database operations. If you have long queries, increase their values. Set to `0` to disable the timeouts.
 - `auth.jwt.rsa.password` was removed.
 - Setting `server.port` to `0` will now assign an automatically chosen port that is available. The actual port used can be retrieved with `server.Host()` or `server.Port()`.
+- Slices of `int`, `float64`, `bool` and `strings` are now correctly supported by the configuration system.
 
-### Routing
+## Routing
 
 Without dramatically changing how routing works, the simple addition of **metadata** assigned to routers and routes opened up a lot of possibilities and helped smooth out the route definition. It is now much easier to control middleware settings with the greatest granularity. Without this feature in previous versions, developers were limited in their API design and sometimes had to either sacrifice the consistency of their route tree, or duplicate a ton of code for fine-grained control.
 
@@ -174,7 +195,7 @@ Without dramatically changing how routing works, the simple addition of **metada
 - The main route registrer now takes server as parameter: `func Register(server *goyave.Server, router *goyave.Router)`.
 - Routes are registered using `server.RegisterRoutes()` instead of passing the main route registrer on server start.
 
-### Requests
+## Requests
 
 - `request.ToStruct()` was removed, use `typeutil.Convert()` instead.
 - `request.Data` is now `any` instead of `map[string]any`. You should use safe type assertions before use.
@@ -190,7 +211,7 @@ Without dramatically changing how routing works, the simple addition of **metada
 - `request.Route` is now exported. It is not a method anymore.
 - `request.Body()` new method returns the request's body reader.
 
-### Responses
+## Responses
 
 - `goyave.NewResponse()` is now exported to make testing easier.
 - `response.HandleDatabaseError(db)` was removed and replaced by `response.WriteDBError(err)`
@@ -202,7 +223,7 @@ Without dramatically changing how routing works, the simple addition of **metada
 - `response.GetStacktrace()` was removed. You can now access the stacktrace from the error itself.
 - `response.File()` and `response.Download()` now take a file system as first parameter.
 
-### Validation
+## Validation
 
 Validation is a complex and very broad topic. That's why every single major release since since the birth of the framework changed the system in one way or another. Previous changes were mostly incremental, but this time, v5's validation system is very different. This new system learned from all the mistakes of the previous one.
 
@@ -235,7 +256,7 @@ func SomeRequest(_ *goyave.Request) v.RuleSet {
 - When using composition, the validators inside the composed rule set will be executed **relatively** to the element. `ctx.Data` will not be equal to the root data but to the parent element linked to the composed rule set. This affects comparison rules, whose comparison paths will now be **relative**. This effectively allows to re-use rule sets everywhere easily, even if they involve field comparison.
 - Validation is not always executed last as it used to. It is now executed following the same rules of ordering as regular middleware: you can now chose when validation occurs in the middleware stack.
 - The `PostValidationHooks` were removed.
-- Numeric validators now let you pick the exact Go type you want. The new validators will automatically check that the input value fits inside the corresponding type.
+- Numeric validators now let you pick the exact Go type you want. The new validators will automatically check that the input value fits inside the corresponding type. For float validators, it is ensured that there are no loss of precision.
 	- `integer` becomes: `Int()`, `Int8()`, `Int16()`, `Int32()`, `Int64()`, `Uint()`, `Uint8()`, `Uint16()`, `Uint32()`, `Uint64()`.
 	- `numeric` becomes: `Float32()`, `Float64()`.
 - `Array()` doesn't have type parameters anymore. To validate array elements, add a path entry matching the array elements.
@@ -248,16 +269,18 @@ func SomeRequest(_ *goyave.Request) v.RuleSet {
 - Type-dependent rules now support `object` type too.
 - The convention for the file in which the validation rules changed from `request.go` to `validation.go`.
 - Validators `Exists()`/`Unique()` now take a Gorm scope as parameter, letting you defined the table and condition yourself. You can preferably use a scope returned by a repository.
+- New validatorss `ExistArray()` and `UniqueArray()` efficiently validate an entire array against a database.
 - Arrays being supported as root element, the `[]` path is now valid.
+- It is now possible to validate all properties of an object without knowing their names using a wildcard `*` in the path (e.g: `object.*`).
 
-#### Manual validation
+### Manual validation
 
 - `validation.Validate` and `validation.ValidateWithExtra` becomes `validation.Validate(opts)`.
 - The `validation.Options` contains several options, as well as external dependencies such as the language, the database, the config, etc. Those will be passed to the validators so they can access them just like any regular component.
 - `isJSON` becomes `ConvertSingleValueArrays`, which does the same but the logic is different so the bool value will be the opposite.
 - This function now also returns a slice of errors. Those are not validation errors, they are actual execution errors.
 
-#### Custom validators
+### Custom validators
 
 - Custom validators are implementations of the `validation.Validator` interface. They compose with `validation.BaseValidator` for the base values, but can override methods `IsType()` and `IsTypeDependent()`.
 - `ctx.Data` is now `any` instead of `map[string]any`.
@@ -276,7 +299,7 @@ func SomeRequest(_ *goyave.Request) v.RuleSet {
 	- `ctx.Path()` returns the exact path to the element under validation.
 - `validation.GetFieldType()` now returns constants. The `bool` field type is now supported too.
 
-### Structure conversion and mapping
+## Structure conversion and mapping
 
 The use of **DTO** (Data Transfer Object) and **model mapping** is now encouraged. This mechanism will help separate the data layer, reduce the risk of sensitive information leaks, and ease the communication between the different layers of your application. Working with strongly-typed structures 
 
@@ -315,7 +338,7 @@ type UpdateUser struct {
 }
 ```
 
-### Authentication
+## Authentication
 
 Authentication was one of those features in Goyave that was using a bit too much magic and unnecessary reflection. After re-designing the architecture with layer separation in mind, it became clear that authentication wasn't meeting the new criteria. Indeed, authentication is part of the HTTP layer, but it was using the database, and made it impossible to detach this logic and move it to a repository. The package was therefore redesigned to respect the new requirements.
 
@@ -339,7 +362,7 @@ Authentication was one of those features in Goyave that was using a bit too much
 	- `auth.JWTRoutes()` was removed. The `auth.JWTController` implements `RegisterRoutes()` to make the login route register automatically.
 	- The response body in case of invalid credentials now has a key "error" instead of "validationError".
 
-### Database
+## Database
 
 Database is an important component that can be used in many places. It was important to make sure this dependency was not global anymore. It has been decided to remove some of its features to incentivise developers to use better and more sustainable solutions.
 
@@ -361,7 +384,13 @@ Database is an important component that can be used in many places. It was impor
 	- The page info and records query are now executed together inside a transaction to avoid possible temporal inconsistencies.
 - The database-related validation rules have been moved to the validation package.
 
-### Localization
+### Session
+
+The new **session** mechanism is an abstraction over a transaction system allowing services to define and control business transactions without directly interacting with the database. This system allows services to depend on multiple repositories and/or services, and call them seemlessly in the same transaction without having to develop them in a specific way and without worrying about side-effects.
+
+Sessions can be mocked too. This will help you test those more complex cases where something fails during a business transaction.
+
+## Localization
 
 The simple localization system in Goyave already works for most cases so it didn't went through a big overhaul. It was mostly refactored for easier use and greater openness.
 
@@ -379,7 +408,7 @@ request.Lang.Get("custom-line")
 - `fields.json` is now a `map[string]string`. There is no object with "name" nor "rules" anymore.
 - Improved language files unmarshal error messages.
 
-### Logging
+## Logging
 
 Way before Goyave v5 was being designed, the question of better logs was already there for the framework. Instead of several basic loggers, a **unified** logger with **levels** would bring many benefits. At the time, many popular logging libraries existed but none of them aligned on a single interface. Go 1.21 introduced `log/slog`, a standard for **structured logging**. The choice of using this new standard and integrate it into the framework was made.
 
@@ -394,11 +423,12 @@ All logs in Goyave v5 are now **unified** and can take full advantage of log lev
 - When debug mode (configuration `app.debug`) is disabled, the minimum log level is bumped to `Info` and the Gorm logger is disabled.
 - The common and combined access logs middleware were changed:
 	- `log.Formatter` now takes a `*log.Context` instead of many parameters.
+	- The formatter doesn't have access to the response object itself anymore, only the response status code.
 	- `log.Formatter` now returns a message and a `[]slog.Attr` slice instead of just a message.
 	- The access log writer now writes to the structured logger at the `Info` level. The message will remain the same, but `slog` attributes will be added to make the log richer.
 	- These attributes won't be printed in debug mode to avoid clutter.
 
-### Error handling
+## Error handling
 
 In previous versions, error handling was relying on `panic`. This had the advantage of centralizing error handling in the recovery middleware and getting precise stack traces. However, this approach wasn't very sane and not idiomatic. Going forward, the solution will be more idiomatic, easier to test and won't compromise on code quality, while improving the DX even more.
 
@@ -414,7 +444,7 @@ A new **error wrapping** mechanism was added. `goyave.dev/goyave/v5/util/errors`
 ![Error wrapping diagram](/diagrams/error_handling.webp){data-zoomable}
 :::
 
-### Request parsing
+## Request parsing
 
 Request parsing was one of the rigid features that were convenient in simple cases, but hard to work around for advanced usage. In its redesign, the focus was put on allowing finer control over it. 
 
@@ -431,7 +461,7 @@ router.GlobalMiddleware(&parse.Middleware{})
 - `request.Data` is now `any`. It previously always was an object (`map[string]any`).
 - `request.Query` is a `map[string]any`.
 
-### Compression
+## Compression
 
 - `middleware.Gzip()` was replaced by the new `goyave.dev/goyave/v5/middleware/compress` package.
 - The new `compress.Middleware` provides a generic basis for all types of compression and accepts multiple encoders. The encoder will be chosen depending on the request's `Accept-Encoding` header.
@@ -448,7 +478,7 @@ compress := &compress.Middleware{
 router.Middleware(compress)
 ```
 
-### Tests
+## Tests
 
 As explained earlier in the release notes, tests were suffering from many flaws making them incredibly inconvenient, slow, hard to maintain. Proper unitary tests were not possible neither because of all the dependencies imposed by the previous versions of the framework.
 
@@ -475,8 +505,9 @@ As explained earlier in the release notes, tests were suffering from many flaws 
 	- As a result, type assertions are not required anymore with the results of `Save()` and `Generate()`.
 	- Overrides now use the same copying mechanism as model mapping instead of relying on `mergo`.
 - HTTP tests now simply use a `http.Request` generated with the standard `httptest` package instead of multiple custom methods (`Get()`, `Post()`, etc).
+- The new architecture coupled with the use of interfaces make it very easy to mock any part of your application for unit-testing.
 
-### Raw data exploration
+## Raw data exploration
 
 Raw data exploration is mainly used in validation. The framework now allows any type of data to be sent as the root element of a request, so this mechanism had to be slightly changed to support that. On top of that, many methods were added to make exploration and comparison more convenient in validators, where they will be used more frequently with the revamp.
 
@@ -490,8 +521,9 @@ Raw data exploration using the `goyave.dev/goyave/v5/util/walk` package has rece
 - `*walk.Path` now implements a `String()` methods that returns a string representation of the path.
 - `walk.Context`'s new method `Break()` indicates the walker to stop early.
 - `walk.MustParse()` new function returns a `*walk.Path` or panics if there is an error.
+- A wildcard `*` can now be used to explore all the properties of an object.
 
-### Websocket
+## Websocket
 
 The new architectural changes were an opportunity to make websockets more in line with how regular controllers would be implemented.
 
@@ -503,7 +535,7 @@ The new architectural changes were an opportunity to make websockets more in lin
 - Upgraders are now created with `websocket.New(controller)`.
 - Options `UpgradeErrorHandler`, `ErrorHandler`, `CheckOrigin`, `Headers` are replaced with interfaces that can be implemented by the controller.
 
-### Filters
+## Filters
 
 The filters library didn't allow decoupling of the HTTP layer and the data layer because of its dependency to the `*goyave.Request`. It was therefore impossible to move its uses to a repository, where they belongs. By creating a DTO for this specific use and changing the error handling, filters can now be properly integrated in the new architecture. They were also upgraded to take advantage of the generics.
 
@@ -518,7 +550,7 @@ The filters library didn't allow decoupling of the HTTP layer and the data layer
 - The page info and records SQL queries are now executed inside a transaction.
 - Validation error messages names had a "goyave-filter-" prefix added. 
 
-### Miscellaneous
+## Miscellaneous
 
 - Minimum Go version will always be the second-to-latest version. At the time of release, this is 1.21.
 - The template project has been simplified as much as possible to removed all the unnecessary code. When you start a project, the first thing you do shouldn't be to remove things you don't need.
