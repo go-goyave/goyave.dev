@@ -204,7 +204,77 @@ Without dramatically changing how routing works, the simple addition of **metada
 
 ### Validation
 
-TODO
+Validation is a complex and very broad topic. That's why every single major release since since the birth of the framework changed the system in one way or another. Previous changes were mostly incremental, but this time, v5's validation system is very different. This new system learned from all the mistakes of the previous one.
+
+- "Rules" are now called "Validators". They're not a simple function anymore, but an implementation of the `validation.Validator` interface. Validators are components. This new approach alos allows for completion, compile-time checks and better discoverability.
+- Rule sets are now slices instead of maps. This allows developers to control the order of validation as they want. The only exception is arrays, which are still validated recursively.
+- Before, the order was now guaranteed and field comparisons required a hacky `ComparesFields` option in order to work. This option doesn't exist anymore. Rules comparing fields now use a `*walk.Path`.
+- The root element of the data being validated can now be anything, not necessarily an object.
+- Some of the structures were renamed to make more sense considering the fact that the root element is not always an object anymore:
+	- `validation.Errors` is now `validation.FieldsErrors`.
+	- `validation.FieldErrors` is now `validation.Errors`.
+- `validation.CurrentElement` now works everywhere, not only on composed rule sets.
+- Rule sets are now generated per-request. They are not meant to be re-used or used concurrently.
+- Validated routes now expect a function returning a rule set. This function has access to the request, allowing it to dynamically return different rule sets.
+
+Here is an example of a new rule set function:
+```go
+func SomeRequest(_ *goyave.Request) v.RuleSet {
+	return v.RuleSet{
+		{Path: v.CurrentElement, Rules: v.List{v.Required(), v.Object()}},
+		{Path: "string", Rules: v.List{v.Required(), v.String()}},
+		{Path: "number", Rules: v.List{v.Required(), v.Float64(), v.Min(10)}},
+	}
+}
+```
+
+- Query and body validation are now separated.
+- The validation error response body is slightly different:
+	- Instead of `validationError`, the key is now `error` to be consistent with the rest of the error handlers.
+	- The errors are now separated in two fields: "body" and "query".
+- When using composition, the validators inside the composed rule set will be executed **relatively** to the element. `ctx.Data` will not be equal to the root data but to the parent element linked to the composed rule set. This affects comparison rules, whose comparison paths will now be **relative**. This effectively allows to re-use rule sets everywhere easily, even if they involve field comparison.
+- Validation is not always executed last as it used to. It is now executed following the same rules of ordering as regular middleware: you can now chose when validation occurs in the middleware stack.
+- The `PostValidationHooks` were removed.
+- Numeric validators now let you pick the exact Go type you want. The new validators will automatically check that the input value fits inside the corresponding type.
+	- `integer` becomes: `Int()`, `Int8()`, `Int16()`, `Int32()`, `Int64()`, `Uint()`, `Uint8()`, `Uint16()`, `Uint32()`, `Uint64()`.
+	- `numeric` becomes: `Float32()`, `Float64()`.
+- `Array()` doesn't have type parameters anymore. To validate array elements, add a path entry matching the array elements.
+- `Size()` validator and its derivatives such as `Min()`, `Max()`, etc now also work with objects and will validate its number of keys.
+- The new `validation.Trim()` validator trims strings.
+- The email validator now parses the email address with the `net/mail` standard package instead of using a regex.
+- Fixed a reflect error in the array validator if the first element of the array is invalid (e.g.: `nil`).
+- Removed the  suffix "[]" from n-dimensional array elements field name in error messages.
+- The new `validation.RequiredIf()` validator allows to conditionally mark a field as required.
+- Type-dependent rules now support `object` type too.
+- The convention for the file in which the validation rules changed from `request.go` to `validation.go`.
+- Validators `Exists()`/`Unique()` now take a Gorm scope as parameter, letting you defined the table and condition yourself. You can preferably use a scope returned by a repository.
+- Arrays being supported as root element, the `[]` path is now valid.
+
+#### Manual validation
+
+- `validation.Validate` and `validation.ValidateWithExtra` becomes `validation.Validate(opts)`.
+- The `validation.Options` contains several options, as well as external dependencies such as the language, the database, the config, etc. Those will be passed to the validators so they can access them just like any regular component.
+- `isJSON` becomes `ConvertSingleValueArrays`, which does the same but the logic is different so the bool value will be the opposite.
+- This function now also returns a slice of errors. Those are not validation errors, they are actual execution errors.
+
+#### Custom validators
+
+- Custom validators are implementations of the `validation.Validator` interface. They compose with `validation.BaseValidator` for the base values, but can override methods `IsType()` and `IsTypeDependent()`.
+- `ctx.Data` is now `any` instead of `map[string]any`.
+- `ctx.Extra["request"]` becomes `ctx.Extra[validation.ExtraRequest{}]`
+- `ctx.Extra` is **not** scoped to the current validator only anymore. The same reference given in `Options.Extra` is shared between all validators.
+- Validator instances are **not** meant for re-use. Make sure to not persist any data inside a validator.
+- `ctx.Valid()` becomes `ctx.Invalid` (the boolean value is thus inverted).
+- `ctx.Rule` was removed. `ctx.Rule.Params` becomes validator struct fields. The values are passed to the validator constructor.
+- Don't `panic` inside validators. If you need to report an error, use `ctx.AddError()`. This error will be brought up in the returned values of `validation.Validate()`.
+- Validation placeholders have been removed. Each validator can now dynamically return their placeholders by implementing `MessagePlaceholders(*validation.Context) []string`.
+- The `:field` placeholder remains unchanged.
+- The `validation.Context` now allow nested validation and batch array validation:
+	- `ctx.AddArrayElementValidationErrors()` marks a child element to the field currently under validation as invalid.
+	- `ctx.AddValidationError()` adds a validation error message at the given path.
+	- `ctx.AddValidationErrors()` adds a `*validation.Errors` entire object to be merged into the errors bag of the parent validation.
+	- `ctx.Path()` returns the exact path to the element under validation.
+- `validation.GetFieldType()` now returns constants. The `bool` field type is now supported too.
 
 ### Structure conversion and mapping
 
