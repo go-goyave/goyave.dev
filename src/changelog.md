@@ -560,4 +560,5 @@ The filters library didn't allow decoupling of the HTTP layer and the data layer
 - The `ratelimit` package was removed. This implementation couldn't be used in a realistic production environment and didn't cover critical aspects of a real application.
 - Fixed panic status handler attempting to write to hijacked connections.
 - The recovery middleware now forces override of the HTTP status to 500. This prevents empty 200 responses if an error occurs before writing the body (such as trying to JSON marshal an unsupported type).
-- All tests were re-written not only to be more extensive, but also easier to read and maintain. The stability and reliability of the framework has been tested in production over a long period.  
+- All tests were re-written not only to be more extensive, but also easier to read and maintain. The stability and reliability of the framework has been tested in production over a long period.
+- The framework now uses `path.Join()` instead of concatenation of paths. 
