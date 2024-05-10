@@ -294,9 +294,7 @@ func UserGenerator() *model.User {
 	user := &model.User{}
 	user.Name = faker.Name()
 
-	user.Email = faker.Email(
-		options.WithGenerateUniqueValues(true),
-	)
+	user.Email = faker.Email(options.WithGenerateUniqueValues(true))
 	return user
 }
 ```
@@ -306,7 +304,7 @@ func Seed(db *gorm.DB) {
 	userFactory := database.NewFactory(UserGenerator)
 	
 	 // Generate 10 users without inserting them
-	users := userFactory.Save(db, 10)
+	users := userFactory.Generate(10)
 
 	// Generate and insert 10 users
 	insertedUsers := userFactory.Save(db, 10)
