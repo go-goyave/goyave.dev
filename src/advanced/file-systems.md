@@ -38,7 +38,7 @@ This implementation is compatible with features expecting the following interfac
 - `fsutil.WritableFS`
 - `fsutil.RemoveFS`
 
-It also supports `sub` using `fs.Sub(&osfs.FS{}, "path")`.
+You can also get a sub file-system with `(&osfs.FS{}).Sub("path")`. Using the resulting file system will always append a path prefix to the name of the requested files. For example, with this file system, using `Open("test.txt")` will try to open `path/test.txt`.
 
 ## Embed
 
@@ -130,6 +130,6 @@ func (ctrl *Controller) UploadFiles(response *goyave.Response, request *goyave.R
 }
 ```
 
-:::warning
-`fsutil.File` **cannot** be used inside DTOs. The [DTO conversion](/advanced/dto-and-model-mapping.html) won't work on this type because it contains the `*multipart.FileHeader`. You will have to get the files from the raw data and either pass them to your services as parameters or manually inject them into your DTO.
+:::info
+`fsutil.File` **can** be used inside DTOs thanks to a special implementation of `json.Marhsaler`/`json.Unmarhsaler`.
 :::
