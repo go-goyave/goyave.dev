@@ -163,7 +163,7 @@ func TestShowUser(t *testing.T) {
 ```
 
 :::tip
-You can use `testutil.ToJSON()` to quickly marshal anything and create a reader from the result that can be used as your test request's body.
+You can use `testutil.ToJSON()` to quickly marshal anything and create a reader from the result that can be used as your test request's body. Don't forget to set the `Content-Type: application/json` header to your request.
 :::
 
 ### JSON responses
