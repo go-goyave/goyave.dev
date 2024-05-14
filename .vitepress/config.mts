@@ -3,12 +3,12 @@ import { monoContainerPlugin } from './plugins/mono_container'
 import { alignContainerPlugin } from './plugins/align_container'
 
 const title = 'Goyave'
-const description = 'Elegant Golang REST API framework'
+const description = 'The enterprise Golang REST API framework'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Goyave",
-  description: "The enterprise Golang REST API framework",
+  title: title,
+  description: description,
   srcDir: 'src',
 
   markdown: {
@@ -42,7 +42,7 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:description', content: description }],
     ['meta', { property: 'og:image', content: `https://goyave.dev/goyave_banner.png` }],
-    ['meta', { property: 'og:site_name', content: "Goyave" }],
+    ['meta', { property: 'og:site_name', content: title }],
   ],
 
   sitemap: {

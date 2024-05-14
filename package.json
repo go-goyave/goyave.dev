@@ -1,7 +1,7 @@
 {
   "name": "goyave_docs",
   "version": "0.0.1",
-  "description": "TODO description",
+  "description": "The official Goyave documentation website",
   "devDependencies": {
     "@types/markdown-it-container": "^2.0.10",
     "markdown-it-container": "^4.0.0",
