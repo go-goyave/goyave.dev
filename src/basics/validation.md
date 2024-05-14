@@ -235,7 +235,7 @@ func ArrayRequest(_ *goyave.Request) v.RuleSet {
 
 In this example, we are validating an array of one to five email addresses, which can't be longer than 255 characters. When array elements are validated, **all of them** must pass the validation.
 
-If all elements of the array have the same type, the array will be converted to the correct type. For example:
+If all elements of the array have the same type, the array will be converted to the correct type. If an array is empty, it won't be converted. For example:
 ```go
 // Raw array whose elements are validated as `v.Int()`
 []any{1, 2.0, uint(3)}
@@ -334,7 +334,7 @@ In this example, we are validating an array of people. The following JSON input 
 - If a **required** field has an **undefined** parent, its validation will be **skipped** completely.
 	- Make sure that all parents have validators defined for them to make sure they have the expected type.
 	- You can **require** fields inside an object without making the object itself **required**. This means that the child fields will be **required** only if the parent is **present**.
-- `validation.Required()` on array elements has no effect. Use a size validator on the array to check the number of elements it contains. 
+- `validation.Required()` on array elements has no effect unless the array is empty. If the array is empty and has required elements, then the returned validation error will target index `-1`. Prefer using a size validator on the array to check the number of elements it contains. 
 
 :::warning
 A field that is not listed in the rule set is not validated but it can still exists in the body, validate all the fields you expect without exception.
