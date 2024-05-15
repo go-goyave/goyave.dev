@@ -159,7 +159,8 @@ const { mousePos } = useDynamicBorders(root)
 .home {
   --vp-layout-max-width: 1024px;
   --vp-gradient-tranparency: 30%;
-  --vp-card-shadow-color: rgb(0 0 0 / 0.05);
+  --vp-card-shadow-color-1: rgb(0 0 0 / 0.1);
+  --vp-card-shadow-color-2: rgb(0 0 0 / 0.05);
   --vp-contained-padding: 0;
   overflow: hidden;
 }
@@ -298,7 +299,7 @@ footer p {
   border-radius: 1rem;
   position: relative;
   background: linear-gradient(180deg, var(--vp-c-bg-alt) 0%, var(--vp-c-bg) 20%);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px var(--vp-card-shadow-color), inset 0px 0px 0px 1px color-mix(in srgb, var(--vp-c-border) 50%, transparent);
+  box-shadow: 0 20px 25px -5px var(--vp-card-shadow-color-1), 0 8px 10px -6px var(--vp-card-shadow-color-2), inset 0px 0px 0px 1px color-mix(in srgb, var(--vp-c-border) 50%, transparent);
   white-space: pre-line;
   text-align: center;
   justify-content: center;
@@ -405,7 +406,7 @@ footer p {
   padding: 0.8rem 1.2rem;
   border-radius: 1rem;
   background: var(--vp-c-bg);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px var(--vp-card-shadow-color), inset 0px 0px 0px 1px color-mix(in srgb, var(--vp-c-border) 50%, transparent);
+  box-shadow: 0 20px 25px -5px var(--vp-card-shadow-color-1), 0 8px 10px -6px var(--vp-card-shadow-color-2), inset 0px 0px 0px 1px color-mix(in srgb, var(--vp-c-border) 50%, transparent);
 }
 
 .features-cloud > span::before {
@@ -440,7 +441,7 @@ footer p {
   height: calc(100%+4px);
   background: radial-gradient(var(--vp-dynamic-border-radius) circle at var(--x) var(--y),var(--vp-c-dynamic-border) 0, transparent 100%);
   will-change: background;
-  inset: -2px;
+  inset: -3px;
   z-index: -1;
   border-radius: calc(1rem + 2px);
 }
@@ -458,6 +459,7 @@ footer p {
   max-width: 100%;
   max-height: 200px;
   height: auto;
+  filter: drop-shadow(5px 5px 4px var(--vp-card-shadow-color));
 }
 
 #icon-gradient {
