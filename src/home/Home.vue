@@ -68,7 +68,7 @@
     </section>
     <section class="section center">
       <h3 class="subtitle contained">Start creating value, right now!</h3>
-      <div class="quote contained text-center">
+      <div class="quote contained content-center text-center">
         <p>
           Focus on the business logic of your application instead of spending time on technical aspects. 
         </p>
@@ -117,7 +117,7 @@
     </section>
     <section class="section">
       <h3 class="subtitle contained">And that's not all!</h3>
-      <p>Goyave has so much more to offer.</p>
+      <p class="text-center">Goyave has so much more to offer.</p>
       <VPButton
           tag="a"
           size="big"
