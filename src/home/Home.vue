@@ -5,7 +5,7 @@
         <img src="../goyave_256.png" class="logo" />
       </div>
       <h1 class="title center">Goyave</h1>
-      <h2 class="subtitle center text-center">The enterprise Golang REST API framework</h2>
+      <h2 class="subtitle center text-center contained">The enterprise Golang REST API framework</h2>
       <div class="quote contained text-center">
         <p>
           <strong>Goyave</strong> an opinionated all-in-one Golang web framework focused on REST APIs, with emphasis on code reliability, maintainability and developer experience.
@@ -41,15 +41,19 @@
         </div>
         <div class="card dynamic-border col2">
           <HeartIcon class="icon heart" />
-          <h4>Developer experience</h4>
-          <p>Backend development is made easy and enjoyable. An extensive documentation will answer all your questions.</p>
+          <div class="card-content">
+            <h4>Developer experience</h4>
+            <p>Backend development is made easy and enjoyable. An extensive documentation will answer all your questions.</p>
+          </div>
         </div>
         <div class="card dynamic-border col2">
           <ShieldIcon class="icon" />
-          <h4>Resilience</h4>
-          <p>
-            Applications are reliable and resilient out of the box thanks to advanced error handling, recovery and extensive testing.
-          </p>
+          <div class="card-content">
+            <h4>Resilience</h4>
+            <p>
+              Applications are reliable and resilient out of the box thanks to advanced error handling, recovery and extensive testing.
+            </p>
+          </div>
         </div>
         <div class="card horizontal dynamic-border col4">
           <BoltIcon class="icon" />
@@ -63,8 +67,8 @@
       </div>
     </section>
     <section class="section center">
-      <h3 class="subtitle">Start creating value, right now!</h3>
-      <div class="quote text-center">
+      <h3 class="subtitle contained">Start creating value, right now!</h3>
+      <div class="quote contained text-center">
         <p>
           Focus on the business logic of your application instead of spending time on technical aspects. 
         </p>
@@ -94,23 +98,25 @@
       </div>
     </section>
     <section class="section center">
-      <div class="card contained content-center dynamic-border">
-        <h3 class="subtitle">Ready for the real world</h3>
-        <div class="quote text-center">
-          <p>
-            Designed with businesses constraints and use-cases in mind.<br>
-            These companies already use Goyave in production:
-          </p>
-        </div>
-        <div class="contained used-by">
-          <a href="https://adagio.io" target="_blank" rel="nofollow">
-              <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" style="background-color: #fff"/>
-          </a>
+      <div class="contained">
+        <div class="card content-center dynamic-border">
+          <h3 class="subtitle">Ready for the real world</h3>
+          <div class="quote text-center">
+            <p>
+              Designed with businesses constraints and use-cases in mind.<br>
+              These companies already use Goyave in production:
+            </p>
+          </div>
+          <div class="contained used-by">
+            <a href="https://adagio.io" target="_blank" rel="nofollow">
+                <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" style="background-color: #fff"/>
+            </a>
+          </div>
         </div>
       </div>
     </section>
     <section class="section">
-      <h3 class="subtitle">And that's not all!</h3>
+      <h3 class="subtitle contained">And that's not all!</h3>
       <p>Goyave has so much more to offer.</p>
       <VPButton
           tag="a"
@@ -122,7 +128,7 @@
         />
     </section>
     <footer class="section">
-      <p class="light">MIT Licensed | Copyright © 2024 Jérémy LAMBERT (SystemGlitch)</p>
+      <p class="light text-center contained">MIT Licensed | Copyright © 2024 Jérémy LAMBERT (SystemGlitch)</p>
     </footer>
   </div>
   <svg aria-hidden="true" focusable="false" style="width:0;height:0;position:absolute;">
@@ -307,6 +313,13 @@ footer p {
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .highlights .card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 .card .card-content {
   padding: 1rem;
 }
@@ -350,12 +363,23 @@ footer p {
   gap: 1rem;
 }
 
+
 .highlights > .col4 {
-  grid-column: auto / span 4;
+    grid-column: auto / span 6;
+  }
+  
+.highlights > .col2 {
+  grid-column: auto / span 6;
 }
 
-.highlights > .col2 {
-  grid-column: auto / span 2;
+@media (min-width: 768px) {
+  .highlights > .col4 {
+    grid-column: auto / span 4;
+  }
+  
+  .highlights > .col2 {
+    grid-column: auto / span 2;
+  }
 }
 
 .used-by {
@@ -368,9 +392,6 @@ footer p {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  grid-template-rows: repeat(8, minmax(0, 1fr));
-  grid-auto-flow: column;
-  grid-auto-columns: auto;
   margin-top: 4rem;
   justify-content: center;
 }
