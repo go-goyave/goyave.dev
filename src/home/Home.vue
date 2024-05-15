@@ -8,7 +8,7 @@
       <h2 class="subtitle center text-center contained">The enterprise Golang REST API framework</h2>
       <div class="quote contained text-center">
         <p>
-          <strong>Goyave</strong> an opinionated all-in-one Golang web framework focused on REST APIs, with emphasis on code reliability, maintainability and developer experience.
+          <strong>Goyave</strong> is an opinionated all-in-one Golang web framework focused on REST APIs, with emphasis on code reliability, maintainability and developer experience.
         </p>
       </div>
       <div class="spaced-container center">
@@ -18,7 +18,7 @@
           theme="brand"
           href="/getting-started/installation.html"
           text="Get started"
-          class="dynamic-border"
+          class="dynamic-border call-to-action"
         />
         <VPButton
           tag="a"
@@ -26,7 +26,7 @@
           theme="alt"
           href="/introduction.html"
           text="Introduction"
-          class="dynamic-border"
+          class="dynamic-border call-to-action"
         />
       </div>
     </section>
@@ -116,16 +116,20 @@
       </div>
     </section>
     <section class="section">
-      <h3 class="subtitle contained">And that's not all!</h3>
-      <p class="text-center">Goyave has so much more to offer.</p>
-      <VPButton
-          tag="a"
-          size="big"
-          theme="brand"
-          href="/getting-started/installation.html"
-          text="Get started"
-          class="dynamic-border"
-        />
+      <div class="spaced-container col contained">
+        <div>
+          <h3 class="subtitle">And that's not all!</h3>
+          <p class="text-center">Goyave has so much more to offer.</p>
+        </div>
+        <VPButton
+            tag="a"
+            size="big"
+            theme="brand"
+            href="/getting-started/installation.html"
+            text="Get started"
+            class="dynamic-border"
+          />
+      </div>
     </section>
     <footer class="section">
       <p class="light text-center contained">MIT Licensed | Copyright © 2024 Jérémy LAMBERT (SystemGlitch)</p>
@@ -246,6 +250,12 @@ div:has(> .logo) {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+}
+
+.col {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .row > .card {
@@ -424,6 +434,10 @@ footer p {
 
 .VPButton {
   position: relative;
+}
+
+.call-to-action {
+  width: 150px;
 }
 
 .dynamic-border {
