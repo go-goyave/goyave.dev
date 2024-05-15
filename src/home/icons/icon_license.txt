@@ -1,0 +1,4 @@
+The SVG icons used in this repository belong to Solar Icons under the CC Attribution License and were not modified.
+
+Copyright Solar Icons
+https://creativecommons.org/licenses/by/4.0/

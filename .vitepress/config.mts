@@ -1,6 +1,7 @@
 import { HeadConfig, defineConfig } from 'vitepress'
 import { monoContainerPlugin } from './plugins/mono_container'
 import { alignContainerPlugin } from './plugins/align_container'
+import svgLoader from 'vite-svg-loader'
 
 const title = 'Goyave'
 const description = 'The enterprise Golang REST API framework'
@@ -10,6 +11,10 @@ export default defineConfig({
   title: title,
   description: description,
   srcDir: 'src',
+
+	vite: {
+		plugins: [svgLoader()]
+	},
 
   markdown: {
     config: (md) => {
