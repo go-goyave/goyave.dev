@@ -103,7 +103,7 @@
           <h3 class="subtitle">Ready for the real world</h3>
           <div class="quote text-center">
             <p>
-              Designed with businesses constraints and use-cases in mind.<br>
+              Designed with business constraints and use-cases in mind.<br>
               These companies already use Goyave in production:
             </p>
           </div>
