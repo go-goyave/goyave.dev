@@ -226,6 +226,10 @@ func TestMiddleware(t *testing.T) {
 }
 ```
 
+:::info
+Note that the given request is **cloned** when using `TestMiddleware`. If the middleware alters the request object, these changes won't be reflected on the input request. You can do your assertions inside the `procedure`.
+::: 
+
 ## Multipart and file upload
 
 You may need to test requests requiring file uploads. The best way to do this is using Go's `multipart.Writer`. Adding files to such forms is made easier by `testutil.WriteMultipartFile()`.
