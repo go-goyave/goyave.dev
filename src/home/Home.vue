@@ -2,7 +2,7 @@
   <div ref="root" @mousemove="mousePos" class="home">
     <section class="section center ellipse">
       <div class="center">
-        <img src="../goyave_256.png" class="logo" />
+        <img src="../goyave_256.png" class="logo" alt="Logo" aria-hidden="true"/>
       </div>
       <h1 class="title center">Goyave</h1>
       <h2 class="subtitle center text-center contained">The enterprise Golang REST API framework</h2>
@@ -33,21 +33,21 @@
     <section class="section center horizontal-gradient">
       <div class="highlights contained">
         <div class="card horizontal dynamic-border col4">
-          <RoundGraphIcon class="icon" />
+          <RoundGraphIcon aria-hidden="true" class="icon" />
           <div class="card-content">
             <h4>Clean code</h4>
             <p>Build robust and future-proof applications brimming with elegance thanks to the strong architecture and conventions the framework provides.</p>
           </div>
         </div>
         <div class="card dynamic-border col2">
-          <HeartIcon class="icon heart" />
+          <HeartIcon aria-hidden="true" class="icon heart" />
           <div class="card-content">
             <h4>Developer experience</h4>
             <p>Backend development is made easy and enjoyable. An extensive documentation will answer all your questions.</p>
           </div>
         </div>
         <div class="card dynamic-border col2">
-          <ShieldIcon class="icon" />
+          <ShieldIcon aria-hidden="true" class="icon" />
           <div class="card-content">
             <h4>Resilience</h4>
             <p>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="card horizontal dynamic-border col4">
-          <BoltIcon class="icon" />
+          <BoltIcon aria-hidden="true" class="icon" />
           <div class="card-content">
             <h4>Faster development</h4>
             <p>
@@ -109,7 +109,7 @@
           </div>
           <div class="contained used-by">
             <a href="https://adagio.io" target="_blank" rel="nofollow">
-                <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" style="background-color: #fff"/>
+                <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" aria-hidden="true" style="background-color: #fff"/>
             </a>
           </div>
         </div>
@@ -166,6 +166,7 @@ const { mousePos } = useDynamicBorders(root)
   --vp-card-shadow-color-1: rgb(0 0 0 / 0.1);
   --vp-card-shadow-color-2: rgb(0 0 0 / 0.05);
   --vp-contained-padding: 0;
+  --vp-c-home-text: var(--vp-c-text-2);
   overflow: hidden;
 }
 
@@ -179,6 +180,7 @@ const { mousePos } = useDynamicBorders(root)
 .dark .home {
   --vp-gradient-tranparency: 30%;
   --vp-card-shadow-color: rgb(255 255 255 / 0.05);
+  --vp-c-home-text: #bfbfbf;
 }
 
 .title {
@@ -215,10 +217,11 @@ h3 {
 p {
   font-size: 1.1rem;
   white-space: pre-line;
+  color: var(--vp-c-home-text);
 }
 
 .logo {
-  max-width: 256px;
+  max-width: 200px;
 }
 
 div:has(> .logo) {
@@ -232,6 +235,24 @@ div:has(> .logo) {
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.section:first-child {
+  padding-top: calc(4rem + var(--vp-nav-height)) !important;
+  padding-bottom: 0 !important;
+}
+
+footer {
+  padding-top: 8rem !important;
+  background: radial-gradient(ellipse 80% 100% at 50% 120%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+}
+
+footer.section {
+  padding-bottom: 1rem;
+}
+
+footer p {
+  font-size: 1rem;
 }
 
 .content-center {
@@ -262,31 +283,6 @@ div:has(> .logo) {
   flex-grow: 1;
 }
 
-.section:first-child {
-  padding-top: calc(4rem + var(--vp-nav-height)) !important;
-}
-
-.ellipse {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
-}
-
-.horizontal-gradient {
-  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
-}
-
-footer {
-  padding-top: 8rem !important;
-  background: radial-gradient(ellipse 80% 100% at 50% 120%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
-}
-
-footer.section {
-  padding-bottom: 1rem;
-}
-
-footer p {
-  font-size: 1rem;
-}
-
 .center {
   margin-left: auto;
   margin-right: auto;
@@ -302,13 +298,29 @@ footer p {
   padding: 3rem 0;
 }
 
+.ellipse {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+}
+
+.dark .ellipse {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+}
+
+.horizontal-gradient {
+  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+}
+
+.dark .horizontal-gradient {
+  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+}
+
 .card {
   display: flex;
   flex-direction: column;
   padding: 1rem;
   border-radius: 1rem;
   position: relative;
-  background: linear-gradient(180deg, var(--vp-c-bg-alt) 0%, var(--vp-c-bg) 20%);
+  background: linear-gradient(180deg, #f9f9f9 0%, var(--vp-c-bg) 20%);
   box-shadow: 0 20px 25px -5px var(--vp-card-shadow-color-1), 0 8px 10px -6px var(--vp-card-shadow-color-2), inset 0px 0px 0px 1px color-mix(in srgb, var(--vp-c-border) 50%, transparent);
   white-space: pre-line;
   text-align: center;
@@ -336,7 +348,7 @@ footer p {
 }
 
 .card p {
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-home-text);
   font-size: 1rem;
 }
 
@@ -360,7 +372,7 @@ footer p {
 }
 
 .dark .quote > p {
-  color: var(--vp-c-text-2);
+  color: var(--vp-c-home-text);
 }
 
 .light {
@@ -373,7 +385,6 @@ footer p {
   grid-template-columns: [page-start] var(--row) [prose-start] var(--row) var(--row) var(--row) var(--row) [prose-end] var(--row) [page-end];
   gap: 1rem;
 }
-
 
 .highlights > .col4 {
     grid-column: auto / span 6;
