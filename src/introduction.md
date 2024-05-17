@@ -2,6 +2,10 @@
 title: "Introduction"
 ---
 
+<script setup>
+import UsedBy from './UsedBy.vue'
+</script>
+
 # Introduction
 
 **Goyave** an **opinionated** all-in-one Golang web framework focused on **REST APIs**, with emphasis on code **reliability**, **maintainability** and **developer experience** (DX).
@@ -96,11 +100,7 @@ A big "Thank you" to the Goyave contributors:
 
 These companies already use Goyave in production:
 
-<div class="used-by">
-    <a href="https://adagio.io" target="_blank" rel="nofollow">
-        <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" style="background-color: #fff"/>
-    </a>
-</div>
+<UsedBy />
 
 Do you want to be featured here? [Open a Pull Request](https://github.com/go-goyave/goyave.dev/pulls).
 

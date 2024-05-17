@@ -107,11 +107,7 @@
               These companies already use Goyave in production:
             </p>
           </div>
-          <div class="contained used-by">
-            <a href="https://adagio.io" target="_blank" rel="nofollow">
-                <img src="/usedby/adagio.webp" width="100" height="90" alt="Adagio.io" aria-hidden="true" style="background-color: #fff"/>
-            </a>
-          </div>
+          <UsedBy />
         </div>
       </div>
     </section>
@@ -153,6 +149,7 @@ import ShieldIcon from './icons/shield-check.svg'
 import HeartIcon from './icons/hearts.svg'
 import RoundGraphIcon from './icons/round-graph.svg'
 import BoltIcon from './icons/bolt.svg'
+import UsedBy from '../UsedBy.vue'
 
 const root = ref<HTMLElement | null>(null)
 const { mousePos } = useDynamicBorders(root)
