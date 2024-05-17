@@ -15,7 +15,7 @@ Most of the time, the API is using another domain as the clients. For security r
 
 ## Enabling CORS
 
-CORS settings can be configured on **routers**, and are inherited by subrouters through the **router's meta**.
+CORS settings can be configured on **routers**, and are inherited by subrouters through the **router's meta**. The CORS middleware is automatically added **globally**.
 
 ```go
 import (

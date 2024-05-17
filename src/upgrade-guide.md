@@ -652,3 +652,4 @@ defer response.Body.Close()
 - `goyave.BaseURL()` and `goyave.ProxyBaseURL()` were removed. Use `server.BaseURL()` and `server.ProxyBaseURL()` instead.
 - `goyave.GetRoute()` was removed. Use `router.GetRoute()` instead. The router can be retrieved from a request with `request.Route.GetParent()`.
 - `goyave.EnableMaintenance()`, `goyave.DisableMaintenance()` and `goyave.IsMaintenanceEnabled()` were removed.
+- The CORS middleware is now global, meaning it is executed earlier in the request's lifecycle.

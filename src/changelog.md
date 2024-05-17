@@ -176,6 +176,7 @@ Without dramatically changing how routing works, the simple addition of **metada
 		- Define the middleware settings in the component structure as fields. This is used for validation for example.
 		- Define the middleware settings in the router or route metadata. This is more suited for global middleware and allows fine-grained control over settings for each individual route or group, while using the same middleware instance. 
 - CORS options can now be applied on individual routes. It was previously only possible to define CORS settings at the router level.
+- The CORS middleware is now global so it can be used before a global auth middleware for example.
 - `route.BuildProxyURL()` new method builds a full URL pointing to this route using the proxy base URL.
 - `route.GetParent()` and `router.GetParent()` new methods returns the parent router.
 - `route.GetValidationRules()` was removed. Validation rules are now stored in struct fields of the validation middleware.
