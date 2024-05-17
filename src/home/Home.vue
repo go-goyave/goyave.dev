@@ -162,11 +162,12 @@ const { mousePos } = useDynamicBorders(root)
 <style scoped>
 .home {
   --vp-layout-max-width: 1024px;
-  --vp-gradient-tranparency: 30%;
+  --vp-gradient-tranparency: 100%;
   --vp-card-shadow-color-1: rgb(0 0 0 / 0.1);
   --vp-card-shadow-color-2: rgb(0 0 0 / 0.05);
   --vp-contained-padding: 0;
   --vp-c-home-text: var(--vp-c-text-2);
+  --vp-c-gradient: #a0ecff;
   overflow: hidden;
 }
 
@@ -181,6 +182,7 @@ const { mousePos } = useDynamicBorders(root)
   --vp-gradient-tranparency: 30%;
   --vp-card-shadow-color: rgb(255 255 255 / 0.05);
   --vp-c-home-text: #bfbfbf;
+  --vp-c-gradient: var(--vp-c-brand-0);
 }
 
 .title {
@@ -244,7 +246,7 @@ div:has(> .logo) {
 
 footer {
   padding-top: 8rem !important;
-  background: radial-gradient(ellipse 80% 100% at 50% 120%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+  background: radial-gradient(ellipse 80% 100% at 50% 120%, color-mix(in srgb, var(--vp-c-gradient) var(--vp-gradient-tranparency), transparent), transparent);
 }
 
 footer.section {
@@ -299,19 +301,11 @@ footer p {
 }
 
 .ellipse {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
-}
-
-.dark .ellipse {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--vp-c-gradient) var(--vp-gradient-tranparency), transparent), transparent);
 }
 
 .horizontal-gradient {
-  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
-}
-
-.dark .horizontal-gradient {
-  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-brand-0) var(--vp-gradient-tranparency), transparent), transparent);
+  background: radial-gradient(ellipse 100% 35% at 50% 60%, color-mix(in srgb, var(--vp-c-gradient) var(--vp-gradient-tranparency), transparent), transparent);
 }
 
 .card {
@@ -336,7 +330,7 @@ footer p {
   align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .highlights .card {
     flex-direction: row;
     align-items: center;
