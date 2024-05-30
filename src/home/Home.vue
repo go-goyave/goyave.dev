@@ -2,7 +2,7 @@
   <div ref="root" @mousemove="mousePos" class="home">
     <section class="section center ellipse">
       <div class="center">
-        <img src="../goyave_256.png" class="logo" alt="Logo" aria-hidden="true"/>
+        <img src="/goyave.svg" class="logo" alt="Logo" aria-hidden="true"/>
       </div>
       <h1 class="title center">Goyave</h1>
       <h2 class="subtitle center text-center contained">The enterprise Golang REST API framework</h2>
@@ -220,7 +220,8 @@ p {
 }
 
 .logo {
-  max-width: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 div:has(> .logo) {

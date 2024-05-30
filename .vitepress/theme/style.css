@@ -165,7 +165,11 @@
 }
 
 .VPNavBarTitle .logo {
-	margin-right: 0.8rem;
+	margin-right: 0.5rem;
+}
+
+.VPNavBarTitle .title>span {
+	margin-top: 0.4rem;
 }
 
 .dark .outline-marker {
@@ -375,6 +379,7 @@
 
 .DocSearch {
 	--docsearch-primary-color: var(--vp-c-brand-1) !important;
+	--docsearch-container-background: color-mix(in srgb, var(--vp-c-brand-soft) 50%, transparent);
 }
 
 .dark [class*="DocSearch"] {

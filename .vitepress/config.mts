@@ -31,6 +31,7 @@ export default defineConfig({
   },
 
   head: [
+    ['link', { rel: 'icon', type: "image/svg+xml", sizes: "any", href: `/goyave.svg` }],
     ['link', { rel: 'icon', type: "image/png", sizes: "16x16", href: `/goyave_16.png` }],
     ['link', { rel: 'icon', type: "image/png", sizes: "32x32", href: `/goyave_32.png` }],
     ['link', { rel: 'icon', type: "image/png", sizes: "64x64", href: `/goyave_64.png` }],
@@ -71,7 +72,7 @@ export default defineConfig({
 
   themeConfig: {
 
-    logo: '/goyave_64.png',
+    logo: '/goyave.svg',
 
     // https://vitepress.dev/reference/default-theme-config
     nav: [
