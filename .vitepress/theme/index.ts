@@ -5,6 +5,7 @@ import './style.css'
 import Layout from './Layout.vue'
 import { nextTick, onMounted, watch } from 'vue'
 import mediumZoom from 'medium-zoom'
+import { pageView } from './pageviews'
 
 export default {
   extends: DefaultTheme,
@@ -20,7 +21,10 @@ export default {
 			onMounted(() => initZoom())
 			watch(
 				() => route.path,
-				() => nextTick(() => initZoom()),
+				() => nextTick(() => {
+					initZoom()
+					pageView(route.data.filePath)
+				}),
 				{ immediate: true }
 			)
     });
