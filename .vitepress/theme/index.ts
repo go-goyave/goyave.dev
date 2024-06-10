@@ -23,7 +23,7 @@ export default {
 				() => route.path,
 				() => nextTick(() => {
 					initZoom()
-					pageView(route.data.filePath)
+					pageView(route.path)
 				}),
 				{ immediate: true }
 			)
