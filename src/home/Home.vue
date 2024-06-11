@@ -427,8 +427,8 @@ footer p {
   display: block;
   position: absolute;
   top: 0;
-  width: calc(100%+4px);
-  height: calc(100%+4px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
   background: linear-gradient(45deg, var(--vp-c-brand-0) 0%, var(--vp-c-brand-3) 50%, var(--vp-c-brand-2) 100%);
   inset: -2px;
   z-index: -1;
@@ -454,8 +454,8 @@ footer p {
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100%+4px);
-  height: calc(100%+4px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
   background: radial-gradient(var(--vp-dynamic-border-radius) circle at var(--x) var(--y),var(--vp-c-dynamic-border) 0, transparent 100%);
   will-change: background;
   inset: -2px;
@@ -466,8 +466,8 @@ footer p {
 .dynamic-border.VPButton::before {
   border-radius: 25px;
   inset: -3px;
-  width: calc(100%+6px);
-  height: calc(100%+6px);
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
   --vp-dynamic-border-radius: 100px;
 }
 

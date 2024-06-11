@@ -17,7 +17,7 @@ The database connection pool will be available right after the server is created
 
 ## Configuration
 
-Very few code is required to get started with databases. There are some [configuration](../configuration.html#database-category) options that you need to change though:
+Very few code is required to get started with databases. There are some [configuration](/getting-started/configuration.html#database-category) options that you need to change though:
 - `database.connection`
 - `database.host`
 - `database.port`
