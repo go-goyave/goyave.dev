@@ -58,12 +58,12 @@ export default defineConfig({
   transformHead: ({ pageData }) => {
     const head: HeadConfig[] = []
 
-    const title = pageData.frontmatter.title || 'Goyave'
+    const title = pageData.frontmatter.title ? pageData.frontmatter.title + ' | Goyave' : 'Goyave'
     const desc = pageData.frontmatter.description || description
 
-    head.push(['meta', { property: 'og:title', content: title + ' | Goyave' }])
+    head.push(['meta', { property: 'og:title', content: title }])
     head.push(['meta', { property: 'og:description',  content: desc }])
-    head.push(['meta', { property: 'twitter:title', content: title + ' | Goyave' }])
+    head.push(['meta', { property: 'twitter:title', content: title }])
     head.push(['meta', { property: 'twitter:description', content: desc }])
     head.push(['meta', { name: 'title', content: title }])
 
