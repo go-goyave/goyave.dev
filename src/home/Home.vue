@@ -458,7 +458,7 @@ footer p {
   height: calc(100%+4px);
   background: radial-gradient(var(--vp-dynamic-border-radius) circle at var(--x) var(--y),var(--vp-c-dynamic-border) 0, transparent 100%);
   will-change: background;
-  inset: -3px;
+  inset: -2px;
   z-index: -1;
   border-radius: calc(1rem + 2px);
 }
