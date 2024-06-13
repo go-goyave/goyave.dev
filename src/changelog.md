@@ -11,6 +11,14 @@ You can also see the changelog on [Github](https://github.com/go-goyave/goyave/r
 You can be notified of new releases by enabling notifications on Github or by joining our [Discord](https://discord.gg/mfemDMc).
 :::
 
+
+# v5.0.1
+
+- `util/httputil`: fixed a race condition when initializing the quality value regex
+- `util/session`: improved support for nested transactions
+
+# v5.0.0
+
 [[toc]]
 
 ## Introduction

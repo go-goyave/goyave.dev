@@ -162,4 +162,8 @@ func (s *Service) Register(ctx context.Context, user *dto.RegisterUser) (*dto.Us
 
 The system gracefully handles nested transactions. If a service starts a transaction (either with `Transaction()` or manually with `Begin()`) using a context that already contains a transaction, the session will retrieve this database instance automatically and use it as a starting point for the creation of a nested transaction.
 
+Nested transactions work with savepoints. If the nested transaction returns an error, it will be rolled back to its starting point, leaving the root transaction intact. It is still recommended to rollback the root transaction by simply bringing the returned error up the stack as usual.
+
+The use of savepoints in nested transactions can be disabled by setting Gorm's `DisableNestedTransaction` setting to `true`.
+
 This way, services don't have to worry about operating in a potential transaction from inside another dependent service. Everything will just work as units that can be used anywhere.
