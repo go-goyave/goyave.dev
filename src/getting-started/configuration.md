@@ -285,7 +285,7 @@ Each module should register its config entries in an `init()` function, even if 
 Each module should use its own category and use a name both expressive and unique to avoid collisions.
 For example, the `auth` package registers, among others, `auth.basic.username` and `auth.jwt.expiry`, thus creating a category for its package, and two subcategories for its features.
 
-To register an entry without a default value (only specify how it will be validated), set `Entry.Value` to `nil`.
+To register an entry without a default value (only specify how it will be validated), set `Entry.Value` to `nil`. You can set `Entry.Required` to `true` to prevent `nil` values.
 
 Panics if an entry already exists for this key and is not identical to the one passed as parameter of this function. On the other hand, if the entries are identical, no conflict is expected so the configuration is left in its current state.
 
@@ -302,6 +302,7 @@ func init() {
 		Type:             reflect.String,
 		IsSlice:          false,
 		AuthorizedValues: []any{},
+		Required:         true,
 	})
 }
 ```
