@@ -35,7 +35,7 @@ router.GlobalMiddleware(authMiddleware).SetMeta(auth.MetaAuth, true)
 ```
 
 :::info
-- If the `goyave.MetaAuth` is missing or not equal to `true`, the authentication middleware is **skipped**. In route groups that have authentication enabled, you can disable authentication on specific routes or subrouters by setting the `goyave.MetaAuth` to `false`. You can use the authentication middleware as a global middleware.
+- If the `auth.MetaAuth` is missing or not equal to `true`, the authentication middleware is **skipped**. In route groups that have authentication enabled, you can disable authentication on specific routes or subrouters by setting the `auth.MetaAuth` to `false`. You can use the authentication middleware as a global middleware.
 - Note that we used `dto.InternalUser` here as user type. It is recommended to use a DTO different from the user DTO sent to clients in responses to have better control over the exposed information.
 - The "not found" and "method not allowed" routes are **never** authenticated, even if the middleware is global. This is because these routes don't have a parent router, meaning meta cannot be applied to them.
 :::
