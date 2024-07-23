@@ -125,7 +125,7 @@ Usually, the response's writer is replaced in a middleware. The current writer i
 ![Chained writers diagram](/diagrams/chained_writers.webp){data-zoomable}
 :::
 
-Chained writers are **components**, just like middleware and controllers.
+Chained writers are **components**, just like middleware and controllers. They can compose with `goyave.CommonWriter`, a structure that implements all the basic methods a chained writer must implement: `goyave.PreWriter`, `io.Closer` and `goyave.Flusher`.
 
 Note that at the time a chained writer's `Write()` method is called, the request header is already written. Therefore, changing headers or status doesn't have any effect. If you want to alter the headers, do so in a `PreWrite(b []byte)` function (from the `goyave.PreWriter` interface).
 
@@ -141,45 +141,27 @@ import (
 )
 
 type LogWriter struct {
-	goyave.Component
-	writer   io.Writer
+	goyave.CommonWriter
 	response *goyave.Response
 	body     []byte
 }
 
-func NewWriter(server *goyave.Server, response *goyave.Response) *LogWriter {
-	writer := &LogWriter{
-		writer:   response.Writer(),
+func NewWriter(response *goyave.Response) *LogWriter {
+	return &LogWriter{
+		writer:   goyave.NewCommonWriter(response.Writer()),
 		response: response,
-	}
-	writer.Init(server)
-	return writer
-}
-
-func (w *LogWriter) PreWrite(b []byte) {
-	// All chained writers should implement goyave.PreWriter
-	// to allow the modification of headers and status before
-	// they are written.
-	if pr, ok := w.writer.(goyave.PreWriter); ok {
-		pr.PreWrite(b)
 	}
 }
 
 func (w *LogWriter) Write(b []byte) (int, error) {
 	w.body = append(w.body, b...)
-	n, err := w.writer.Write(b)
+	n, err := w.CommonWriter.Write(b)
 	return n, errors.New(err)
 }
 
 func (w *LogWriter) Close() error {
 	w.Logger().Info("RESPONSE", "body", string(w.body))
-
-	// The chained writer MUST be closed if it's closeable.
-	// Therefore, all chained writers should implement io.Closer.
-	if wr, ok := w.writer.(io.Closer); ok {
-		return errors.New(wr.Close())
-	}
-	return nil
+	return errors.New(w.CommonWriter.Close())
 }
 
 type LogMiddleware struct {
@@ -188,13 +170,36 @@ type LogMiddleware struct {
 
 func (m *LogMiddleware) Handle(next goyave.Handler) goyave.Handler {
 	return func(response *goyave.Response, request *goyave.Request) {
-		logWriter := NewWriter(m.Server(), response)
+		logWriter := NewWriter(response)
 		response.SetWriter(logWriter)
 
 		next(response, request)
 	}
 }
 ```
+
+You can override the default behavior of `PreWrite()`, `Close()` and `Flush()`. If you do so, make sure to call the `CommonWriter`'s implementation so the writers are correctly chained for these operations:
+
+```go
+func (w *Writer) PreWrite(b []byte) {
+	//...
+	w.CommonWriter.PreWrite(b)
+}
+
+func (w *Writer) Close() error {
+	//...
+	return errors.New(w.CommonWriter.Close())
+}
+
+func (w *Writer) Flush() error {
+	//...
+	return errors.New(w.CommonWriter.Flush())
+}
+```
+
+:::info
+Chained writers support both `http.Flusher` and `goyave.Flusher` for their underlying writers. The only difference between those interfaces is that `http.Flusher`'s `Close()` method doesn't return an `error` but `goyave.Flusher`'s does.
+:::
 
 ## Hijack
 

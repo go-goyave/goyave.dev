@@ -76,6 +76,7 @@ The framework supports the following sql drivers out-of-the-box, defined in the 
 - `postgres`
 - `sqlite3`
 - `mssql`
+- `clickhouse`
 
 In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 
