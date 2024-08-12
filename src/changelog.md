@@ -11,6 +11,7 @@ You can also see the changelog on [Github](https://github.com/go-goyave/goyave/r
 You can be notified of new releases by enabling notifications on Github or by joining our [Discord](https://discord.gg/mfemDMc).
 :::
 
+- [v5.2.1](./changelog/v5.2.1.md)
 - [v5.2.0](./changelog/v5.2.0.md)
 - [v5.1.1](./changelog/v5.1.1.md)
 - [v5.1.0](./changelog/v5.1.0.md)
