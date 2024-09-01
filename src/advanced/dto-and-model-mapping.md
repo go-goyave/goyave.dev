@@ -178,7 +178,7 @@ func (s *Service) Register(ctx context.Context, user *dto.RegisterUser) (*dto.Us
 ```go
 // database/repository/user.go
 func (r *User) Create(ctx context.Context, user *model.User) (*model.User, error) {
-	db := session.DB(ctx, r.DB).Omit(clause.Associations).SCreate(user)
+	db := session.DB(ctx, r.DB).Omit(clause.Associations).Create(user)
 	return user, errors.New(db.Error)
 }
 ```

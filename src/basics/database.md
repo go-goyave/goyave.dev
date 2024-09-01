@@ -160,6 +160,7 @@ import (
 
 	"gorm.io/gorm"
 	"goyave.dev/goyave/v5/database"
+	"goyave.dev/goyave/v5/util/session"
 	"my-project/database/model"
 )
 
@@ -170,7 +171,8 @@ type User struct {
 func (r *User) Paginate(ctx context.Context, page int, pageSize int) (*database.Paginator[*model.User], error) {
 	users := []*model.User{}
 
-	paginator := database.NewPaginator(r.DB, page, pageSize, &users)
+	db := session.DB(ctx, r.DB)
+	paginator := database.NewPaginator(db, page, pageSize, &users)
 	err := paginator.Find()
 	return paginator, err
 }
