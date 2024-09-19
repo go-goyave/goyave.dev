@@ -105,8 +105,14 @@ func TestMockDB(t *testing.T) {
 	err = server.ReplaceDB(dialector)
 
 	//...
+
+	mock.ExpectClose()
 }
 ```
+
+:::tip
+Test servers automatically close the database in a test cleanup hook. If you are using `go-sqlmock`, this will generate an error for unexpected `Close` unless you add `mock.ExpectClose()` at the very end of your test.
+:::
 
 ## HTTP Tests
 
