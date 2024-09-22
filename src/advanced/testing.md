@@ -19,7 +19,7 @@ Goyave is test framework agnostic. You can use any testing library you want and 
 - Create test responses
 - Test an endpoint without starting the server and listen on a network port
 - Test middleware
-- Redirect logs to the testing logger
+- Discard logs to make them silent by default
 - Load the config from the project's root directory easily
 - Run the tests inside a transaction that can be easily rolled back
 
@@ -113,6 +113,22 @@ func TestMockDB(t *testing.T) {
 :::tip
 Test servers automatically close the database in a test cleanup hook. If you are using `go-sqlmock`, this will generate an error for unexpected `Close` unless you add `mock.ExpectClose()` at the very end of your test.
 :::
+
+### Logs
+
+The default logger for test servers is `slog.DiscardLogger()`, which outputs to `io.Discard`, making logs silent.
+
+You may want to print logs coming from your tests for functional reasons or for debugging. `testutil.LogWriter` is an implementation of `io.Writer` that redirects logs to `testing.T.Log()` for better readability.
+
+```go
+func TestSomething(t *testing.T) {
+	opts := goyave.Options{
+		Logger: slog.New(slog.NewHandler(true, &testutil.LogWriter{t: t})),
+	}
+	server := testutil.NewTestServerWithOptions(t, opts)
+	//...
+}
+```
 
 ## HTTP Tests
 
