@@ -47,7 +47,7 @@ if err != nil {
 }
 
 server.RegisterStartupHook(func(s *goyave.Server) {
-	s.Info("Server is listening", "host", s.Host())
+	s.Logger.Info("Server is listening", "host", s.Host())
 })
 ```
 
