@@ -53,7 +53,7 @@ COPY resources /app/resources
 # Not needed if you are using embed configuration
 COPY config.production.json ./config.production.json
 
-RUN useradd -r -U go-exec -M -d /app -s /bin/false
+RUN adduser --system --no-create-home --home /app go-exec 
 RUN chown -R go-exec /app
 
 USER go-exec
