@@ -441,6 +441,7 @@ func (ctrl *Controller) Handler(response *goyave.Response, request *goyave.Reque
 		//...
 	}
 	opt := &validation.Options{
+		Context:                  request.Context(),
 		Data:                     data,
 		Rules:                    ruleSet,
 		Now:                      request.Now,
