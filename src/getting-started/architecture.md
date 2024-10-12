@@ -124,7 +124,7 @@ The writers are **closed** at the end of the **finalization stage**, telling the
 
 #### Pre-write
 
-There is `PreWrite()` hook allowing to alter the response headers or status before the response HTTP headers are written. Once written, they are locked until the end of the request's life: only the body can be written to. This allows the framework to only send the status header when something is being written to the body or when the request is finalized.
+There is a `PreWrite()` hook allowing to alter the response headers or status before the response HTTP headers are written. Once written, they are locked until the end of the request's life: only the body can be written to. This allows the framework to only send the status header when something is being written to the body or when the request is finalized.
 
 For example, the `gzip` chained writer would ensure a `Content-Type` header deduced from the uncompressed data is set before the body is actually written.  
 
