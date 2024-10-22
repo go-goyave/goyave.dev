@@ -148,8 +148,8 @@ type LogWriter struct {
 
 func NewWriter(response *goyave.Response) *LogWriter {
 	return &LogWriter{
-		writer:   goyave.NewCommonWriter(response.Writer()),
-		response: response,
+		CommonWriter: goyave.NewCommonWriter(response.Writer()),
+		response:     response,
 	}
 }
 
