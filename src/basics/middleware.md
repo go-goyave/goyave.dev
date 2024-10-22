@@ -65,7 +65,7 @@ router.GlobalMiddleware(&parse.Middleware{
 })
 ```
 
-This middleware is reading the raw request query and body.
+This middleware is reading and parsing the raw request query and body.
 
 First, the query is parsed using Go's standard `url.ParseQuery()`. After being flattened (single value arrays converted to non-array), the result is put in the request's `Query`. If the parsing fails, it returns `400 Bad request`.
 
@@ -75,6 +75,8 @@ If the content-type has another value, Go's standard `ParseMultipartForm` is cal
 an error, returns `400 Bad request`.
 
 In `multipart/form-data`, all file parts are automatically converted to `[]fsutil.File`. Inside `request.Data`, a field of type "file" will therefore always be of type `[]fsutil.File`. It is a slice so it support multi-file uploads in a single field.
+
+The middleware is skipped if the matched route is the "not found" or "method not allowed" route.
 
 ### Compress
 
