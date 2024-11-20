@@ -226,6 +226,8 @@ Here is the **recommended directory structure** for Goyave applications:
 :::mono
 .
 ├── database (__*Data layer*__)
+│   ├── migrations
+│   │   └── ...
 │   ├── model
 │   │   ├── user.go
 │   │   └── *...*
