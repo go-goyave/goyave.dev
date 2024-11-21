@@ -99,6 +99,23 @@ The framework includes two built-in global middleware that are always registered
 
 **Language:** The `Accept-Language` header is checked. If it's there, its value is parsed and the request's language field is set accordingly so localization is easy in the following handlers. If the header is missing, invalid, or asks for an unsupported language, the framework falls back to the default language defined in the configuration. Learn more [here](/advanced/localization.html).
 
+#### Context propagation
+
+Goyave takes full advantage of the [context](https://pkg.go.dev/context) API. The server instance has a base context that is propagated to each request. Each request thus have its own child context scoped to it. This context is then propagated everywhere in the application and between layers, which are explained [below](#overview).
+
+Propagating the context everywhere allows the transmission of data across layers without creating dependencies or requiring extra method parameters that don't really belong to them. Because this data is stored in the context associated with the current request, it is scoped to that request. As a result, database or external services requests can use the request's context as well. This is useful for the [transaction](/advanced/transactions.html) system for example.
+
+The ability to store data in a transient shared space doesn't mean everything should be stored there. This characteristic should be used sparingly.
+
+:::info
+Storing data in the context makes sense in the following non-exhaustive example cases:
+- Adding scoped attributes to the structured logger
+- Storing a business transaction state
+- Storing telemetry data such as trace spans
+:::
+
+It also ensures context cancellation is correctly supported and handled by the entire process initiated by a request. A request context can be cancelled if the connection unexpectedly broke, if the client cancelled the request, if the request times out, or if the server shuts down.
+
 #### Finalization
 
 When the top of the stack returns, the request's enters the **finalization** stage.
