@@ -123,7 +123,7 @@ You may want to print logs coming from your tests for functional reasons or for 
 ```go
 func TestSomething(t *testing.T) {
 	opts := goyave.Options{
-		Logger: slog.New(slog.NewHandler(true, &testutil.LogWriter{t: t})),
+		Logger: slog.New(slog.NewHandler(true, &testutil.LogWriter{T: t})),
 	}
 	server := testutil.NewTestServerWithOptions(t, opts)
 	//...
