@@ -366,3 +366,99 @@ userFactory := database.NewFactory(UserGenerator).Override(userOverride)
 userFactory.Save(db, 10)
 // All generated records will have the same name: "Jérémy"
 ```
+
+## Transactions
+
+[`testutil.Session`](https://pkg.go.dev/goyave.dev/goyave/v5/util/testutil#Session) is an advanced mock for the `session.Session` interface powering the [transaction system](/advanced/transactions.html) used by services. This implementation is designed to provide a realistic, observable transaction system and help identify incorrect usage.
+
+-  Each transaction created with this implementation has a cancellable context created from its parent. The context is canceled when the session is committed or rolled back. This helps detecting cases where your code tries to use a terminated transaction.
+- A transaction cannot be committed or rolled back several times. It cannot be committed after being rolled back or the other way around.
+- For nested transactions, all child sessions should be ended (committed or rolled back) before the parent can be ended. Moreover, the context given on `Begin()` should be the context or a child context of the parent session.
+- A child session cannot be created or committed if its parent context is done.
+- The root transaction cannot be committed or rolledback. This helps detecting cases where your codes uses the root session without creating a child session.
+
+### Example
+
+Let's take an example in which we have a system that tracks user actions (user history) and we want a "register" history entry to be created when the user creates their account. The service method would be defined like so:
+
+```go
+func (s *Service) Register(ctx context.Context, user *dto.RegisterUser) (*dto.User, error) {
+	u := typeutil.Copy(&model.User{}, user)
+
+	err := s.session.Transaction(ctx, func(ctx context.Context) error {
+		var err error
+		u, err = s.userRepository.Create(ctx, u)
+		if err != nil {
+			return errors.New(err)
+		}
+
+		history := &model.History{
+			UserID: u.ID,
+			Action: "register",
+		}
+		_, err = s.historyRepository.Create(ctx, history)
+		return errors.New(err)
+	})
+
+	return typeutil.MustConvert[*dto.User](u), err
+}
+```
+
+Here, we want to check that:
+- The operation was run inside a transaction.
+- On success, the transaction was committed.
+- On error, the transaction was rolled back.
+
+After mocking our user and history repository, we can simply use `testutil.Session` to check the transactions that were created and their status at the end of the process. We are using [`testify`](https://github.com/stretchr/testify) for assertions in this example:
+```go{8,16-19,24,31-34}
+import (
+	//...
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"goyave.dev/goyave/v5/util/testutil"
+)
+
+func TestCreateUser(t *testing.T) {
+	// ...Setup the user and history repository mocks...
+	session := testutil.NewTestSession()
+	service := NewService(session, userRepoMock, historyRepoMock)
+
+	createDTO := &dto.RegisterUser{/*...*/}
+	createdUser, err := service.Create(context.Background(), createDTO)
+	require.NoError(t, err)
+	expected := &dto.User{/*...*/}
+	assert.Equal(t, expected, createdUser)
+	txs := session.Children()
+	if assert.Len(t, txs, 1) {
+		assert.Equal(t, testutil.SessionCommitted, txs[0].Status())
+	}
+	// ...Assert that the user and history were created in the repositories...
+
+	t.Run("error", func(t *testing.T) {
+		// ...Setup the user and history repository mocks...
+		session := testutil.NewTestSession()
+		service := NewService(session, userRepoMock, historyRepoMock)
+
+		createDTO := &dto.RegisterUser{/*...*/}
+		_, err := service.Create(context.Background(), createDTO)
+		assert.ErrorIs(t, err, repo.err)
+
+		txs := session.Children()
+		if assert.Len(t, txs, 1) {
+			assert.Equal(t, testutil.SessionRolledBack, txs[0].Status())
+		}
+	})
+}
+```
+:::info Tip
+When working with **nested transactions**, you can recursively check each transaction inside the `testutil.Session` returned by `session.Children()`:
+```go
+txs := session.Children()
+if assert.Len(t, txs, 1) {
+	assert.Equal(t, testutil.SessionCommitted, txs[0].Status())
+
+	nested := txs[0].Children()
+	//...
+}
+```
+:::
