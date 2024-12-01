@@ -377,7 +377,7 @@ userFactory.Save(db, 10)
 - A child session cannot be created or committed if its parent context is done.
 - The root transaction cannot be committed or rolledback. This helps detecting cases where your codes uses the root session without creating a child session.
 
-### Example
+#### Example
 
 Let's take an example in which we have a system that tracks user actions (user history) and we want a "register" history entry to be created when the user creates their account. The service method would be defined like so:
 
@@ -410,7 +410,7 @@ Here, we want to check that:
 - On error, the transaction was rolled back.
 
 After mocking our user and history repository, we can simply use `testutil.Session` to check the transactions that were created and their status at the end of the process. We are using [`testify`](https://github.com/stretchr/testify) for assertions in this example:
-```go{8,16-19,24,31-34}
+```go{10,18-21,26,33-36}
 import (
 	//...
 	"github.com/stretchr/testify/assert"
