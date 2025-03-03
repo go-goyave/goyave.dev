@@ -40,6 +40,14 @@ This implementation is compatible with features expecting the following interfac
 
 You can also get a sub file-system with `(&osfs.FS{}).Sub("path")`. Using the resulting file system will always append a path prefix to the name of the requested files. For example, with this file system, using `Open("test.txt")` will try to open `path/test.txt`.
 
+:::info
+If you are using Go 1.24+, you can use [`os.Root`](https://pkg.go.dev/os#Root.FS) instead of `osfs.FS` for additional security. The `fs.FS` returned by the `FS()` method is compatible with the `fsutil.FS` interface.
+```go
+root, _ := os.OpenRoot("resources/public")
+fs := root.FS().(fsutil.FS)
+```
+:::
+
 ## Embed
 
 The standard [`embed.FS`](https://pkg.go.dev/embed#FS) file system allows to embed multiple files into the compiled application binary as a read-only collection. However, it is inconvenient to use when you need to `Stat()` or `Sub()` (getting a sub file system), as these methods are not implemented.
