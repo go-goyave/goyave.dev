@@ -281,6 +281,10 @@ Configuration can be expanded. It is very likely that a plugin or a package you'
 
 You can register a new config entry and its validation using `config.Register()`.
 
+:::warning
+Unregistered configuration entries can still be loaded. However, their type will be automatically determined based on the value parsed from the configuration file. To take advantage of the [validation and conversion](#validation) system, as well as ensuring that your custom entries have the type you expect, you **should always register them** using `config.Register()`.
+:::
+
 Each module should register its config entries in an `init()` function, even if they don't have a default value, in order to ensure they will be validated.
 Each module should use its own category and use a name both expressive and unique to avoid collisions.
 For example, the `auth` package registers, among others, `auth.basic.username` and `auth.jwt.expiry`, thus creating a category for its package, and two subcategories for its features.
