@@ -41,11 +41,11 @@ import (
 )
 
 type Service interface {
-	GetByID(ctx context.Context, id uint) (*dto.Product, error)
+	GetByID(ctx context.Context, id int64) (*dto.Product, error)
 	Paginate(ctx context.Context, page int, pageSize int) (*database.PaginatorDTO[*dto.User], error)
 	Create(ctx context.Context, createDTO *dto.CreateProduct) (*dto.Product, error)
 	Update(ctx context.Context, updateDTO *dto.UpdateProduct) error
-	Delete(ctx context.Context, id uint) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type Controller struct {
@@ -80,13 +80,13 @@ func (ctrl *Controller) Index(response *goyave.Response, request *goyave.Request
 }
 
 func (ctrl *Controller) Show(response *goyave.Response, request *goyave.Request) {
-	productID, err := strconv.ParseUint(request.RouteParams["productID"], 10, 64)
+	productID, err := strconv.ParseInt(request.RouteParams["productID"], 10, 64)
 	if err != nil {
 		response.Status(http.StatusNotFound)
 		return
 	}
 
-	user, err := ctrl.ProductService.GetByID(request.Context(), uint(productID))
+	user, err := ctrl.ProductService.GetByID(request.Context(), productID)
 	if response.WriteDBError(err) {
 		return
 	}
@@ -102,7 +102,7 @@ func (ctrl *Controller) Create(response *goyave.Response, request *goyave.Reques
 		return
 	}
 
-	response.JSON(http.StatusCreated, map[string]uint{"id": product.ID})
+	response.JSON(http.StatusCreated, map[string]int64{"id": product.ID})
 }
 
 func (ctrl *Controller) Update(response *goyave.Response, request *goyave.Request) {
@@ -113,13 +113,13 @@ func (ctrl *Controller) Update(response *goyave.Response, request *goyave.Reques
 }
 
 func (ctrl *Controller) Delete(response *goyave.Response, request *goyave.Request) {
-	productID, err := strconv.ParseUint(request.RouteParams["productID"], 10, 64)
+	productID, err := strconv.ParseInt(request.RouteParams["productID"], 10, 64)
 	if err != nil {
 		response.Status(http.StatusNotFound)
 		return
 	}
 
-	err = ctrl.ProductService.Delete(request.Context(), uint(productID))
+	err = ctrl.ProductService.Delete(request.Context(), productID)
 	response.WriteDBError(err)
 }
 ```

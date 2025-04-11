@@ -36,7 +36,7 @@ import (
 )
 
 type User struct {
-	ID        uint `gorm:"primarykey"`
+	ID        int64 `gorm:"primarykey"`
 	CreatedAt time.Time
 	UpdatedAt null.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -95,7 +95,7 @@ func (r *User) Paginate(ctx context.Context, page int, pageSize int) (*database.
 }
 
 // First returns the user identified by the given ID, or `nil`
-func (r *User) First(ctx context.Context, id uint) (*model.User, error) {
+func (r *User) First(ctx context.Context, id int64) (*model.User, error) {
 	var user *model.User
 	db := r.DB.Where("id", id).First(&user)
 	return user, errors.New(db.Error)

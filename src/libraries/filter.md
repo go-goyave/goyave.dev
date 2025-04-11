@@ -222,10 +222,10 @@ Sometimes you need to work with a "virtual" column that is not stored in your da
 
 ```go
 type MyModel struct {
-	ID uint
+	ID int64
 	// ...
 	StartDate time.Time
-	Status    string `gorm:"->;-:migration" computed:"CASE WHEN ~~~ct~~~.start_date < NOW() THEN 'pending' ELSE 'started' END"`
+	Status    string `gorm:"->" computed:"CASE WHEN ~~~ct~~~.start_date < NOW() THEN 'pending' ELSE 'started' END"`
 }
 ```
 
@@ -234,14 +234,14 @@ type MyModel struct {
 **Tip:** you can also use composition to avoid including the virtual column into your model:
 ```go
 type MyModel struct{
-	ID uint
+	ID int64
 	// ...
 	StartDate time.Time
 }
 
 type MyModelWithStatus struct{
 	MyModel
-	Status string `gorm:"->;-:migration" computed:"CASE WHEN ~~~ct~~~.start_date < NOW() THEN 'pending' ELSE 'started' END"` 
+	Status string `gorm:"->" computed:"CASE WHEN ~~~ct~~~.start_date < NOW() THEN 'pending' ELSE 'started' END"` 
 }
 ```
 
@@ -251,9 +251,9 @@ When using JSON columns, you can support filters on nested fields inside that JS
 // This example is compatible with PostgreSQL.
 // JSON processing may be different if you are using another database engine. 
 type MyModel struct {
-	ID            uint
+	ID            int64
 	JSONColumn    datatypes.JSON
-	SomeJSONField null.Int `gorm:"->;-:migration" computed:"(~~~ct~~~.json_column->>'fieldName')::int"`
+	SomeJSONField null.Int `gorm:"->" computed:"(~~~ct~~~.json_column->>'fieldName')::int"`
 }
 ```
 
@@ -271,12 +271,11 @@ It is important to make sure your JSON expression returns a value that has a typ
 
 ### Model and DTO recommendations
 
-- Use `json:",omitempty"` on all DTO fields. Use `json:",omitzero"` for struct fields like `time.Time`, slices or maps.
+- To only return the selected fields and relationships to the user in the response, all model and DTO fields should use [`typeutil.Undefined`](/advanced/dto-and-model-mapping.html#handling-optional-fields) and the `json:",omitzero"` struct tag.
 - Don't include the foreign keys in the DTO.
-- Use `*null.Time` from the [`gopkg.in/guregu/null.v4`](https://github.com/guregu/null) library instead of `sql.NullTime`.
+- Use `null.Time` from the [`gopkg.in/guregu/null.v4`](https://github.com/guregu/null) library instead of `sql.NullTime`.
 - Always specify `gorm:"foreignKey"`, otherwise falls back to "ID".
 - Don't use `gorm.Model` and add the necessary fields manually. You get better control over json struct tags this way.
-- Use pointers for nullable relations and nullable fields that implement `sql.Scanner` (such as `null.Time`).
 
 ### Type-safety
 
@@ -299,7 +298,7 @@ If the type is supported but the user input cannot be used with the requested co
 **Example**
 ```go
 type MyModel struct{
-	ID uint
+	ID int64
 	// ...
 	StartDate null.Time `filterType:"time"`
 }

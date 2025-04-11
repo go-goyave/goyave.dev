@@ -17,8 +17,10 @@ The authentication middleware uses an **authenticator**. An **authenticator** is
 
 Authenticators therefore depend on a **service** that allow them to retrieve the user information from the database. This service must implement `auth.UserService[T]`, which defines a method `FindByUsername(ctx context.Context, username any) (*T, error)`. Note that the "username" can be anything provided it can identify a user: an ID, an email, a unique username.
 
-On successful authentication, the auth **middleware** automatically sets the `request.User` field to the value returned by the **authenticator**. Otherwise `401 Unauthorized` is returned with the localized message mentioned previously:  
-```{"error": "authentication error reason"}```
+On successful authentication, the auth **middleware** automatically sets the `request.User` field to the value returned by the **authenticator**. The user is also injected into the request's context and can be retrieved using `auth.UserFromContext()`.
+
+Otherwise `401 Unauthorized` is returned with the localized message mentioned previously:
+`{"error": "authentication error reason"}`
 
 The following example applies basic authentication of users using the `Password` field in the `dto.InternalUser`:
 ```go

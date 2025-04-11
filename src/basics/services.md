@@ -56,7 +56,7 @@ import (
 
 // Repository defines the DB functions this service relies on when manipulating users.
 type Repository interface {
-	First(ctx context.Context, id uint) (*model.User, error)
+	First(ctx context.Context, id int64) (*model.User, error)
 	Paginate(ctx context.Context, page int, pageSize int) (*database.Paginator[*model.User], error)
 }
 
@@ -73,7 +73,7 @@ func NewService(repository Repository) *Service {
 }
 
 // First returns the first user identified by the given ID.
-func (s *Service) First(ctx context.Context, id uint) (*dto.User, error) {
+func (s *Service) First(ctx context.Context, id int64) (*dto.User, error) {
 	u, err := s.repository.First(ctx, id)
 	return typeutil.MustConvert[*dto.User](u), errors.New(err)
 }

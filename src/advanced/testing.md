@@ -155,7 +155,7 @@ import (
 
 type MockService struct{}
 
-func (*MockService) First(_ context.Context, id uint) (*dto.User, error) {
+func (*MockService) First(_ context.Context, id int64) (*dto.User, error) {
 	return &dto.User{
 		ID: id,
 		Name: "John Doe",

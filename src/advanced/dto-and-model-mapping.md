@@ -34,7 +34,7 @@ import (
 )
 
 type User struct {
-	ID        uint      `json:"id"`
+	ID        int64     `json:"id"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	CreatedAt time.Time `json:"createdAt"`
@@ -52,44 +52,6 @@ All operations on a resource requiring a request body and/or query or returning 
 - a `CreateProduct` structure, representing the request body for a product creation
 - a `UpdateProduct` structure, representing the request body for a product modification
 - more structures may be defined for specific business-related routes
-
-### Handling optional fields
-
-It is frequent to have optional fields in a request, most commonly for queries or update requests. **Optional** fields can be **undefined**, which is different from `nil` or a zero-value. This distinction is important in cases where a **nullable** field is **optional**.
-
-The framework provides a handy generic type that will make this case a breeze: `typeutil.Undefined[T]`. **All optional fields** should use this type in DTOs. However, this type is **not suited** for use inside models.
-
-`typeutil.Undefined[T]` wraps a generic value used to differentiate between the absence of a field and its zero value, without using pointers This is especially useful when using wrappers such as `sql.NullString`, which are structures that encode/decode to a non-struct value. When working with requests that may or may not contain a field that is a nullable value, you cannot use pointers to define the presence or absence of this kind of structure. Thus the case where the field is absent (zero-value) and where the field is present but has a `null` value are indistinguishable.
-
-This type only implements:
-- `encoding.TextUnmarshaler`
-- `json.Unmarshaler`
-- `driver.Valuer`
-
-Because it only implements "read"-related interfaces, it is not recommended to use it for response DTOs or for scanning database results.
-
-```go
-import "goyave.dev/goyave/v5/util/typeutil"
-
-type UpdateProduct struct {
-	Name  typeutil.Undefined[string]  `json:"name,omitempty"`
-	Price typeutil.Undefined[float64] `json:"price"`
-	Tag   typeutil.Undefined[*string] `json:"tag"`
-}
-```
-```go
-var dto UpdateProduct
-dto.Name.Val // The actual field value
-dto.Name.IsPresent() // true/false
-dto.Name.Default("default name") // returns "default name" is field is not present
-```
-
-:::info
-- In the above example, `dto.Tag` can be **present** and have a `nil` value. If it's present, then we will update the `tag` column to `NULL` in the database.
-- Custom types are supported, including implementations of `driver.Valuer`, `sql.Scanner` and `copier.Valuer`.
-- When a field is **undefined** (absent), the `typeutil.Structure` will have its zero-value. It will therefore be ignored by the json `omitempty` tag and by the model mapping.
-:::
-
 
 ## DTO conversion
 
@@ -121,13 +83,13 @@ In the same fashion, all data coming out of the **domain layer** should be conve
 
 ```go
 func (ctrl *Controller) Show(response *goyave.Response, request *goyave.Request) {
-	userID, err := strconv.ParseUint(request.RouteParams["userID"], 10, 64)
+	userID, err := strconv.ParseInt(request.RouteParams["userID"], 10, 64)
 	if err != nil {
 		response.Status(http.StatusNotFound)
 		return
 	}
 
-	user, err := ctrl.UserService.First(request.Context(), uint(userID))
+	user, err := ctrl.UserService.First(request.Context(), userID)
 	if response.WriteDBError(err) {
 		return
 	}
@@ -137,7 +99,7 @@ func (ctrl *Controller) Show(response *goyave.Response, request *goyave.Request)
 ```
 ```go
 // service/user/user.go
-func (s *Service) First(ctx context.Context, id uint) (*dto.User, error) {
+func (s *Service) First(ctx context.Context, id int64) (*dto.User, error) {
 	u, err := s.repository.First(ctx, id)
 	return typeutil.MustConvert[*dto.User](u), errors.New(err)
 }
@@ -189,7 +151,7 @@ Doing this eliminates the risk of **temporal inconsistencies**, which is the ris
 
 ```go
 // service/user/user.go
-func (s *Service) Update(ctx context.Context, userID uint, u *dto.UpdateUser) (*dto.User, error) {
+func (s *Service) Update(ctx context.Context, userID int64, u *dto.UpdateUser) (*dto.User, error) {
 	var user *model.User
 	err := s.session.Transaction(ctx, func(ctx context.Context) error {
 		var err error
@@ -220,3 +182,57 @@ func (r *User) Update(ctx context.Context, user *model.User) (*model.User, error
 :::info
 Learn more about the `session` mechanism [here](/advanced/transactions.html).
 :::
+
+## Handling optional fields
+
+It is frequent to have optional fields in a request, most commonly for queries or update requests. **Optional** fields can be **undefined**, which is different from `nil` or a zero-value. This distinction is important in cases where a **nullable** field is **optional**.
+
+The framework provides a handy generic type that will make this case a breeze: `typeutil.Undefined[T]`. **All optional fields** should use this type.
+
+Typically, Go developers make use of pointers to solve this issue. `typeutil.Undefined[T]` is a safer and more convenient solution that covers more scenarios in a more explicit way, without requiring the use of pointers.
+
+`typeutil.Undefined[T]` wraps a generic value and is used to differentiate between the absence of a field and its zero value. This is especially useful when using wrappers such as `sql.NullString`, which are structures that encode/decode to a non-struct value. When working with requests that may or may not contain a field that is a nullable value, you cannot use pointers to define the presence or absence of this kind of structure. Thus the case where the field is absent (zero-value) and where the field is present but has a `null` value are indistinguishable.
+
+This type implements the following interfaces:
+- `encoding.TextUnmarshaler`
+- `json.Unmarshaler`
+- `json.Marshaler`
+- `driver.Valuer`
+- `sql.Scanner`
+
+```go
+import "goyave.dev/goyave/v5/util/typeutil"
+
+type UpdateProduct struct {
+	Name  typeutil.Undefined[string]  `json:"name,omitzero"`
+	Price typeutil.Undefined[float64] `json:"price,omitzero"`
+	Tag   typeutil.Undefined[*string] `json:"tag,omitzero"`
+}
+```
+```go
+var dto UpdateProduct
+dto.Name.Val // The actual field value
+dto.Name.IsPresent() // true/false
+dto.Name.Default("default name") // returns "default name" is field is not present
+```
+
+:::info
+- In the above example, `dto.Tag` can be **present** and have a `nil` value. If it's present, then we will update the `tag` column to `NULL` in the database.
+- Custom types are supported, including implementations of `driver.Valuer`, `sql.Scanner` and `copier.Valuer`.
+- When a field is **undefined** (absent), the `typeutil.Undefined` structure will have its zero-value. It will therefore be ignored by the json `omitzero` tag and by the model mapping.
+:::
+
+`typeutil.Undefined[T]` can be also be used in models. This is useful when you don't select all the fields when fetching the model from the database. Thanks to this type, it is possible to know if the field was selected or not.
+
+```go
+// database/model/product.go
+type Product struct {
+	ID        typeutil.Undefined[int64]     `gorm:"primarykey" json:",omitzero"`
+	CreatedAt typeutil.Undefined[time.Time] `json:",omitzero"`
+	UpdatedAt typeutil.Undefined[null.Time] `json:",omitzero"`
+	Name      typeutil.Undefined[string]    `json:",omitzero"`
+	Price     typeutil.Undefined[float64]   `json:",omitzero"`
+}
+```
+
+`typeutil.Undefined[T]` is compatible with DTO conversion, which is explained in the following section. This means that it is possible to use this type for response DTOs as well to selectively make fields visible or not in a response.

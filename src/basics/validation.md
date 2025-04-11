@@ -732,3 +732,21 @@ The `:field` placeholder is replaced by the translated field name by default. Th
 ```
 
 If no field name translation is available, this raw field name is used without the path prefix. For example, if the path to the field is `book.author.name`, the field name will only be `name`. For arrays elements, the name used is the name of the array.
+
+### Override messages
+
+You can override the validation error message for any validator using `v.WithMessage()`. When the validator doesn't pass, the translation for the given language entry will be used instead of the default one.
+
+Original placeholders returned by the validator are still used to render the message. For example, if you override the message of the `Min` validator, you will be able to use the `:min` placeholder inside your custom message.
+
+Type-dependent and "element" suffixes are not added when the message is overridden.
+
+
+```go
+func (ctrl *Controller) UpdateRequest(_ *goyave.Request) v.RuleSet {
+	return v.RuleSet{
+		//...
+		{Path: "contents", Rules: v.List{v.WithMessage(v.String(), "validation.rules.customMessage"), v.Min(10)}},
+	}
+}
+```
