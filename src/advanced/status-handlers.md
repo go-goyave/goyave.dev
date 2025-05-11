@@ -86,5 +86,5 @@ func Register(_ *goyave.Server, router *goyave.Router) {
 ```
 
 :::tip
-Status handlers are inherited as a clone in subrouters. Modifying a subrouter's status handler will not modify its parent's. That means that you can define different status handlers for certain route groupes if you so desire.
+Status handlers are inherited as a clone in subrouters. Modifying a subrouter's status handler will not modify its parent's. That means that you can define different status handlers for certain route groups if you so desire and that you should register your status handlers before your subrouters.
 :::
