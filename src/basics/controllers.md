@@ -95,7 +95,7 @@ func (ctrl *Controller) Show(response *goyave.Response, request *goyave.Request)
 }
 
 func (ctrl *Controller) Create(response *goyave.Response, request *goyave.Request) {
-	createDTO := typeutil.MustConvert[*dto.CreateProduct](request.Body)
+	createDTO := typeutil.MustConvert[*dto.CreateProduct](request.Data)
 
 	product, err := ctrl.ProductService.Create(request.Context(), createDTO)
 	if response.WriteDBError(err) {
@@ -106,7 +106,7 @@ func (ctrl *Controller) Create(response *goyave.Response, request *goyave.Reques
 }
 
 func (ctrl *Controller) Update(response *goyave.Response, request *goyave.Request) {
-	updateDTO := typeutil.MustConvert[*dto.UpdateProduct](request.Body)
+	updateDTO := typeutil.MustConvert[*dto.UpdateProduct](request.Data)
 
 	err := ctrl.ProductService.Update(request.Context(), updateDTO)
 	response.WriteDBError(err)
@@ -128,6 +128,16 @@ func (ctrl *Controller) Delete(response *goyave.Response, request *goyave.Reques
 - In `Init()`, we get it from the server's service container: `server.Service(service.Product).(Service)`. `Init()` is a function automatically called by the framework when using `router.Controller()`. There is another way of injecting dependency that is explained [below](#dependency-injection). Learn more about services [here](/basics/services.html).
 - It is not necessary to add `response.Status(http.StatusNoContent)` at the end of `Update` and `Delete` because the framework automatically sets the response status to `204` if its body is empty and no status has been set.
 - Setting the `Content-Type` header is not necessary. `response.Write` automatically detects the content type and sets the header accordingly, if the latter has not been defined already.
+
+:::info Note
+In order to use `request.Data`, which contains the **parsed** request body, you need to add the [**parse middleware**](./middleware.md#parse).
+
+```go
+import "goyave.dev/goyave/v5/middleware/parse"
+
+router.GlobalMiddleware(&parse.Middleware{})
+```
+:::
 
 ## Naming conventions
 
