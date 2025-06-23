@@ -71,6 +71,8 @@ First, the query is parsed using Go's standard `url.ParseQuery()`. After being f
 
 The body is read only if the `Content-Type` header is set. If the body exceeds the configured max upload size (in MiB), `413 Request Entity Too Large` is returned. If the content type is `application/json`, the middleware will attempt to unmarshal the body and put the result in the request's `Data`. If it fails, it returns `400 Bad request`.
 
+This middleware depletes the request's body reader. You cannot read `request.Body()` to access the unparsed data afterwards.
+
 If the content-type has another value, Go's standard `ParseMultipartForm` is called. The result is put inside the request's `Data` after being flattened. If the form is not a multipart form, attempts `ParseForm`. If `ParseMultipartForm` or `ParseForm` return
 an error, returns `400 Bad request`.
 
