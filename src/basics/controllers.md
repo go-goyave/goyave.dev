@@ -44,7 +44,7 @@ type Service interface {
 	GetByID(ctx context.Context, id int64) (*dto.Product, error)
 	Paginate(ctx context.Context, page int, pageSize int) (*database.PaginatorDTO[*dto.User], error)
 	Create(ctx context.Context, createDTO *dto.CreateProduct) (*dto.Product, error)
-	Update(ctx context.Context, updateDTO *dto.UpdateProduct) error
+	Update(ctx context.Context, id int64, updateDTO *dto.UpdateProduct) error
 	Delete(ctx context.Context, id int64) error
 }
 
@@ -106,9 +106,15 @@ func (ctrl *Controller) Create(response *goyave.Response, request *goyave.Reques
 }
 
 func (ctrl *Controller) Update(response *goyave.Response, request *goyave.Request) {
+	productID, err := strconv.ParseInt(request.RouteParams["productID"], 10, 64)
+	if err != nil {
+		response.Status(http.StatusNotFound)
+		return
+	}
+	
 	updateDTO := typeutil.MustConvert[*dto.UpdateProduct](request.Data)
 
-	err := ctrl.ProductService.Update(request.Context(), updateDTO)
+	err = ctrl.ProductService.Update(request.Context(), productID, updateDTO)
 	response.WriteDBError(err)
 }
 
