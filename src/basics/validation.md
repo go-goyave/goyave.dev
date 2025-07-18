@@ -322,6 +322,18 @@ In this example, we are validating an array of people. The following JSON input 
 }
 ```
 
+### Escaping special characters
+
+You can escape the path's special characters (`.`, `[`, `]`, `*`, `\`) using a backslash.
+
+```
+object.\*
+example\.org
+object.field\[text\]
+abc\[\]def
+path\\to\\element
+```
+
 ## Required, nullable and undefined fields
 
 - If a field is **required** (`validation.Required()` validator), the field **must be present** in the request.

@@ -101,6 +101,7 @@
 	--vp-code-link-hover-color: var(--vp-c-brand-dark);
 
 	--vp-code-block-bg: #161618;
+	--vp-code-block-color: #98989f;
 }
 
 .vp-doc a:has(code) {
