@@ -58,6 +58,10 @@ Find more information about the PostgreSQL options [here](https://www.postgresql
 cache=shared&mode=memory
 ```
 
+:::info
+Only the `database.name` configuration entry is required for this driver.
+:::
+
 Find more information about the SQLite options [here](https://github.com/mattn/go-sqlite3#connection-string).
 
 #### MSSQL
@@ -68,6 +72,24 @@ encrypt=disable
 
 Find more information about the MSSQL options [here](https://github.com/denisenkom/go-mssqldb#connection-parameters-and-dsn).
 
+#### Clickhouse
+
+```
+dial_timeout=10s&read_timeout=20s
+```
+
+Find more information about the Clickhouse options [here](https://github.com/ClickHouse/clickhouse-go?tab=readme-ov-file#dsn).
+
+#### Bigquery
+
+There is no DSN option for Bigquery.
+
+:::warning IMPORTANT
+You must disable prepared statements for this driver to work. You can do so by setting the configuration entry `database.config.prepareStmt` to `false`.
+:::
+
+Find more information about the Bigquery driver [here](https://github.com/go-gorm/bigquery).
+
 ### Drivers
 
 The framework supports the following sql drivers out-of-the-box, defined in the `database.connection` configuration entry:
@@ -77,6 +99,7 @@ The framework supports the following sql drivers out-of-the-box, defined in the 
 - `sqlite3`
 - `mssql`
 - `clickhouse`
+- `bigquery`
 
 In order to be able connect to the database, Gorm needs a database driver to be imported. Add the following import to your `main.go`:
 
@@ -85,11 +108,12 @@ import _ "goyave.dev/goyave/v5/database/dialect/mysql"
 import _ "goyave.dev/goyave/v5/database/dialect/postgres"
 import _ "goyave.dev/goyave/v5/database/dialect/sqlite"
 import _ "goyave.dev/goyave/v5/database/dialect/mssql"
+import _ "goyave.dev/goyave/v5/database/dialect/clickhouse"
+import _ "goyave.dev/goyave/v5/database/dialect/bigquery"
 ```
 
 :::info
-- Comment or remove the imports you don't need. 
-- For SQLite, only the `database.name` config entry is required.
+Comment or remove the imports you don't need. 
 :::
 
 ---
