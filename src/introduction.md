@@ -8,7 +8,7 @@ import UsedBy from './UsedBy.vue'
 
 # Introduction
 
-**Goyave** an **opinionated** all-in-one Golang web framework focused on **REST APIs**, with emphasis on code **reliability**, **maintainability** and **developer experience** (DX).
+**Goyave** (pronounced `\gɔ.jav\`, "go-yav") is an **opinionated** all-in-one Golang web framework focused on **REST APIs**, with emphasis on code **reliability**, **maintainability** and **developer experience** (DX).
 
 In short, Goyave's **goals** are:
 - Catering to companies with enterprise-level clean architecture, for medium to large projects
