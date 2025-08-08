@@ -174,6 +174,9 @@ func (s *Service) Update(ctx context.Context, userID int64, u *dto.UpdateUser) (
 ```go
 // database/repository/user.go
 func (r *User) Update(ctx context.Context, user *model.User) (*model.User, error) {
+	if user.ID == 0 {
+		return user, errors.New(gorm.ErrPrimaryKeyRequired)
+	}
 	db := session.DB(ctx, r.DB).Omit(clause.Associations).Save(user)
 	return user, errors.New(db.Error)
 }
