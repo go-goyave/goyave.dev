@@ -23,6 +23,10 @@ The panic and error handlers returns a simple error message corresponding to the
 }
 ```
 
+::: info
+The `500` status handler is an exception: it will still be executed if an error or panic occurs after a write. 
+:::
+
 ## Implementing a status handler
 
 Status handlers are implemented in the `http/controller/status` package. If your status handlers are quite large, split them in multiple files, otherwise you can implement them all in a `status.go` file.
