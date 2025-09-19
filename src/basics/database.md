@@ -113,7 +113,7 @@ import _ "goyave.dev/goyave/v5/database/dialect/bigquery"
 ```
 
 :::info
-Comment or remove the imports you don't need. 
+Comment or remove the imports you don't need.
 :::
 
 ---
@@ -166,7 +166,7 @@ defer cancel()
 db := r.DB.WithContext(ctx).Raw("SELECT * FROM users").Scan(&users)
 ```
 
-**`Exec()` operations ARE supported by the timeout plugin.** 
+**`Exec()` operations ARE supported by the timeout plugin.**
 :::
 
 ## Pagination
@@ -204,7 +204,7 @@ func (r *User) Paginate(ctx context.Context, page int, pageSize int) (*database.
 
 When calling `paginator.Find()`, two queries are executed inside a **transaction**:
 - the page info (total records and max pages) is fetched and the structure's fields are updated automatically.
-- the actual query with the records. The destination slice passed to `NewPaginator()` is also updated automatically. 
+- the actual query with the records. The destination slice passed to `NewPaginator()` is also updated automatically.
 
 :::warning
 Don"t forget to convert your paginator's records to a DTO before returning it from your service. A paginator can be easily converted using `typeutil.MustConvert()`:
@@ -224,6 +224,10 @@ if err != nil {
 // paginator is of type `*database.Paginator[*model.User]` before conversion
 return typeutil.MustConvert[*database.PaginatorDTO[*dto.User]](paginator), nil
 ```
+:::
+
+::: warning
+Unlike database offsets, ```page``` indexing begins at 1 rather than 0.
 :::
 
 ---
