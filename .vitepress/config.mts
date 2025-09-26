@@ -153,5 +153,10 @@ export default defineConfig({
 		notFound: {
 			quote: 'The page you are looking for does not exist.'
 		},
+
+    editLink: {
+      pattern: 'https://github.com/go-goyave/goyave.dev/edit/master/src/:path',
+      text: 'Suggest changes to this page'
+    },
   }
 })

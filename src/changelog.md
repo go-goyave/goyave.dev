@@ -1,6 +1,7 @@
 ---
 title: "Changelog"
 description: "The detailed Goyave changelog"
+editLink: false
 ---
 
 # Changelog
