@@ -21,7 +21,7 @@ When the server is created:
 
 ## State
 
-The server state is an atomic number. The atomic nature of this state makes it concurrently safe, so any goroutine can read it easily. It allows the start and stop controls to be called from any goroutine.
+The server state is an atomic number. The atomic nature of this state makes it safe for concurrent use, so multiple goroutines can read it safely. It allows the start and stop controls to be called from any goroutine.
 
 The state is incremented for each stage:
 - `0` **Created**: the server was just created with `goyave.New()`
@@ -50,6 +50,14 @@ server.RegisterStartupHook(func(s *goyave.Server) {
 	s.Logger.Info("Server is listening", "host", s.Host())
 })
 ```
+
+:::info
+In case of error, you may have noticed that we are type-asserting the error before printing it. This is safe because `goyave.New()` always returns errors of type `*errors.Error`. We do this because `String()` and `Error()` don't have the same output: `Error()` doesn't print the stackframes, which can be useful for debugging, while `String()` does.
+
+At this point, we cannot simply use the [logger](/advanced/logging.html) because it couldn't be created by `goyave.New()`.
+
+Learn more about error handling [here](/advanced/error-handling.html).
+:::
 
 :::warning
 In case of error, the `server.Start()` method immediately returns. In this case, your startup hooks may or may not be executed. The framework limits this by checking if the state is ready before executing them, but due to the nature of the Go concurrency model, the goroutine might start before the serve error is returned.
@@ -146,7 +154,7 @@ The error returned by `server.Start()` will always be of type `*goyave.dev/goyav
 
 ## Stop
 
-The server can be stopped manually from any goroutine. It is a concurrently safe operation.
+The server can be stopped manually from any goroutine. This function is safe for concurrent use.
 
 ```go
 server.Stop()
@@ -209,7 +217,7 @@ func TestDB(t *testing.T) {
 
 ### Manually replacing the database
 
-You can manually replace the database if need to, for example for mocking. **This is not concurrently safe** and should only be used in tests.
+You can manually replace the database if need to, for example for mocking. **This is not safe for concurrent use** and should only be used in tests.
 
 If a connection already exists, it is closed before being discarded.
 
