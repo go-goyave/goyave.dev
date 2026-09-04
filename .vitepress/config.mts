@@ -132,6 +132,7 @@ export default defineConfig({
         text: 'Libraries',
         items: [
           { text: 'Filter', link: '/libraries/filter' },
+          { text: 'Auth0 authenticator', link: '/libraries/auth0' },
         ]
       }
     ],
