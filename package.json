@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "The official Goyave documentation website",
   "devDependencies": {
-    "@types/markdown-it-container": "^4.0.0",
+    "@types/markdown-it-container": "^4.0.1",
     "markdown-it-container": "^4.0.0",
     "medium-zoom": "^1.1.0",
-    "vite-svg-loader": "^5.1.1",
+    "vite-svg-loader": "^5.1.3",
     "vitepress": "^1.6.4",
-    "vue": "^3.5.40"
+    "vue": "^3.5.44"
   },
   "author": "Jérémy LAMBERT (System-Glitch)",
   "license": "MIT",
